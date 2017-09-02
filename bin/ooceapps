@@ -1,0 +1,19 @@
+#!/usr/bin/env perl
+
+use lib qw(); # PERL5LIB
+use FindBin;
+# PERL5LIB
+use lib "$FindBin::RealBin/../lib"; use lib "$FindBin::RealBin/../thirdparty/lib/perl5"; # LIBDIR
+
+use File::Basename qw(basename);
+use Mojolicious::Commands;
+
+my $VERSION = '0.dev'; # VERSION
+
+if ($ARGV[0] eq 'version') {
+    print basename($0) . " $VERSION\n";
+    exit 0; 
+}
+
+Mojolicious::Commands->start_app('OOCEapps');
+

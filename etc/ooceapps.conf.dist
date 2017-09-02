@@ -1,0 +1,8 @@
+{
+    "MODULES" : {
+        "pkgstat" : {
+            "logdir"    : "<path_to_logs>",
+            "geoip_url" : "http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz"
+        }
+    }
+}
