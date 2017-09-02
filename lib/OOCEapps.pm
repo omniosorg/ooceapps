@@ -46,7 +46,7 @@ my $loadModules = sub {
 # public methods
 sub startup {
     my $app = shift;
-	$app->$loadModules();
+    $app->$loadModules();
 
     # load config
     open my $fh, '<', $CONFILE or die "ERROR: opening config file '$CONFILE': $!\n";
