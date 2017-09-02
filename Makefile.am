@@ -15,8 +15,6 @@ EXTRA_DIST = VERSION COPYRIGHT README.md LICENSE CHANGES AUTHORS PERL_MODULES $(
 YEAR := $(shell date +%Y)
 DATE := $(shell date +%Y-%m-%d)
 
-datadir = $(prefix)/var
-
 README.md COPYRIGHT : VERSION
 	$(PERL) -i -p -e 's/(#VERSION#|\d+\.\d+\.\d+(?:-\w+)?)/$(PACKAGE_VERSION)/g;s/(#YEAR#|20[1-4]\d)/$(YEAR)/g;s/(#DATE#|20[1-9]\d-[01]\d-[0-3]\d)/$(DATE)/g;' $@
 
@@ -33,7 +31,7 @@ install-exec-hook:
 	cd "$(DESTDIR)$(exec_prefix)" && $(PERL) -i -p -e 's{.*# LIBDIR}{use lib qw($(libdir)); # LIBDIR}' $(BIN)
 	cd "$(DESTDIR)$(exec_prefix)" && $(PERL) -i -p -e 's{^#!.*perl.*}{#!$(PERL)};' $(BIN)
 	cd "$(DESTDIR)$(libdir)" && $(PERL) -i -p -e 's{^my .*# CONFFILE}{my \$$CONFILE = "$(sysconfdir)/$(SCRIPT_NAME).conf"; # CONFFILE};' OOCEapps.pm
-	cd "$(DESTDIR)$(libdir)" && $(PERL) -i -p -e 's{^my .*# DATADIR}{my \$$DATADIR = "$(datadir)"; # DATADIR};' OOCEapps.pm
+	cd "$(DESTDIR)$(libdir)" && $(PERL) -i -p -e 's{^my .*# DATADIR}{my \$$DATADIR = "$(localstatedir)"; # DATADIR};' OOCEapps.pm
 	[ ! -d $(THIRDPARTY_DIR)/lib/perl5 ] || cp -fr $(THIRDPARTY_DIR)/lib/perl5/* $(DESTDIR)$(libdir)
 
 #test:
