@@ -54,16 +54,16 @@ my $parseFiles = sub {
         close $fh;
     }
 
-	my $gip = Geo::IP::PurePerl->new($geoipDB, GEOIP_MEMORY_CACHE);
-	my $db = {};
+    my $gip = Geo::IP::PurePerl->new($geoipDB, GEOIP_MEMORY_CACHE);
+    my $db = {};
     my %ipTbl;
 
-	for my $day (sort { $a <=> $b } keys %$data) {
-    	for my $ip (keys %{$data->{$day}}) {
-        	my $country = $gip->country_name_by_addr($ip);
+    for my $day (sort { $a <=> $b } keys %$data) {
+        for my $ip (keys %{$data->{$day}}) {
+            my $country = $gip->country_name_by_addr($ip);
 
-			$db->{$day}->{$country}->{unique}++ if !exists $ipTbl{$ip};
-			$db->{$day}->{$country}->{total} += $data->{$day}->{$ip};
+            $db->{$day}->{$country}->{unique}++ if !exists $ipTbl{$ip};
+            $db->{$day}->{$country}->{total} += $data->{$day}->{$ip};
 
             $ipTbl{$ip} = undef;
         }
@@ -79,12 +79,12 @@ my $parseFiles = sub {
 
 my $getPkgStat = sub {
     my $app  = shift;
-	my $days = shift // '0';
+    my $days = shift // '0';
 
     return OOCEapps::Mattermost->error("input for days '$days' is not numeric.")
         if $days !~ /^\d+$/;
 
-	my @data;
+    my @data;
 
     push @data, "### IPS repo stats for the last $days days:" if $days;
     push @data, [ 'Country', 'Unique IP', 'Access Count' ];
@@ -100,14 +100,14 @@ my $getPkgStat = sub {
     my $DB = decode_json do { local $/; <$fh> };
     close $fh;
 
-	my %db;
-	for my $day (keys %$DB) {
-		next if $days && $day > $days;
+    my %db;
+    for my $day (keys %$DB) {
+        next if $days && $day > $days;
 
-		for my $country (keys %{$DB->{$day}}) {
-			$db{$country}->{$_} += $DB->{$day}->{$country}->{$_} // 0 for qw(unique total);
-		}
-	}
+        for my $country (keys %{$DB->{$day}}) {
+            $db{$country}->{$_} += $DB->{$day}->{$country}->{$_} // 0 for qw(unique total);
+        }
+    }
 
     for my $country (sort { $db{$b}->{unique} <=> $db{$a}->{unique}
         || $db{$b}->{total} <=> $db{$a}->{total} } keys %db) {
