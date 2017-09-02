@@ -7,7 +7,7 @@ Version: 0.1.10
 
 Date: 2017-08-31
 
-ooceapps: Mattermost integration OmniOS Community Edition (OmniOSce) Association.
+Mattermost integrations for OmniOS Community Edition (OmniOSce) Association.
 
 Setup
 -----
