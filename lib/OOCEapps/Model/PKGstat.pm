@@ -1,5 +1,5 @@
-package OOCEapps::Module::PKGstat;
-use Mojo::Base 'OOCEapps::Module::base';
+package OOCEapps::Model::PKGstat;
+use Mojo::Base 'OOCEapps::Model::base';
 
 use POSIX qw(SIGTERM);
 use Time::Piece;
@@ -9,11 +9,6 @@ use Mojo::JSON qw(decode_json encode_json);
 use Mojo::UserAgent;
 use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
 use FindBin;
-
-# private properties
-my $geoipDB;
-my $pkgDB;
-my $pid = 0;
 
 # attributes
 has schema  => sub { {
@@ -32,8 +27,6 @@ has schema  => sub { {
 } };
 
 #private methods
-my $formatNumber = sub { scalar reverse join ',', unpack '(A3)*', reverse shift };
-
 my $parseFiles = sub {
     my $self  = shift;
     my $epoch = gmtime->epoch;
@@ -54,7 +47,7 @@ my $parseFiles = sub {
         close $fh;
     }
 
-    my $gip = Geo::IP::PurePerl->new($geoipDB, GEOIP_MEMORY_CACHE);
+    my $gip = Geo::IP::PurePerl->new($self->config->{geoipDB}, GEOIP_MEMORY_CACHE);
     my $db = {};
     my %ipTbl;
 
@@ -70,62 +63,13 @@ my $parseFiles = sub {
     }
 
     # save db
-    open my $fh, '>', $pkgDB . '.new' or die "ERROR: opening '" . $pkgDB . "' for writing: $!\n";
+    open my $fh, '>', $self->config->{pkgDB} . '.new'
+        or die "ERROR: opening '" . $self->config->{pkgDB} . "' for writing: $!\n";
     print $fh encode_json $db;
     close $fh;
 
-    rename $pkgDB . '.new', $pkgDB;
+    rename $self->config->{pkgDB} . '.new', $self->config->{pkgDB};
 };
-
-my $getPkgStat = sub {
-    my $app  = shift;
-    my $days = shift // '0';
-
-    return OOCEapps::Mattermost->error("input for days '$days' is not numeric.")
-        if $days !~ /^\d+$/;
-
-    my @data;
-
-    push @data, "### IPS repo stats for the last $days days:" if $days;
-    push @data, [ 'Country', 'Unique IP', 'Access Count' ];
-    push @data, [ qw(:--- ---: ---:) ];
-
-    my $ips = 0;
-    my $acc = 0;
-
-    # load db
-    open my $fh, '<', $pkgDB
-        or return OOCEapps::Mattermost->error('DB cannot be opened. Try again later.');
-
-    my $DB = decode_json do { local $/; <$fh> };
-    close $fh;
-
-    my %db;
-    for my $day (keys %$DB) {
-        next if $days && $day > $days;
-
-        for my $country (keys %{$DB->{$day}}) {
-            $db{$country}->{$_} += $DB->{$day}->{$country}->{$_} // 0 for qw(unique total);
-        }
-    }
-
-    for my $country (sort { $db{$b}->{unique} <=> $db{$a}->{unique}
-        || $db{$b}->{total} <=> $db{$a}->{total} } keys %db) {
-
-        $ips += $db{$country}->{unique};
-        $acc += $db{$country}->{total};
-
-        push @data, [ $country, $formatNumber->($db{$country}->{unique}),
-            $formatNumber->($db{$country}->{total}) ];
-    }
-
-    push @data, [ '**Total**', '**' . $formatNumber->($ips) . '**',
-        '**' . $formatNumber->($acc) . '**' ];
-    push @data, '---';
-
-    return OOCEapps::Mattermost->table(\@data);
-};
-
 
 my $refreshDB;
 $refreshDB = sub {
@@ -139,11 +83,11 @@ $refreshDB = sub {
         },
         sub {
             my ($subprocess, $err, $result) = @_;
-            $pid = 0;
+            $self->config->{pid} = 0;
         }
     );
 
-    $pid = $proc->pid;
+    $self->config->{pid} = $proc->pid;
     # set next refresh in 1h + a maximum random 5 minutes
     Mojo::IOLoop->timer(3600 + int(rand(300)) => sub { $self->$refreshDB });
 };
@@ -157,11 +101,11 @@ $updateGeoIP = sub {
     die "ERROR: downloading GeoIP database from '$self->config->{geoip_url}'\n"
         if !$res->is_success;
 
-    $res->content->asset->move_to($geoipDB . '.gz');
-    gunzip $geoipDB . '.gz' => $geoipDB
+    $res->content->asset->move_to($self->config->{geoipDB} . '.gz');
+    gunzip $self->config->{geoipDB} . '.gz' => $self->config->{geoipDB}
         or die "ERROR: gunzip GeoIP failed: $GunzipError\n";
 
-    unlink $geoipDB . '.gz';
+    unlink $self->config->{geoipDB} . '.gz';
     # update geoip DB once a week
     Mojo::IOLoop->timer(7 * 24 * 3600 => sub { $self->$updateGeoIP });
 };
@@ -172,22 +116,18 @@ sub register {
 
     $self->SUPER::register($app);
 
-    $geoipDB = $self->datadir . '/GeoIP.dat';
-    $pkgDB   = $self->datadir . '/' . $self->name . '.db';
+    $self->config->{geoipDB} = $self->datadir . '/GeoIP.dat';
+    $self->config->{pkgDB}   = $self->datadir . '/' . $self->name . '.db';
+    $self->config->{pid}     = 0;
 
     $self->$updateGeoIP;
     $self->$refreshDB;
 }
 
-sub process {
-    my $c = shift;
-    my $t = $c->param('text') || '0';
-
-    $c->render(json => $c->app->$getPkgStat($t));
-}
-
 sub cleanup {
-    kill SIGTERM, $pid if $pid;
+    my $self = shift;
+
+    kill SIGTERM, $self->config->{pid} if $self->config->{pid};
 }
 
 1;

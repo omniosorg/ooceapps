@@ -1,29 +1,33 @@
-package OOCEapps::Module::base;
+package OOCEapps::Model::base;
 use Mojo::Base 'Mojolicious::Controller';
 
 use File::Path qw(make_path);
 use OOCEapps::Mattermost;
 
 # attributes
+has app     => sub { {} };
+has module  => sub { ref shift };
+has name    => sub { lc ((split /::/, shift->module)[-1]) };
+has config  => sub { my $self = shift; $self->app->config->{MODULES}->{$self->name} };
+has datadir => sub { my $self = shift; $self->app->datadir . '/' . $self->name };
 has schema  => sub { {} };
-has config  => sub { {} };
-has module  => sub { return ref shift };
-has name    => sub { return lc ((split /::/, shift->module)[-1]) };
-has datadir => sub { };
 
 # public methods
 sub register {
     my $self = shift;
     my $app  = shift;
 
-    # set module specific datadir and create it if it does not exist
-    $self->datadir($app->datadir . '/' . $self->name);
+    $self->app($app);
+    # create module datadir if it does not exist
     -d $self->datadir || make_path($self->datadir);
 
     # this registers a default route for the module using the module's name
     # override it in subclass if necessary
+    # my $controller = $self->module =~ s/Model/Controller/r;
+    my $controller = $self->module;
+    $controller =~ s/Model/Controller/;
     $app->routes->post('/' . $self->name)
-        ->to(namespace => $self->module, action => 'process');
+        ->to(namespace => $controller, action => 'process');
 }
 
 sub process {
