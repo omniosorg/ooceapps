@@ -8,7 +8,7 @@ use Data::Processor;
 use Mojo::JSON qw(decode_json);
 
 # constants
-my $MODULES = __PACKAGE__ . '::Module';
+my $MODULES = __PACKAGE__ . '::Model';
 my $CONFILE = "$FindBin::RealBin/../etc/" . basename($0) . '.conf'; # CONFFILE
 my $DATADIR = "$FindBin::RealBin/../var"; # DATADIR
 
