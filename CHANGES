@@ -1,3 +1,51 @@
+commit 6d5567d21dad34e107504b148ac0d1c75eac095f
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Sep 3 15:53:22 2017 +0200
+
+    change to a Model/Controller based structure
+
+commit 491c66d99ea79548ba621b588932a62bf2f03ab3
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Sep 3 13:13:57 2017 +0200
+
+    use Mojo::JSON
+
+commit a3fd4c3e83996a712fd6a05d48c09461ba42e6f3
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Sep 3 00:33:53 2017 +0200
+
+    fix makefile
+
+commit 6e1cce8db85c8ba5d621d326f2bef29db29c8b84
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Sep 2 22:55:53 2017 +0200
+
+    fix indentation
+
+commit bc8e665930f500b93e8efa001bd2d53d63fc1aca
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Sep 2 22:18:30 2017 +0200
+
+    add missing thirdparty makefiles
+
+commit ac8c697aaf0a5ca4c7ffb344e7b87d0b7a464ab8
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Sep 2 22:16:00 2017 +0200
+
+    retab
+
+commit 6a13bae0563636cab32e6d203dc704a22c146f81
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Sep 2 22:11:44 2017 +0200
+
+    readme
+
+commit 99231c4f98d322e74558f6639e07498862a1df79
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Sep 2 22:09:01 2017 +0200
+
+    ready for 0.1.0
+
 commit 54b147217ae615e840786216a213ce3ae5deeb1c
 Author: Dominik Hassler <hadfl@users.noreply.github.com>
 Date:   Thu Aug 10 13:45:59 2017 +0200
