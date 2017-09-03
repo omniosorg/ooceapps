@@ -5,7 +5,7 @@ use FindBin;
 use File::Basename qw(basename);
 use File::Spec qw(catdir splitpath);
 use Data::Processor;
-use JSON::PP;
+use Mojo::JSON qw(decode_json);
 
 # constants
 my $MODULES = __PACKAGE__ . '::Module';
@@ -50,7 +50,7 @@ sub startup {
 
     # load config
     open my $fh, '<', $CONFILE or die "ERROR: opening config file '$CONFILE': $!\n";
-    $app->config(JSON::PP->new->decode(do { local $/; <$fh> }));
+    $app->config(decode_json do { local $/; <$fh> });
     close $fh;
 
     my $dp = Data::Processor->new($app->schema);
