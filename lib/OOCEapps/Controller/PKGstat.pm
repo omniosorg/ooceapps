@@ -1,7 +1,6 @@
 package OOCEapps::Controller::PKGstat;
 use Mojo::Base 'OOCEapps::Controller::base';
 
-use OOCEapps::Model::PKGstat;
 use Mojo::JSON qw(decode_json);
 
 # attributes

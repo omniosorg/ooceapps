@@ -4,11 +4,9 @@ use Mojo::Base 'OOCEapps::Model::base';
 use POSIX qw(SIGTERM);
 use Time::Piece;
 use Geo::IP::PurePerl;
-use List::Util qw(max);
-use Mojo::JSON qw(decode_json encode_json);
+use Mojo::JSON qw(encode_json);
 use Mojo::UserAgent;
 use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
-use FindBin;
 
 # attributes
 has schema  => sub { {
