@@ -17,7 +17,6 @@ my $getPkgStat = sub {
         if $days !~ /^\d+$/;
 
     my @data;
-
     push @data, "### IPS repo stats for the last $days days:" if $days;
     push @data, [ 'Country', 'Unique IP', 'Access Count' ];
     push @data, [ qw(:--- ---: ---:) ];
