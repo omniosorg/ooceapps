@@ -7,22 +7,27 @@ use Geo::IP::PurePerl;
 use Mojo::JSON qw(encode_json);
 use Mojo::UserAgent;
 use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
+use OOCEapps::Utils;
 
 # attributes
-has schema  => sub { {
+has schema  => sub {
+    my $sv = OOCEapps::Utils->new;
+
+    return {
     members => {
         logdir    => {
             description => 'path to log files',
             example     => '/var/log/nginx',
-            validator   => sub { my $d = shift; -d $d ? undef : "cannot access directory '$d'" },
+            validator   => $sv->dir('cannot access directory'),
         },
         geoip_url => {
             description => 'url to geoip database',
             example     => 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz',
-            validator   => sub { my $url = shift; $url =~ /^.*$/ ? undef : 'expected a string' },
+            validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
         },
     },
-} };
+    }
+};
 
 #private methods
 my $parseFiles = sub {

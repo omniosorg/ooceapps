@@ -22,9 +22,8 @@ my $getRelease = sub {
     my $major = int ($index / $cycle);
     my $minor = int ($index % $cycle);
 
-    return "$rel**" . ($major ? chr($major - 1 + $ord_a) : '') . chr ($minor + $ord_a) . '**';
+    return "$rel**" . ($major ? chr ($major - 1 + $ord_a) : '') . chr ($minor + $ord_a) . '**';
 };
-
 
 my $getRelSuffixes = sub {
     my $self = shift;
@@ -47,7 +46,7 @@ my $getRelSuffixes = sub {
     my @data;
     push @data, [ 'w/c', @releases ];
     push @data, [ ':---', map { ':---:' } @releases ];
-    push @data, [ $date->ymd,  map { $getRelease->($_, ($date
+    push @data, [ $date->ymd, map { $getRelease->($_, ($date
         - $getW_C->(Time::Piece->strptime($self->config->{$_}, '%Y-%m-%d')))->weeks) } @releases ];
     push @data, '---';
 
