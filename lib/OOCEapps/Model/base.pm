@@ -1,5 +1,5 @@
 package OOCEapps::Model::base;
-use Mojo::Base 'Mojolicious::Controller';
+use Mojo::Base -base;
 
 use File::Path qw(make_path);
 use OOCEapps::Mattermost;

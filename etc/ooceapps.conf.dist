@@ -3,6 +3,9 @@
         "pkgstat" : {
             "logdir"    : "<path_to_logs>",
             "geoip_url" : "http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz"
+        },
+        "relsuffix" : {
+            "r151022" : "2017-05-22"
         }
     }
 }
