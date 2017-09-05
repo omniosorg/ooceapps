@@ -1,3 +1,27 @@
+commit d26a95a39388bb6a0f8939a92fbbfb833b9bd6d4
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Sep 5 18:00:18 2017 +0200
+
+    Utils added for generic functions
+
+commit b7a07be2f7c56d02373dba6758d11a73f14fe37f
+Author: Dominik Hassler <hadfl@cpan.org>
+Date:   Tue Sep 5 13:36:01 2017 +0200
+
+    relsuffix added
+
+commit b0b107070d4ff6311727e874be846de2534fc438
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Sep 4 15:28:18 2017 +0200
+
+    clean up dependencies
+
+commit 1058b2f176a3f5d9a01a25299f4fc8a7d02b93bb
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Sep 3 16:13:52 2017 +0200
+
+    ready for 0.1.1
+
 commit 6d5567d21dad34e107504b148ac0d1c75eac095f
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Sun Sep 3 15:53:22 2017 +0200
