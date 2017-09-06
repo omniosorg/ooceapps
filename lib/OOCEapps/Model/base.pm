@@ -34,10 +34,6 @@ sub process {
     shift->render(json => OOCEapps::Mattermost->error('process not implemented...'));
 }
 
-sub cleanup {
-    # override in subclass if something needs to be cleaned up on exit (e.g. forks)
-}
-
 1;
 
 __END__

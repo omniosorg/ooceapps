@@ -64,10 +64,6 @@ sub startup {
     }
 }
 
-sub DESTROY {
-    $_->cleanup for @{shift->modules};
-}
-
 1;
 
 __END__

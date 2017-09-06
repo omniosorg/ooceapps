@@ -127,7 +127,7 @@ sub register {
     $self->$refreshDB;
 }
 
-sub cleanup {
+sub DESTROY {
     my $self = shift;
 
     kill SIGTERM, $self->config->{pid} if $self->config->{pid};
