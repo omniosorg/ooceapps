@@ -3,3 +3,4 @@ IO::Socket::SSL
 Mozilla::CA
 Geo::IP::PurePerl
 Data::Processor
+Sort::Versions
