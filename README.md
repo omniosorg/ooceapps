@@ -3,7 +3,7 @@ ooceapps
 
 [![Build Status](https://travis-ci.org/hadfl/ooceapps.svg?branch=master)](https://travis-ci.org/hadfl/ooceapps)
 
-Version: 0.1.3
+Version: 0.1.4
 
 Date: 2017-09-12
 
