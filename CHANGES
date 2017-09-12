@@ -1,3 +1,27 @@
+commit 74da9ad73410d28d599d6e187221d1977bffece1
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Sep 12 15:17:30 2017 +0200
+
+    pkgupd module added
+
+commit 1f3c2d74f815f43ea03b6744121e1aa5df961083
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Sep 6 10:14:22 2017 +0200
+
+    fix cleanup
+
+commit 1dcd0be282483a25a7c07d636d20d6159b1b00cb
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Sep 6 08:37:57 2017 +0200
+
+    add minimal POD
+
+commit fd0d84c48ccba95ede2fded48e482314f1e94ef0
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Sep 5 18:18:03 2017 +0200
+
+    ready for 0.1.2
+
 commit d26a95a39388bb6a0f8939a92fbbfb833b9bd6d4
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Tue Sep 5 18:00:18 2017 +0200
