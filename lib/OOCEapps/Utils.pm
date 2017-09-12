@@ -1,7 +1,32 @@
 package OOCEapps::Utils;
 use Mojo::Base -base;
 
+use File::Spec qw(catdir splitpath);
+
 # public methods
+sub loadModules {
+    my $modules = shift;
+
+    my @modules;
+    for my $path (@INC) {
+        my @mDirs = split /::|\//, $modules;
+        my $fPath = File::Spec->catdir($path, @mDirs, '*.pm');
+        for my $file (sort glob($fPath)) {
+            my ($volume, $modulePath, $moduleName) = File::Spec->splitpath($file);
+            $moduleName =~ s/\.pm$//;
+            next if $moduleName eq 'base';
+
+            my $module = do {
+                require $file;
+                ($modules . '::' . $moduleName)->new;
+            };
+            push @modules, $module if $module;
+        }
+    }
+
+    return \@modules;
+};
+
 sub file {
     my $self = shift;
     my $op   = shift;
