@@ -6,6 +6,9 @@
         },
         "relsuffix" : {
             "r151022" : "2017-05-22"
+        },
+        "pkgupd" : {
+            "pkglist_url" : "https://raw.githubusercontent.com/omniosorg/omnios-build/master/doc/packages.md"
         }
     }
 }
