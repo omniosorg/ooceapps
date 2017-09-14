@@ -1,6 +1,8 @@
 package OOCEapps::PkgUpd::ISC;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
+my $BIND_MVER = '9.10';
+
 # public methods
 sub canParse {
     my $self = shift;
@@ -17,8 +19,14 @@ sub getVersions {
 
     # remove isc- prefix
     $name =~ s/isc-//;
-    return $self->SUPER::getVersions($name, $res);
+    $name = $self->extractName($name);
+    my $mVer = $name =~ /bind/ ? "$BIND_MVER." : '';
+    return [
+        map { /$name-($mVer(?:\d+\.){0,2}\d+)(?:-source)?\.(?:tar\.(?:gz|xz|bz2|lz)|zip)/i ? $1 : () }
+            $res->dom->find('a')->each
+    ];
 }
+
 
 1;
 
