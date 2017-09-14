@@ -43,7 +43,8 @@ my $getPkgAvailVer = sub {
                     next;
                 };
                 my $latest = (sort { versioncmp($a, $b) } @{$pkgList->{$pkg}->{availVer}})[-1];
-                push @data, [ $pkg, "$pkgList->{$pkg}->{version} -> $latest" ]
+                push @data, [ "[$pkg]($pkgList->{$pkg}->{url})",
+                    "$pkgList->{$pkg}->{version} -> $latest" ]
                     if versioncmp($pkgList->{$pkg}->{version}, $latest); 
             }
             $self->render(json => OOCEapps::Mattermost->table(\@data));
