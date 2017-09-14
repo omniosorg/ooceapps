@@ -1,14 +1,15 @@
-package OOCEapps::PkgUpd::Sourceforge;
+package OOCEapps::PkgUpd::Perl;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
-use Data::Dumper;
+my $PERLVER = '5.24';
+
 # public methods
 sub canParse {
     my $self = shift;
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ /sourceforge\.net/;
+    return $name =~ /runtime\/perl/;
 }
 
 sub getVersions {
@@ -18,7 +19,7 @@ sub getVersions {
 
     $name = $self->extractName($name);
     return [
-        map { /$name\/files\/$name[-\/](?:stable-[\d.x]+\/$name-)?([\d.]*\d)/ ? $1 : () }
+        map { /$name-($PERLVER\.\d+)\.(?:tar\.(?:gz|xz|bz2|lz)|zip)/i ? $1 : () }
             $res->dom->find('a')->each
     ];
 }

@@ -1,15 +1,13 @@
 package OOCEapps::PkgUpd::GCC;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
-my $VERPREFIX = '5.4';
-
 # public methods
 sub canParse {
     my $self = shift;
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /^developer\/gcc5$/;
+    return $name =~ /^developer\/gcc\d/;
 }
 
 sub getVersions {
@@ -17,12 +15,11 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    # remove gnu- prefix
-    $name =~ s/gnu-//;
-
+    my ($mVer) = $name =~ /(\d+)$/;
+    $mVer = join '.', split //, $mVer;
     $name = $self->extractName($name);
     return [
-        map { /GCC\s+($VERPREFIX(?:\.\d+)?)/ ? $1 : () }
+        map { /GCC\s+($mVer(?:\.\d+){1,2})/ ? $1 : () }
             $res->dom->find('a')->each
     ];
 }

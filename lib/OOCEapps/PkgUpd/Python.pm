@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /runtime\/python-27/;
+    return $name =~ /runtime\/python/;
 }
 
 sub getVersions {
@@ -15,9 +15,11 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
+    my ($mVer) = $name =~ /(\d+)$/;
+    $mVer = join '.', split //, $mVer;
     $name = $self->extractName($name);
     return [
-        map { /Python\s+([\d.]+)/ ? $1 : () }
+        map { /Python\s+($mVer[\d.]+)\W/ ? $1 : () }
             $res->dom->find('a')->each
     ];
 }

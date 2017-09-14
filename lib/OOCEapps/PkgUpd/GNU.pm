@@ -25,7 +25,7 @@ sub getVersions {
     s/-v\./-/g for @versions;
      
     return [
-        map { /$name-((?:\d+\.){1,3}[^-.]+|\d+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ ? $1 : () }
+        map { /$name-((?:\d+\.){0,3}\d+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ ? $1 : () }
             @versions
     ];
 }
