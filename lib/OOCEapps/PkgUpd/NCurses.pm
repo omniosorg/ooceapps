@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::Sourceforge;
+package OOCEapps::PkgUpd::NCurses;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ /sourceforge\.net/;
+    return $name =~ /library\/ncurses/;
 }
 
 sub getVersions {
@@ -15,10 +15,12 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
+    my @versions = $res->dom->find('a')->each;
+    s/-/./g for @versions;
     $name = $self->extractName($name);
     return [
-        map { /$name\/files\/$name[-\/](?:stable-[\d.x]+\/$name-)?([\d.]*\d)/ ? $1 : () }
-            $res->dom->find('a')->each
+        map { /$name\.([-\d.]+)\.tgz/ ? $1 : () }
+            @versions
     ];
 }
 
