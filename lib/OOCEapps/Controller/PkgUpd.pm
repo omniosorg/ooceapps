@@ -16,8 +16,8 @@ my $getPkgAvailVer = sub {
 
     my @data;
     push @data, "### Available Package Updates";
-    push @data, [ qw(Package Version) ];
-    push @data, [ qw(:--- :---) ];
+    push @data, [ qw(Package Version Notes) ];
+    push @data, [ qw(:--- :--- :---) ];
     $self->delay(
         sub {
             my $delay = shift;
@@ -40,12 +40,14 @@ my $getPkgAvailVer = sub {
             for my $pkg (sort keys %$pkgList) {
                 @{$pkgList->{$pkg}->{availVer}} || do {
                     push @data, [ "[$pkg]($pkgList->{$pkg}->{url})",
-                        'cannot get versions :panic:' ];
+                        'cannot get versions :panic:',
+                        $pkgList->{$pkg}->{notes} ];
                     next;
                 };
                 my $latest = (sort { versioncmp($a, $b) } @{$pkgList->{$pkg}->{availVer}})[-1];
                 push @data, [ "[$pkg]($pkgList->{$pkg}->{url})",
-                    "$pkgList->{$pkg}->{version} -> $latest" ]
+                    "$pkgList->{$pkg}->{version} -> $latest",
+                    $pkgList->{$pkg}->{notes} ]
                     if versioncmp($pkgList->{$pkg}->{version}, $latest); 
             }
             $self->render(json => OOCEapps::Mattermost->table(\@data));
@@ -63,11 +65,13 @@ sub getPkgList {
     my %pkgs;
 
     for (split /[\r\n]+/, $tx->result->body) {
-        my ($name, $version, $url) = /^\s*\|\s*(\S+)\s*\|\s*(\d\S+)\s*\|\s*(\S+)/ or next;
+        my ($name, $version, $url, $notes)
+            = /^\s*\|\s*(\S+)\s*\|\s*(\d\S+)\s*\|\s*(\S+)(?:\s*\|\s*(.*))?/ or next;
 
         $pkgs{$name} = {
             version => $version,
             url     => $url,
+            notes   => $notes // '',
         };
     }
     return \%pkgs;
