@@ -39,7 +39,8 @@ my $getPkgAvailVer = sub {
             }
             for my $pkg (sort keys %$pkgList) {
                 @{$pkgList->{$pkg}->{availVer}} || do {
-                    push @data, [ $pkg, 'cannot get versions :panic:' ];
+                    push @data, [ "[$pkg]($pkgList->{$pkg}->{url})",
+                        'cannot get versions :panic:' ];
                     next;
                 };
                 my $latest = (sort { versioncmp($a, $b) } @{$pkgList->{$pkg}->{availVer}})[-1];
