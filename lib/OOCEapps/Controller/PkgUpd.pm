@@ -30,6 +30,7 @@ my $getPkgAvailVer = sub {
             for (my $i = 0; $i <= $#pkgs; $i++) {
                 $tx[$i]->success || do {
                     $pkgList->{$pkgs[$i]}->{availVer} = [];
+                    $pkgList->{$pkgs[$i]}->{timeout}  = 1;
                     next;
                 };
 
@@ -40,7 +41,8 @@ my $getPkgAvailVer = sub {
             for my $pkg (sort keys %$pkgList) {
                 @{$pkgList->{$pkg}->{availVer}} || do {
                     push @data, [ "[$pkg]($pkgList->{$pkg}->{url})",
-                        'cannot get versions :panic:',
+                        ($pkgList->{$pkg}->{timeout} ? 'timeout :face_with_head_bandage:'
+                            : 'cannot parse versions :panic:'),
                         $pkgList->{$pkg}->{notes} ];
                     next;
                 };
