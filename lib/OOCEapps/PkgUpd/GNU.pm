@@ -21,11 +21,10 @@ sub getVersions {
     $name = $self->extractName($name);
     my @versions = $res->dom->find('a')->each;
     s/release_//g for @versions;
-    s/_/./g for @versions;
-    s/-v\./-/g for @versions;
+    s/_|-(?:v\.)?/./g for @versions;
      
     return [
-        map { /$name-((?:\d+\.){0,3}\d+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ ? $1 : () }
+        map { /$name\.((?:\d+\.){0,3}\d+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ ? $1 : () }
             @versions
     ];
 }
