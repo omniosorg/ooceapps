@@ -6,22 +6,19 @@ use File::Basename qw(basename);
 use File::Spec qw(catdir splitpath);
 use Data::Processor;
 use Mojo::JSON qw(decode_json);
+use Mojo::File;
+use Mojo::Home;
 
 # constants
 my $MODULES = __PACKAGE__ . '::Model';
-my $CONFILE = "$FindBin::RealBin/../etc/" . basename($0) . '.conf'; # CONFFILE
+my $CONFFILE = $ENV{OOCEAPP_CONF} || Mojo::Home->new->rel_file("../etc/ooceapps.conf")->to_string; # CONFFILE
 my $DATADIR = "$FindBin::RealBin/../var"; # DATADIR
 
 # attributes
-has modules => sub { [] };
-has datadir => $DATADIR;
-has config  => sub { {} };
-has schema  => sub { { MODULES => { members => {} } } };
-
-# private methods
-my $loadModules = sub {
+my %loaded;
+has model => sub {
+    my %map;
     my $app = shift;
-
     for my $path (@INC){
         my @mDirs = split /::/, $MODULES;
         my $fPath = File::Spec->catdir($path, @mDirs, '*.pm');
@@ -29,38 +26,49 @@ my $loadModules = sub {
             my ($volume, $modulePath, $moduleName) = File::Spec->splitpath($file);
             $moduleName =~ s/\.pm$//;
             next if $moduleName eq 'base';
-
+            next if $ENV{OOCEAPP_SINGLE_MODULE} and $moduleName ne  $ENV{OOCEAPP_SINGLE_MODULE};
             my $module = do {
-                require $file;
-                ($MODULES . '::' . $moduleName)->new();
+                my $mod = $MODULES . '::' . $moduleName;
+                if (not $loaded{$mod}){
+                    require $file;
+                    $loaded{$mod} = 1;
+                }
+                $mod->new(
+                    app=>$app,
+                );
             };
             $module && do {
                 $app->schema->{MODULES}->{members}->{$module->name}
                     = $module->schema;
-                push @{$app->modules}, $module;
+                $map{$moduleName} = $module;
             };
         }
     }
+    return \%map;
 };
+
+has datadir => $DATADIR;
+
+has config  => sub {
+    my $app = shift;
+    # load config
+    my $cfg = decode_json do { Mojo::File->new($CONFFILE)->slurp };
+
+    my $dp = Data::Processor->new($app->schema);
+    my $ec = $dp->validate($cfg);
+    $ec->count and die join ("\n", map { $_->stringify } @{$ec->{errors}}) . "\n";
+    return $cfg;
+};
+
+has schema  => sub { { MODULES => { members => {} } } };
 
 # public methods
 sub startup {
     my $app = shift;
-    $app->$loadModules();
-
-    # load config
-    open my $fh, '<', $CONFILE or die "ERROR: opening config file '$CONFILE': $!\n";
-    $app->config(decode_json do { local $/; <$fh> });
-    close $fh;
-
-    my $dp = Data::Processor->new($app->schema);
-    my $ec = $dp->validate($app->config);
-    $ec->count and die join ("\n", map { $_->stringify } @{$ec->{errors}}) . "\n";
-
     # set individual module config and register
-    for my $module (@{$app->modules}) {
-        $module->config($app->config->{MODULES}->{$module->name});
-        $module->register($app);
+    my $model = $app->model;
+    for my $module (keys %{$model}) {
+        $model->{$module}->register;
     }
 }
 
@@ -94,4 +102,3 @@ S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
 2017-09-06 had Initial Version
 
 =cut
-

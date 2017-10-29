@@ -8,7 +8,7 @@ use lib "$FindBin::RealBin/../lib"; use lib "$FindBin::RealBin/../thirdparty/lib
 use File::Basename qw(basename);
 use Mojolicious::Commands;
 
-my $VERSION = '0.dev'; # VERSION
+my $VERSION = q{0.2.0}; # VERSION
 
 if ($ARGV[0] eq 'version') {
     print basename($0) . " $VERSION\n";
