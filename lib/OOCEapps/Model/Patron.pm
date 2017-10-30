@@ -93,6 +93,9 @@ sub register {
         ->to(namespace => $self->controller, action => 'subscribe');
 
     $r->get('/' . $self->name.'/cancel/:subKey')
+            ->to(namespace => $self->controller, action => 'cancelSubscriptionForm');
+
+    $r->post('/' . $self->name.'/cancel/:subKey')
             ->to(namespace => $self->controller, action => 'cancelSubscription');
 
     $r->post('/' . $self->name.'/webhook')

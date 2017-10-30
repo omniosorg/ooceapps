@@ -98,11 +98,16 @@ sub webhook {
             return $c->render(json=>{status=>'error'});
         }
         else {
-            die $@;
+            $c->log->error("ERROR: sending mail: $@");
+            $c->log->error("Available Data: ".$c->app->dumper($c->data));
         }
     }
     $c->render(status=>200,text=>'ok');
 };
+
+sub cancelSubscriptionForm {
+    $c->render('patron/cancelSubscriptionForm');
+}
 
 sub cancelSubscription {
     my $c = shift;
