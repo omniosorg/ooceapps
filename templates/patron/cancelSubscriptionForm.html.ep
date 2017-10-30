@@ -7,7 +7,7 @@
   <h1>OmniOS CE Patronage Subscription Cancelation</h1>
 
   <form method="post">
-      <p>By pressing this button you can cancle your support for OmniOS</p>
+      <p>By pressing this button you can cancel your support for OmniOS</p>
       <p><input type="submit" text="Cancel my OmniOSce Patronage"/></p>
   </form>
   </body>
