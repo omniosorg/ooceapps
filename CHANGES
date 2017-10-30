@@ -1,3 +1,86 @@
+commit e6d054b3d1e47b682a4f49de911717e696b5eb33
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Sun Oct 29 22:25:05 2017 +0100
+
+    OmniOSce Patronage Support
+    
+    * integrate stripe support
+    * allow running with a single module by setting OOCEAPP_SINGLE_MODULE
+    * allow conffile config with OOCEAPP_CONF
+    * rename CONFILE to CONFFILE
+
+commit 611d08ece6c991be5cd2a89b39f7d36ad0d6b935
+Author: Dominik Hassler <hadfl@cpan.org>
+Date:   Tue Oct 24 10:53:52 2017 +0200
+
+    lxml demands special care
+
+commit 7c6f595b488980770241d49879a2ff57a5982e68
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Oct 1 12:42:13 2017 +0200
+
+    fix: python module parser
+
+commit 895dad2ced41716f2ddad73861e7f67479993c44
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Sep 20 23:54:19 2017 +0200
+
+    enhance error message
+
+commit 0efb85f72bfb360c6b8c7e814c55db231edd6c63
+Author: Dominik Hassler <hadfl@cpan.org>
+Date:   Wed Sep 20 12:14:07 2017 +0200
+
+    fix GNU parser
+
+commit 72e207fd2eb8b719c0cefd5db9add51ec28238cf
+Author: Dominik Hassler <hadfl@cpan.org>
+Date:   Tue Sep 19 16:31:23 2017 +0200
+
+    add open-vm-tools GitHub version parsing
+
+commit c19c93541c4f9c25db21f1a20d71be0eb26c50e5
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Sep 18 23:00:19 2017 +0200
+
+    add libevent version parsing
+
+commit 638a082e50a961cab1b8c61f8aa636647176d9f9
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Sep 18 17:24:49 2017 +0200
+
+    pkgupd: add notes to output
+
+commit 7174ad358315c612a4fc1e26db0482b2f714c93e
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Mon Sep 18 08:18:30 2017 +0000
+
+    Show URLs when version fetch fails.
+
+commit fc350e6b6ce4982e4a11250321a0e446c436c747
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Sep 15 19:49:40 2017 +0200
+
+    ncurses parser
+
+commit 4fba26fd1f42b116761da324b88ad3268c445b00
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Sep 14 07:15:21 2017 +0200
+
+    add hyperlinks
+
+commit a8b36e1b120d339e29456811f7b0d12986a945b1
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Sep 14 02:56:30 2017 +0200
+
+    fixed PkgUpd modules
+
+commit d23ebfe9b4c520aa79055354bacadcc3a1f9a2d1
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Sep 12 16:39:30 2017 +0200
+
+    ready for 0.1.4
+
 commit 1d21ca0a6d7f125243838b4e7b39bc5a283e893a
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Tue Sep 12 16:38:26 2017 +0200

@@ -6,8 +6,7 @@ use Digest::SHA qw(hmac_sha256_hex);
 has secKey => sub { shift->config->{secKey} };
 has pubKey => sub { shift->config->{secKey} };
 
-has sql  => sub { shift->config->{sql} };
-has log => sub { shift->app->log };
+has log  => sub { shift->app->log };
 has data => sub {
     shift->req->json;
 };

@@ -1,7 +1,7 @@
 ooceapps
 ========
 
-[![Build Status](https://travis-ci.org/hadfl/ooceapps.svg?branch=master)](https://travis-ci.org/hadfl/ooceapps)
+[![Build Status](https://travis-ci.org/omniosorg/ooceapps.svg?branch=master)](https://travis-ci.org/omniosorg/ooceapps)
 
 Version: 0.2.0
 
@@ -15,7 +15,7 @@ Setup
 To build `ooceapps` you require perl and gcc packages on your
 system.
 
-Get a copy of `ooceapps` from https://github.com/hadfl/ooceapps/releases
+Get a copy of `ooceapps` from https://github.com/omniosorg/ooceapps/releases
 and unpack it into your scratch directory and cd there.
 
     ./configure --prefix=$HOME/opt/ooceapps
