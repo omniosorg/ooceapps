@@ -41,7 +41,7 @@ sub subscribe {
         if ($data->{period} eq 'once') {
             $c->model->createCharge(
                 $cust->{id},
-                $data->{amount},
+                int($data->{amount}),
                 $data->{currency},
             );
         }

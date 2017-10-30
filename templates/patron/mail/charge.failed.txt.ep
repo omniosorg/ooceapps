@@ -3,7 +3,7 @@ Subject: OmniOSce Patronage Charge failed
 
 Hello <%= $card->{name} %>
 
-We just failed to charge of A charge to <%= $card->{brand} %> x<%= $card->{last4} %> for the amount of <%= $stripeData->{data}{object}{amount}/100 %> <%= $stripeData->{data}{object}{currency} %>.
+We just failed to charge of A charge to <%= $card->{brand} %> x<%= $card->{last4} %> for the amount of <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($stripeData->{data}{object}{currency}) %>.
 
 cheers
 the OmniOSce Patronage Manager
