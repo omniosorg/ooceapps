@@ -63,7 +63,7 @@ has plans => sub {
             my ($err,$json) = $self->callStripe('GET','plans/'.$plan);
             if ($json->{error} and $json->{error}{type} eq 'invalid_request_error'){
                 my ($err,$json) = $self->callStripe('POST','plans',{
-                    name => ucfirst($interval).'ly '.uc($currency),
+                    name => uc($currency). ' '. ucfirst($interval),
                     interval =>  $interval,
                     currency => $currency,
                     statement_descriptor => $cfg->{subDescripton},
@@ -103,7 +103,7 @@ sub register {
         $file = Mojo::Home->new->child('..','etc',$file);
     }
     else {
-        $file = Mojo::Path->new($file);
+        $file = Mojo::File->new($file);
     }
 
     my ($pubKey, $secret, $hook, $mail) = split /[\n\r]/, $file->slurp;

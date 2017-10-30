@@ -1,3 +1,17 @@
+commit 76e1ea38124f2c119f9fa4f1e73e8fa4dac8b263
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Mon Oct 30 11:25:45 2017 +0100
+
+    uppercase currency
+    flip plan nameing
+    handle only integer amounts
+
+commit d3bc52930f8e601feda9d1791567713425ea482b
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Mon Oct 30 09:54:47 2017 +0100
+
+    production fixes
+
 commit e6d054b3d1e47b682a4f49de911717e696b5eb33
 Author: Tobias Oetiker <tobi@oetiker.ch>
 Date:   Sun Oct 29 22:25:05 2017 +0100

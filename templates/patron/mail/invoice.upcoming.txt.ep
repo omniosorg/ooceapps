@@ -4,7 +4,7 @@ Subject: OmniOSce Patronage Upcoming Payment
 Hello <%= $card->{name} %>
 
 We are going to charge <%= $card->{brand} %> x<%= $card->{last4} %>
-for the amount of <%= $stripeData->{data}{object}{amount}/100 %> <%= $stripeData->{data}{object}{currency} %>
+for the amount of <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($stripeData->{data}{object}{currency}) %>
 in the next few days.
 
 Thank you for begin a patron to OmniOCec.
