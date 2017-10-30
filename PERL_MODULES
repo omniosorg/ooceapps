@@ -4,3 +4,4 @@ Mozilla::CA
 Geo::IP::PurePerl
 Data::Processor
 Sort::Versions
+Email::Sender
