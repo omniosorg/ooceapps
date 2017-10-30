@@ -103,7 +103,7 @@ sub register {
         $file = Mojo::Home->new->child('..','etc',$file);
     }
     else {
-        $file = Mojo::Path->new($file);
+        $file = Mojo::File->new($file);
     }
 
     my ($pubKey, $secret, $hook, $mail) = split /[\n\r]/, $file->slurp;
