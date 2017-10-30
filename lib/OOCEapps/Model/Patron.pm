@@ -63,7 +63,7 @@ has plans => sub {
             my ($err,$json) = $self->callStripe('GET','plans/'.$plan);
             if ($json->{error} and $json->{error}{type} eq 'invalid_request_error'){
                 my ($err,$json) = $self->callStripe('POST','plans',{
-                    name => uc($currency). ' '. ucfirst($interval),
+                    name => uc($currency). ' '. ucfirst($interval).'ly',
                     interval =>  $interval,
                     currency => $currency,
                     statement_descriptor => $cfg->{subDescripton},

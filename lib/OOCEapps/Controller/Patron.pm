@@ -106,6 +106,7 @@ sub webhook {
 };
 
 sub cancelSubscriptionForm {
+    my $c = shift;
     $c->render('patron/cancelSubscriptionForm');
 }
 
