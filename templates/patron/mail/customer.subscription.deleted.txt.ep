@@ -4,7 +4,7 @@ Subject: OmniOSce Patronage Subscription Canceled
 
 Hello <%= $card->{name} %>
 
-Upon your request, we have canceled your OmniOSce patronage subscription '<%= $stripeData->{data}{object}{plan}{name} %>' of <%= $stripeData->{data}{object}{quantity} * $stripeData->{data}{object}{plan}{amount} / 100 %> <%= $stripeData->{data}{object}{plan}{name} %>.
+Upon your request, we have canceled your OmniOSce patronage subscription of <%= $stripeData->{data}{object}{quantity} * $stripeData->{data}{object}{plan}{amount} / 100 %> <%= $stripeData->{data}{object}{plan}{name} %>.
 
 Thank you for supporting OmniOSce since <%= strftime('%Y-%m-%d', localtime($stripeData->{data}{object}{start})) %>. If at a later stage you would like to become a patron again, just create a new subscription on
 
