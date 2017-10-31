@@ -22,7 +22,8 @@ my $getRelease = sub {
     my $major = int ($index / $cycle);
     my $minor = int ($index % $cycle);
 
-    return "$rel**" . ($major ? chr ($major - 1 + $ord_a) : '') . chr ($minor + $ord_a) . '**';
+    return "$rel**" . ($major ? chr ($major - 1 + $ord_a) : '')
+        . ($major || $minor ? chr ($minor + $ord_a) : ' ') . '**';
 };
 
 my $getRelSuffixes = sub {
