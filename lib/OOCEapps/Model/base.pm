@@ -6,17 +6,19 @@ use OOCEapps::Mattermost;
 
 # attributes
 has app     => sub { {} };
+has ua      => sub { shift->app->ua };
 has module  => sub { ref shift };
 has name    => sub { lc ((split /::/, shift->module)[-1]) };
 has config  => sub { my $self = shift; $self->app->config->{MODULES}->{$self->name} };
 has log     => sub { shift->app->log };
-has datadir => sub { my $self = shift;
+has datadir => sub {
+    my $self = shift;
     my $dir = $self->app->datadir . '/' . $self->name;
     # create module datadir if it does not exist
     -d $dir || make_path($dir);
     chmod 0700, $dir;
     return $dir;
- };
+};
 
 has controller => sub {
     my $controller = shift->module;

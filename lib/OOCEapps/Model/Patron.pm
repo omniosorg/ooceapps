@@ -48,8 +48,6 @@ has schema  => sub {
     }
 };
 
-has ua => sub { shift->app->ua };
-
 has plans => sub {
     my $self = shift;
     my $cfg = $self->config;
@@ -60,15 +58,15 @@ has plans => sub {
         for my $currency (@$currencies){
             my $plan = $interval.'_'.$currency;
             $plans{$plan} = 1;
-            my ($err,$json) = $self->callStripe('GET','plans/'.$plan);
-            if ($json->{error} and $json->{error}{type} eq 'invalid_request_error'){
-                my ($err,$json) = $self->callStripe('POST','plans',{
-                    name => uc($currency). ' '. ucfirst($interval).'ly',
-                    interval =>  $interval,
-                    currency => $currency,
+            my ($err, $json) = $self->callStripe('GET', 'plans/'.$plan);
+            if ($json->{error} && $json->{error}{type} eq 'invalid_request_error'){
+                my ($err, $json) = $self->callStripe('POST', 'plans', {
+                    name                 => uc($currency). ' '. ucfirst($interval).'ly',
+                    interval             => $interval,
+                    currency             => $currency,
                     statement_descriptor => $cfg->{subDescripton},
-                    amount => 100,
-                    id => $plan
+                    amount               => 100,
+                    id                   => $plan
                 });
                 $self->log->info("created subscription plan '$plan'");
             }
@@ -93,23 +91,23 @@ sub register {
         ->to(namespace => $self->controller, action => 'subscribe');
 
     $r->get('/' . $self->name.'/cancel/:subKey')
-            ->to(namespace => $self->controller, action => 'cancelSubscriptionForm');
+        ->to(namespace => $self->controller, action => 'cancelSubscriptionForm');
 
     $r->post('/' . $self->name.'/cancel/:subKey')
-            ->to(namespace => $self->controller, action => 'cancelSubscription');
+        ->to(namespace => $self->controller, action => 'cancelSubscription');
 
     $r->post('/' . $self->name.'/webhook')
-            ->to(namespace => $self->controller, action => 'webhook');
+        ->to(namespace => $self->controller, action => 'webhook');
 
     my $file = $self->config->{keyPath};
     if ($file =~ m{^[^/]}){
-        $file = Mojo::Home->new->child('..','etc',$file);
+        $file = Mojo::Home->new->child('..', 'etc', $file);
     }
     else {
         $file = Mojo::File->new($file);
     }
 
-    my ($pubKey, $secret, $hook, $mail) = split /[\n\r]/, $file->slurp;
+    my ($pubKey, $secret, $hook, $mail) = split /[\n\r]+/, $file->slurp;
     $self->pubKey($pubKey);
     $self->secret($secret);
     $self->hookSec($hook);
@@ -117,80 +115,82 @@ sub register {
 }
 
 sub createCustomer {
-    my ($self,$token) = @_;
-    my ($err,$json) = $self->callStripe('POST','customers',{
+    my ($self, $token) = @_;
+    my ($err, $json) = $self->callStripe('POST', 'customers', {
         source => $token->{id},
-        email => $token->{email},
-        name => $token->{name}
+        email  => $token->{email},
+        name   => $token->{name}
     });
-    if ($err){
-        die [$err];
-    }
+
+    die [ $err ] if $err;
+
     return $json;
 }
 sub createCharge {
-    my ($self,$customer,$amount,$currency) = @_;
-    my ($err,$json) = $self->callStripe('POST','charges',{
-        customer => $customer,
-        amount => $amount * 100,
-        currency => $currency,
-        description => $self->config->{subDescription}.' One Time',
+    my ($self, $customer, $amount, $currency) = @_;
+    my ($err, $json) = $self->callStripe('POST', 'charges', {
+        customer             => $customer,
+        amount               => $amount * 100,
+        currency             => $currency,
+        description          => $self->config->{subDescription}.' One Time',
         statement_descriptor => $self->config->{subDescription},
-        capture => 'true',
+        capture              => 'true',
     });
-    if ($err){
-        die [$err];
-    }
+
+    die [ $err ] if $err;
+
     return $json;
 }
 
 sub getCustomer {
-    my ($self,$id) = @_;
-    my ($err,$json) = $self->callStripe('GET','customers/'.$id);
-    if ($err){
-        die [$err];
-    }
+    my ($self, $id) = @_;
+    my ($err, $json) = $self->callStripe('GET', 'customers/'.$id);
+
+    die [ $err ] if $err;
+
     return $json;
 }
 
 sub getSubscriptions {
-    my ($self,$id) = @_;
-    my ($err,$json) = $self->callStripe('GET','subscriptions',{
+    my ($self, $id) = @_;
+    my ($err, $json) = $self->callStripe('GET', 'subscriptions', {
         customer => $id
     });
-    if ($err){
-        die [$err];
-    }
+
+    die [$err] if $err;
+
     return $json;
 }
 
 sub createSubscription {
-    my ($self,$customer,$plan,$amount) = @_;
-    if (not $self->plans->{$plan}){
-        die ["Plan $plan does not exist"];
-    }
-    my ($err,$json) = $self->callStripe('POST','subscriptions',{
-        customer => $customer,
-        'items[0][plan]' => $plan,
+    my ($self, $customer, $plan, $amount) = @_;
+    
+    die [ "Plan $plan does not exist" ] if !$self->plans->{$plan};
+
+    my ($err, $json) = $self->callStripe('POST', 'subscriptions', {
+        customer             => $customer,
+        'items[0][plan]'     => $plan,
         'items[0][quantity]' => $amount
     });
-    if ($err){
-        die [$err];
-    }
+
+    die [ $err ] if $err;
+
     return $json;
 }
 
 sub cancelSubscription {
     my $self = shift;
-    my $id = shift;
-    my ($err,$json) = $self->callStripe('DELETE','subscriptions'.'/sub_'.$id);
+    my $id   = shift;
+
+    my ($err, $json) = $self->callStripe('DELETE', 'subscriptions'.'/sub_'.$id);
+
     if ($err){
         if ($err =~ /No such subscription/i){
             return {
-                message => 'Subscription is already canceled'
+                message => 'Subscription is already canceled',
             };
         }
-        die [$err];
+        die [ $err ];
     }
     return $json;
 }
@@ -200,7 +200,7 @@ sub sendMail {
     my $recipient = shift;
     my $mail = shift;
     my $sender = $self->config->{emailFrom};
-    my $email = Email::Simple->new(<<MESSAGE_END);
+    my $email = Email::Simple->new(<<"MESSAGE_END");
 From: $sender
 To: $recipient
 $mail
@@ -222,7 +222,7 @@ sub callStripe {
     my $proc;
     if ($cb){
         Mojo::IOLoop->delay(sub {
-                $ua->start($tx,shift->begin);
+                $ua->start($tx, shift->begin);
             },
             sub {
                 $cb->($self->_tx_to_res($_[1]));
@@ -238,30 +238,30 @@ sub callStripe {
 # stolen from https://github.com/jhthorsen/mojolicious-plugin-stripepayment/blob/master/lib/Mojolicious/Plugin/StripePayment.pm
 
 sub _tx_to_res {
-  my ($self, $tx) = @_;
-  my $error = $tx->error     || {};
-  my $json  = $tx->res->json || {};
-  my $err   = '';
-  if ($error->{code} or $json->{error}) {
-    my $message = $json->{error}{message} || $json->{error}{type} || $error->{message};
-    my $type    = $json->{error}{param}   || $json->{error}{code} || $error->{code};
-    $err = sprintf '%s: %s', $type || 'Unknown', $message || 'Could not find any error message.';
-  }
+    my ($self, $tx) = @_;
+    my $error = $tx->error     || {};
+    my $json  = $tx->res->json || {};
+    my $err   = '';
+    if ($error->{code} or $json->{error}) {
+        my $message = $json->{error}{message} || $json->{error}{type} || $error->{message};
+        my $type    = $json->{error}{param}   || $json->{error}{code} || $error->{code};
+        $err = sprintf '%s: %s', $type || 'Unknown', $message || 'Could not find any error message.';
+    }
 
-  return $err, $json;
+    return $err, $json;
 }
 
 sub checkStripeSignature {
-    my ($self,$req) = @_;
+    my ($self, $req) = @_;
     my $sig = { map { split /=/ } split /\s*,\s*/, ( $req->headers->header('Stripe-Signature') // '') };
     return $sig->{v1} eq hmac_sha256_hex($sig->{t}.'.'.$req->body, $self->hookSec);
 }
 
 sub getSubKey {
-    my ($self,$sub) = @_;
-    if ($sub and $sub =~ s/^sub_//){
+    my ($self, $sub) = @_;
+    if ($sub && $sub =~ s/^sub_//){
         my $t = time;
-        return $t.'-'.$sub.'-'.hmac_sha256_hex($t.'-'.$sub,$self->mailSec);
+        return $t.'-'.$sub.'-'.hmac_sha256_hex($t.'-'.$sub, $self->mailSec);
     }
     return undef;
 }
