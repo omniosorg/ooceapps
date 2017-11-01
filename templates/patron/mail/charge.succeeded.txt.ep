@@ -5,7 +5,7 @@ Hello <%= $card->{name} %>
 
 We have successfully charged <%= $card->{brand} %> x<%= $card->{last4} %> for the amount of <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($stripeData->{data}{object}{currency}) %>.
 
-Thank you for supporting the OminOS Community Edition with your contribution.
+Thank you for supporting the OmniOS Community Edition with your contribution.
 
 cheers
 the OmniOSce Patronage Manager
