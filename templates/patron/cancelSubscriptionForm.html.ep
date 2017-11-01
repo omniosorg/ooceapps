@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>OmniOS CE Subscription Cancelation</title>
+    <title>OmniOS CE Subscription Cancellation</title>
   </head>
   <body>
-  <h1>OmniOS CE Patronage Subscription Cancelation</h1>
+  <h1>OmniOS CE Patronage Subscription Cancellation</h1>
 
   <form method="post">
       <p>By pressing this button you can cancel your support for OmniOS</p>

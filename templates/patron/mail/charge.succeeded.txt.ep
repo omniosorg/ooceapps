@@ -1,17 +1,18 @@
 % my $card = $stripeData->{data}{customer}{sources}{data}[0];
-Subject: OmniOSce Patronage Charge succeeded
+Subject: OmniOSce Patronage charge succeeded
 
 Hello <%= $card->{name} %>
 
-We have successfully charged <%= $card->{brand} %> x<%= $card->{last4} %> for the amount of <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($stripeData->{data}{object}{currency}) %>.
+We have successfully charged <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($stripeData->{data}{object}{currency}) %> to <%= $card->{brand} %> x<%= $card->{last4} %>.
 
 Thank you for supporting the OmniOS Community Edition with your contribution.
 
-cheers
-the OmniOSce Patronage Manager
+Regards
+The OmniOSce Patronage Manager
 
 % if ($stripeData->{cancelUrl}) {
 ps. You can cancel your OmniOSce Patronage at any time via <%= $stripeData->{cancelUrl} %>
+
 % }
 --
 OmniOS Community Edition Association
