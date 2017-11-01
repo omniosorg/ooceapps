@@ -1,16 +1,76 @@
-commit 76e1ea38124f2c119f9fa4f1e73e8fa4dac8b263
-Author: Tobias Oetiker <tobi@oetiker.ch>
-Date:   Mon Oct 30 11:25:45 2017 +0100
+commit f8b781720adef10d62ea747ce1c8987ae0b5f80a
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Nov 1 16:12:04 2017 +0100
 
+    patronage messages
+
+commit 506e74f7784dc0cc35b36508ad74bfbdb8c82d99
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Nov 1 15:29:38 2017 +0100
+
+    fix typo
+
+commit 837f355e52544fb559400b7bef7f185400ad9311
+Author: Dominik Hassler <hadfl@cpan.org>
+Date:   Tue Oct 31 08:54:55 2017 +0100
+
+    cleanup
+
+commit be534ac66c6b8a11121cd87ff116ed347c887b7e
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Oct 31 00:16:30 2017 +0100
+
+    omit suffix on initial release
+
+commit 46c02be66b23d19d1aec99995e8b7a23290e38d6
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Mon Oct 30 14:45:17 2017 +0100
+
+    add missing ly to plan name
+
+commit d5f3440eb723316630a908eb99d74071a242526b
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Mon Oct 30 14:35:44 2017 +0100
+
+    * add missing my $c
+    * fix submission button
+
+commit 8cc4684df875fc8e0ca632d3770a6dd69f1cea45
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Mon Oct 30 14:02:50 2017 +0100
+
+    fix spelling
+
+commit 0d50744e642b43e1680ca8b01f2a4dc72f93675c
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Mon Oct 30 13:59:57 2017 +0100
+
+    * do not crash when processing invalid email addresses
+    * require POST to cancel
+
+commit a670fe42ce31cc534993ea974b7e06b2c6cc0c57
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Mon Oct 30 12:29:24 2017 +0100
+
+    Production fixes (#1)
+    
+    production fixes
     uppercase currency
     flip plan nameing
     handle only integer amounts
+    better wording
 
-commit d3bc52930f8e601feda9d1791567713425ea482b
-Author: Tobias Oetiker <tobi@oetiker.ch>
-Date:   Mon Oct 30 09:54:47 2017 +0100
+commit f4281edf692841f44bb897fbfea1d683cb9b7b58
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Oct 30 09:25:17 2017 +0100
 
-    production fixes
+    add OmniOSce logo to README
+
+commit a3c3457cb72c7a75686e665132fee9138e9a2c70
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Oct 30 09:06:05 2017 +0100
+
+    ready for 0.2.0
 
 commit e6d054b3d1e47b682a4f49de911717e696b5eb33
 Author: Tobias Oetiker <tobi@oetiker.ch>
