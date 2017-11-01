@@ -1,18 +1,16 @@
 % my $card = $stripeData->{data}{customer}{sources}{data}[0];
-Subject: OmniOSce Patronage Upcoming Payment
+Subject: OmniOSce Patronage upcoming payment
 
 Hello <%= $card->{name} %>
 
-We are going to charge <%= $card->{brand} %> x<%= $card->{last4} %>
-for the amount of <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($stripeData->{data}{object}{currency}) %>
-in the next few days.
+We are going to charge <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($stripeData->{data}{object}{currency}) %> to <%= $card->{brand} %> x<%= $card->{last4} %> in the next few days.
 
-Thank you for begin a patron to OmniOCec.
+Thank you for being an OmniOSce Patron.
 
 You can cancel your OmniOSce Patronage at any time via <%= $stripeData->{cancelUrl} %>
 
-cheers
-the OmniOSce Patronage Manager
+Regards
+The OmniOSce Patronage Manager
 
 --
 OmniOS Community Edition Association
