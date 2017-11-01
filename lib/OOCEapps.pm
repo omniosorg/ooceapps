@@ -19,14 +19,18 @@ my %loaded;
 has model => sub {
     my %map;
     my $app = shift;
+
     for my $path (@INC){
         my @mDirs = split /::/, $MODULES;
         my $fPath = File::Spec->catdir($path, @mDirs, '*.pm');
+
         for my $file (sort glob($fPath)) {
             my ($volume, $modulePath, $moduleName) = File::Spec->splitpath($file);
             $moduleName =~ s/\.pm$//;
+
             next if $moduleName eq 'base';
-            next if $ENV{OOCEAPP_SINGLE_MODULE} and $moduleName ne  $ENV{OOCEAPP_SINGLE_MODULE};
+            next if $ENV{OOCEAPP_SINGLE_MODULE} && $moduleName ne $ENV{OOCEAPP_SINGLE_MODULE};
+
             my $module = do {
                 my $mod = $MODULES . '::' . $moduleName;
                 if (not $loaded{$mod}){

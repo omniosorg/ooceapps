@@ -7,6 +7,7 @@ use OOCEapps::Mattermost;
 has module  => sub { ref shift };
 has name    => sub { lc ((split /::/, shift->module)[-1]) };
 has config  => sub { my $self = shift; $self->app->config->{MODULES}->{$self->name} };
+has model   => sub { my $self = shift; $self->app->model->{$self->name} };
 
 sub process {
     shift->render(json => OOCEapps::Mattermost->error('process not implemented...'));
