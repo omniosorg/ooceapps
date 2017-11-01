@@ -44,7 +44,7 @@ has model => sub {
             $module && do {
                 $app->schema->{MODULES}->{members}->{$module->name}
                     = $module->schema;
-                $map{$moduleName} = $module;
+                $map{$module->name} = $module;
             };
         }
     }
