@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>OmniOS CE Subscription Cancelled</title>
+    <title>OmniOSce Subscription Cancelled</title>
   </head>
   <body>
 % if (ref $stripeData and $stripeData->{message}){
   <p><%= $stripeData->{message} %></p>
 % } else {
-  <h1>OmniOS CE Patronage Subscription Cancelled</h1>
+  <h1>OmniOSce Subscription Cancelled</h1>
 
   <p>As requested, we have cancelled your subscription to support OmniOS Community Edition.</p>
 % }

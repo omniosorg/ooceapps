@@ -13,11 +13,11 @@
         "patron" : {
             "keyPath"        : "./stripe.keys",
             "cancelUrl"      : "https://app.omniosce.org/patron/cancel",
-            "emailFrom"      : "patronage@omniosce.org",
-            "emailBcc"       : "patronage@omniosce.org",
+            "emailFrom"      : "patrons@omniosce.org",
+            "emailBcc"       : "patrons@omniosce.org",
             "subCurrencies"  : [ "chf", "usd", "gbp", "eur" ],
             "subIntervals"   : [ "week", "month", "year" ],
-            "subDescription" : "OmniOSce Patronage"
+            "subDescription" : "OmniOSce Patron"
         }
     }
 }

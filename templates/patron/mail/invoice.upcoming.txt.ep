@@ -1,5 +1,5 @@
 % my $card = $stripeData->{data}{customer}{sources}{data}[0];
-Subject: OmniOSce Patronage upcoming payment
+Subject: OmniOSce subscription upcoming payment
 
 Hello <%= $card->{name} %>
 
@@ -7,12 +7,12 @@ We are going to charge <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($st
 
 Thank you for being an OmniOSce Patron.
 
-You can cancel your OmniOSce Patronage at any time via <%= $stripeData->{cancelUrl} %>
+You can cancel your OmniOSce subscription at any time via <%= $stripeData->{cancelUrl} %>
 
 Regards
-The OmniOSce Patronage Manager
+The OmniOSce Team
 
 --
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
-patronage@omniosce.org
+patrons@omniosce.org

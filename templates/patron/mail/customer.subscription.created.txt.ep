@@ -1,6 +1,6 @@
 % use POSIX qw(strftime);
 % my $card = $stripeData->{data}{customer}{sources}{data}[0];
-Subject: OmniOSce Patronage subscription created
+Subject: OmniOSce subscription created
 
 Hello <%= $card->{name} %>
 
@@ -9,11 +9,11 @@ Thank you for becoming an OmniOSce Patron!
 You chose the following subscription: <%= $stripeData->{data}{object}{quantity} * $stripeData->{data}{object}{plan}{amount}/100 %> <%= $stripeData->{data}{object}{plan}{name} %>. The subscription will be charged to <%= $card->{brand} %> x<%= $card->{last4} %>.
 
 Regards
-The OmniOSce Patronage Manager
+The OmniOSce Team
 
-ps. You can cancel your OmniOSce Patronage at any time via <%= $stripeData->{cancelUrl} %>
+ps. You can cancel your OmniOSce subscription at any time via <%= $stripeData->{cancelUrl} %>
 
 --
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
-patronage@omniosce.org
+patrons@omniosce.org
