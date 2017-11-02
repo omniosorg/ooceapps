@@ -1,3 +1,21 @@
+commit 19bf3340aafccf7071194c48a4c8fb36bf719e16
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Nov 2 16:24:03 2017 +0100
+
+    rewording
+
+commit 32079dc5875fcec063ef662bb203135935a199d2
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Nov 1 17:23:33 2017 +0100
+
+    fix regression (module name)
+
+commit 7fdb95ad1e1e07fdebda9f6e1ca51f0ce1ccfd53
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Nov 1 16:43:05 2017 +0100
+
+    ready for 0.2.1
+
 commit f8b781720adef10d62ea747ce1c8987ae0b5f80a
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Wed Nov 1 16:12:04 2017 +0100
