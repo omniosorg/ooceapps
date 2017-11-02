@@ -1,18 +1,18 @@
 % my $card = $stripeData->{data}{customer}{sources}{data}[0];
-Subject: OmniOSce Patronage charge failed
+Subject: OmniOSce donation collection failed
 
 Hello <%= $card->{name} %>
 
 We just failed to charge <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($stripeData->{data}{object}{currency}) %> to <%= $card->{brand} %> x<%= $card->{last4} %>.
 
 Regards
-The OmniOSce Patronage Manager
+The OmniOSce Team
 
 % if ($stripeData->{cancelUrl}) {
-ps. You can cancel your OmniOSce Patronage at any time via <%= $stripeData->{cancelUrl} %>
+ps. You can cancel your OmniOSce subscription at any time via <%= $stripeData->{cancelUrl} %>
 
 % }
 --
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
-patronage@omniosce.org
+patrons@omniosce.org

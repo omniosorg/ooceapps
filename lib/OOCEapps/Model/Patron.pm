@@ -22,27 +22,27 @@ has schema  => sub {
             },
             'cancelUrl' => {
                 description => 'url prefix for cancelation requests',
-                example     => 'https://apps.omniosce.org/patron/cancle',
+                example     => 'https://apps.omniosce.org/patron/cancel',
             },
             'emailFrom' => {
                 description => 'email sender address',
-                example     => 'patronage@omniosce.org',
+                example     => 'patrons@omniosce.org',
             },
             'emailBcc' => {
                 description => 'email bcc address',
-                example     => 'patronage@omniosce.org',
+                example     => 'patrons@omniosce.org',
             },
             'subCurrencies' => {
                 description => 'list of currencies',
-                example     => '["chf","usd","gbp"]',
+                example     => '[ "chf", "usd", "gbp" ]',
             },
             'subIntervals' => {
                 description => 'list of subscription intervals',
-                example     => '["week","month","year"]',
+                example     => '[ "week", "month", "year" ]',
             },
             'subDescription' => {
                 description => 'statement descriptor',
-                example     => 'Weekly OmniOSce Pat.',
+                example     => 'OmniOSce Patron',
             }
         },
     }

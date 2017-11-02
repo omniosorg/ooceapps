@@ -1,6 +1,6 @@
 % use POSIX qw(strftime);
 % my $card = $stripeData->{data}{customer}{sources}{data}[0];
-Subject: OmniOSce Patronage subscription cancelled
+Subject: OmniOSce subscription cancelled
 
 Hello <%= $card->{name} %>
 
@@ -11,9 +11,9 @@ Thank you for supporting OmniOSce since <%= strftime('%Y-%m-%d', localtime($stri
     https://www.omniosce.org/patron
 
 Regards
-The OmniOSce Patronage Manager
+The OmniOSce Team
 
 --
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
-patronage@omniosce.org
+patrons@omniosce.org
