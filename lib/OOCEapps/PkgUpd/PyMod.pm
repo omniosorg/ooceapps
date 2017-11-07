@@ -19,6 +19,8 @@ sub getVersions {
     $name =~ s/-27$//;
 
     $name = $self->extractName($name);
+    # enum is a backport from python3
+    $name .= '34' if $name eq 'enum';
     return [
         map { /(?:$name[-\/]((?:\d+[-.]){1,3}\d+)\.(?:tar\.(?:gz|xz|bz2)|xml)|lxml\s+((?:\d+\.){1,2}\d+))/i ? $1 // $2 : () }
             $res->dom->find('a')->each
