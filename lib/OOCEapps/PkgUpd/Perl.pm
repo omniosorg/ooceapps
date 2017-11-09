@@ -1,7 +1,7 @@
 package OOCEapps::PkgUpd::Perl;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
-my $PERLVER = '5.24';
+my $PERLVER = '5.26';
 
 # public methods
 sub canParse {
