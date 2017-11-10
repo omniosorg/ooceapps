@@ -9,7 +9,7 @@ Version: 0.2.2
 
 Date: 2017-11-02
 
-Mattermost integrations for OmniOS Community Edition (OmniOSce) Association.
+Web integrations for OmniOS Community Edition (OmniOSce) Association.
 
 Setup
 -----
@@ -21,7 +21,7 @@ Get a copy of `ooceapps` from https://github.com/omniosorg/ooceapps/releases
 and unpack it into your scratch directory and cd there.
 
     ./configure --prefix=$HOME/opt/ooceapps
-    make
+    gmake
 
 Configure will check if all requirements are met and give
 hints on how to fix the situation if something is missing.
@@ -31,7 +31,7 @@ directory. Your system perl will NOT be affected by this.
 
 To install the application, just run
 
-    make install
+    gmake install
 
 Configuration
 -------------
