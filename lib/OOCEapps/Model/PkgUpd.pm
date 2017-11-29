@@ -25,7 +25,7 @@ has schema  => sub {
 sub refreshParser {
     my $self = shift;
 
-    my $packages = OOCEapps::Controller::PkgUpd::getPkgList($self->config->{pkglist_url});
+    my $packages = OOCEapps::Controller::PkgUpd::getPkgList($self, $self->config->{pkglist_url});
     my $modules  = OOCEapps::Utils::loadModules($MODULES);
 
     PKG: for my $pkg (keys %$packages) {

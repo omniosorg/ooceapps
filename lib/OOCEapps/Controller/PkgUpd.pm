@@ -1,11 +1,7 @@
 package OOCEapps::Controller::PkgUpd;
 use Mojo::Base 'OOCEapps::Controller::base';
 
-use Mojo::UserAgent;
 use Sort::Versions;
-
-# shared UserAgent
-my $ua = Mojo::UserAgent->new;
 
 #private methods
 my $getPkgAvailVer = sub {
@@ -21,7 +17,7 @@ my $getPkgAvailVer = sub {
     $self->delay(
         sub {
             my $delay = shift;
-            $ua->max_redirects(5) #->connect_timeout(10)->request_timeout(10)
+            $self->ua->max_redirects(5) #->connect_timeout(10)->request_timeout(10)
                 ->get($pkgList->{$_}->{url} => $delay->begin) for @pkgs;
         },
         sub {
@@ -59,9 +55,10 @@ my $getPkgAvailVer = sub {
 
 # static method
 sub getPkgList {
-    my $url = shift;
+    my $self = shift;
+    my $url  = shift;
 
-    my $tx = $ua->get($url);
+    my $tx = $self->ua->get($url);
     return {} if !$tx->success;
     
     my %pkgs;
@@ -82,7 +79,7 @@ sub getPkgList {
 sub process {
     my $c = shift;
     
-    my $pkgList = getPkgList($c->config->{pkglist_url});
+    my $pkgList = $c->getPkgList($c->config->{pkglist_url});
 
     keys %$pkgList or do {
         $c->render(json => OOCEapps::Mattermost->error('could not get package list'));

@@ -5,7 +5,6 @@ use POSIX qw(SIGTERM);
 use Time::Piece;
 use Geo::IP;
 use Mojo::JSON qw(encode_json);
-use Mojo::UserAgent;
 use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
 use OOCEapps::Utils;
 
@@ -101,8 +100,7 @@ my $updateGeoIP;
 $updateGeoIP = sub {
     my $self = shift;
 
-    my $ua = Mojo::UserAgent->new;
-    my $res = $ua->get($self->config->{geoip_url})->result;
+    my $res = $self->ua->get($self->config->{geoip_url})->result;
     die "ERROR: downloading GeoIP database from '$self->config->{geoip_url}'\n"
         if !$res->is_success;
 
