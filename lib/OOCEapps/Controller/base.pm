@@ -14,6 +14,13 @@ sub process {
     shift->render(json => OOCEapps::Mattermost->error('process not implemented...'));
 }
 
+sub checkToken {
+    my $c = shift;
+
+    $c->config->{token} && $c->config->{token} ne $c->param('token')
+        && $c->render(text => 'Unauthorised', status => 401);
+}
+
 1;
 
 __END__

@@ -78,7 +78,9 @@ sub getPkgList {
 
 sub process {
     my $c = shift;
-    
+
+    $c->checkToken;
+
     my $pkgList = $c->getPkgList($c->config->{pkglist_url});
 
     keys %$pkgList or do {

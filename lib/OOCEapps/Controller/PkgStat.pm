@@ -72,6 +72,7 @@ sub process {
     my $c = shift;
     my $p = $c->param('text');
 
+    $c->checkToken;
     $c->render(json => $c->$getPkgStat($p));
 }
 

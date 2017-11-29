@@ -24,6 +24,12 @@ has schema  => sub {
             example     => 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz',
             validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
         },
+        token     => {
+            optional    => 1,
+            description => 'Mattermost token',
+            example     => 'abcd1234',
+            validator   => $sv->regexp(qr/^\w+$/, 'expected an alphanumeric string'),
+        },
     },
     }
 };

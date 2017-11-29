@@ -18,6 +18,12 @@ has schema  => sub {
             example     => 'https://raw.githubusercontent.com/omniosorg/omnios-build/master/doc/packages.md',
             validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
         },
+        token       => {
+            optional    => 1,
+            description => 'Mattermost token',
+            example     => 'abcd1234',
+            validator   => $sv->regexp(qr/^\w+$/, 'expected an alphanumeric string'),
+        },
     },
     }
 };
