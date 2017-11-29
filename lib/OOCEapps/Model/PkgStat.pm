@@ -39,12 +39,12 @@ my $parseFiles = sub {
         open my $fh, '<', $logfile or die "ERROR: opening file '$logfile': $!\n";
 
         while (my $line = <$fh>) {
-            my ($ip, $ts) = $line =~ /^((?:\d{1,3}\.){3}\d{1,3})[^\[]+\[([^\]]+)\].*sunos i86pc/ or next;
+            my ($ip, $ts, $rel) = $line =~ /^((?:\d{1,3}\.){3}\d{1,3})[^\[]+\[([^\]]+)\][^\/]+\/([^\/]+).*sunos i86pc/ or next;
 
             # get how many days the entry is past
             my $days = int(($epoch - Time::Piece->strptime($ts, '%d/%b/%Y:%H:%M:%S %z')->epoch) / (24 * 3600)) + 1;
 
-            $data->{$days}->{$ip}++;
+            $data->{$_}->{$days}->{$ip}++ for ($rel, 'total');
         }
 
         close $fh;
@@ -54,14 +54,16 @@ my $parseFiles = sub {
     my $db = {};
     my %ipTbl;
 
-    for my $day (sort { $a <=> $b } keys %$data) {
-        for my $ip (keys %{$data->{$day}}) {
-            my $country = $gip->country_name_by_addr($ip);
+    for my $rel (keys %$data) {
+        for my $day (sort { $a <=> $b } keys %{$data->{$rel}}) {
+            for my $ip (keys %{$data->{$rel}->{$day}}) {
+                my $country = $gip->country_name_by_addr($ip);
 
-            $db->{$day}->{$country}->{unique}++ if !exists $ipTbl{$ip};
-            $db->{$day}->{$country}->{total} += $data->{$day}->{$ip};
+                $db->{$rel}->{$day}->{$country}->{unique}++ if !exists $ipTbl{$rel}->{$ip};
+                $db->{$rel}->{$day}->{$country}->{total} += $data->{$rel}->{$day}->{$ip};
 
-            $ipTbl{$ip} = undef;
+                $ipTbl{$rel}->{$ip} = undef;
+            }
         }
     }
 
