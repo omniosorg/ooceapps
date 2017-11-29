@@ -3,7 +3,7 @@ use Mojo::Base 'OOCEapps::Model::base';
 
 use POSIX qw(SIGTERM);
 use Time::Piece;
-use Geo::IP::PurePerl;
+use Geo::IP;
 use Mojo::JSON qw(encode_json);
 use Mojo::UserAgent;
 use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
@@ -50,7 +50,7 @@ my $parseFiles = sub {
         close $fh;
     }
 
-    my $gip = Geo::IP::PurePerl->new($self->config->{geoipDB}, GEOIP_MEMORY_CACHE);
+    my $gip = Geo::IP->open($self->config->{geoipDB}, GEOIP_MEMORY_CACHE);
     my $db = {};
     my %ipTbl;
 

@@ -1,7 +1,7 @@
 Mojolicious
 IO::Socket::SSL
 Mozilla::CA
-Geo::IP::PurePerl
+Geo::IP
 Data::Processor
 Sort::Versions
 Email::Sender
