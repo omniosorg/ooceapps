@@ -1,3 +1,63 @@
+commit 59bfb0eba5e318285d892cf1ceba1a15ea650f43
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Nov 30 11:12:33 2017 +0100
+
+    move common method to model
+
+commit cd587cef2ec6e670be67c7209f24de52bdc048cc
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Nov 29 20:44:21 2017 +0100
+
+    support for mattermost token added
+
+commit 952e07408626923e11cd3fb5caae16f5d465ba0d
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Nov 29 20:18:47 2017 +0100
+
+    reuse user agent
+
+commit ae762867ced59289244ad59446cc4241e7777a46
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Nov 29 19:51:42 2017 +0100
+
+    Geo::IP::PurePerl is deprecated
+
+commit 2f561e238a788adcbbdaa918d4319add2bff873a
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Nov 29 19:25:12 2017 +0100
+
+    pkgstat now supports per release statistics
+
+commit 6661ddd7725f7c48e99e0a7823be35ed8f4f8c76
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Nov 10 22:17:14 2017 +0100
+
+    rewording
+
+commit 2a4ddd4e1235e6dba911e5f90aba5dc4e05a3583
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Nov 10 15:48:28 2017 +0100
+
+    also test perl 5.26
+
+commit 18db597c4a27528381e000e4c52fad86e72f98de
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Nov 10 00:13:05 2017 +0100
+
+    updated perl to 5.26.x
+
+commit 98553d1f385dae618fd3ae4ea335998b3a33058f
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Nov 8 00:43:47 2017 +0100
+
+    fix parser for enum (python3 backport)
+
+commit 23299378f97b205ae7bbf469be839c5f31cc1a6a
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Nov 2 17:31:36 2017 +0100
+
+    ready for 0.2.2
+
 commit 19bf3340aafccf7071194c48a4c8fb36bf719e16
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Thu Nov 2 16:24:03 2017 +0100
