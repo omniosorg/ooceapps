@@ -31,7 +31,7 @@ has schema  => sub {
 sub refreshParser {
     my $self = shift;
 
-    my $packages = OOCEapps::Controller::PkgUpd::getPkgList($self, $self->config->{pkglist_url});
+    my $packages = $self->getPkgList;
     my $modules  = OOCEapps::Utils::loadModules($MODULES);
 
     PKG: for my $pkg (keys %$packages) {
@@ -44,6 +44,27 @@ sub refreshParser {
     }
     # default parser
     $self->config->{parser}->{DEFAULT} = OOCEapps::PkgUpd::base->new;
+}
+
+sub getPkgList {
+    my $self = shift;
+
+    my $tx = $self->ua->get($self->config->{pkglist_url});
+    return {} if !$tx->success;
+
+    my %pkgs;
+
+    for (split /[\r\n]+/, $tx->result->body) {
+        my ($name, $version, $url, $notes)
+            = /^\s*\|\s*(\S+)\s*\|\s*(\d\S+)\s*\|\s*(\S+)(?:\s*\|\s*(.*))?/ or next;
+
+        $pkgs{$name} = {
+            version => $version,
+            url     => $url,
+            notes   => $notes // '',
+        };
+    }
+    return \%pkgs;
 }
 
 sub register {

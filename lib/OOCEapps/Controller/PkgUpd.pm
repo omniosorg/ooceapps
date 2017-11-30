@@ -53,35 +53,12 @@ my $getPkgAvailVer = sub {
     );
 };
 
-# static method
-sub getPkgList {
-    my $self = shift;
-    my $url  = shift;
-
-    my $tx = $self->ua->get($url);
-    return {} if !$tx->success;
-    
-    my %pkgs;
-
-    for (split /[\r\n]+/, $tx->result->body) {
-        my ($name, $version, $url, $notes)
-            = /^\s*\|\s*(\S+)\s*\|\s*(\d\S+)\s*\|\s*(\S+)(?:\s*\|\s*(.*))?/ or next;
-
-        $pkgs{$name} = {
-            version => $version,
-            url     => $url,
-            notes   => $notes // '',
-        };
-    }
-    return \%pkgs;
-}
-
 sub process {
     my $c = shift;
 
     $c->checkToken;
 
-    my $pkgList = $c->getPkgList($c->config->{pkglist_url});
+    my $pkgList = $c->model->getPkgList;
 
     keys %$pkgList or do {
         $c->render(json => OOCEapps::Mattermost->error('could not get package list'));
