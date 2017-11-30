@@ -15,6 +15,12 @@ has schema  => sub {
             example     => '2017-05-22',
             validator   => $sv->regexp(qr/\d{4}-\d{1,2}-\d{1,2}/, 'not a valid ISO date'),
         },
+        token       => {
+            optional    => 1,
+            description => 'Mattermost token',
+            example     => 'abcd1234',
+            validator   => $sv->regexp(qr/^\w+$/, 'expected an alphanumeric string'),
+        },
     },
     }
 };

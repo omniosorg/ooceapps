@@ -11,13 +11,21 @@ my $formatNumber = sub { scalar reverse join ',', unpack '(A3)*', reverse shift 
 
 my $getPkgStat = sub {
     my $self = shift;
-    my $days = shift // '0';
+    my $args = shift // '';
 
-    return OOCEapps::Mattermost->error("input for days '$days' is not numeric.")
-        if $days !~ /^\d+$/;
+    # set defaults
+    my $days = 0;
+    my $rel  = 'total';
+    for (split /\s+/, $args) {
+        /^\d+$/ && do {
+            $days = $_;
+            next;
+        };
+        $rel = $_;
+    }
 
     my @data;
-    push @data, "### IPS repo stats for the last $days days:" if $days;
+    push @data, "### $rel IPS stats" . ($days ? " for the last $days day(s):" : ':');
     push @data, [ 'Country', 'Unique IP', 'Access Count' ];
     push @data, [ qw(:--- ---: ---:) ];
 
@@ -31,12 +39,15 @@ my $getPkgStat = sub {
     my $DB = decode_json do { local $/; <$fh> };
     close $fh;
 
+    exists $DB->{$rel}
+        or return OOCEapps::Mattermost->error("No data for release '$rel'.");
+
     my %db;
-    for my $day (keys %$DB) {
+    for my $day (keys %{$DB->{$rel}}) {
         next if $days && $day > $days;
 
-        for my $country (keys %{$DB->{$day}}) {
-            $db{$country}->{$_} += $DB->{$day}->{$country}->{$_} // 0 for qw(unique total);
+        for my $country (keys %{$DB->{$rel}->{$day}}) {
+            $db{$country}->{$_} += $DB->{$rel}->{$day}->{$country}->{$_} // 0 for qw(unique total);
         }
     }
 
@@ -59,9 +70,10 @@ my $getPkgStat = sub {
 
 sub process {
     my $c = shift;
-    my $t = $c->param('text') || '0';
+    my $p = $c->param('text');
 
-    $c->render(json => $c->$getPkgStat($t));
+    $c->checkToken;
+    $c->render(json => $c->$getPkgStat($p));
 }
 
 1;

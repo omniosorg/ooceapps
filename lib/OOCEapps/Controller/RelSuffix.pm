@@ -56,8 +56,9 @@ my $getRelSuffixes = sub {
 
 sub process {
     my $c = shift;
-    my $t = $c->param('text') || '0';
+    my $t = $c->param('text');
 
+    $c->checkToken;
     $c->render(json => $c->$getRelSuffixes($t));
 }
 
