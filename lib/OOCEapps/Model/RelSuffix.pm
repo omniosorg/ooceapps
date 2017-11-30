@@ -9,7 +9,7 @@ has schema  => sub {
 
     return {
     members => {
-        'r1510\d\d' => {
+        '^r1510\d\d$' => {
             regex       => 1,
             description => 'release date',
             example     => '2017-05-22',

@@ -28,7 +28,7 @@ my $getRelease = sub {
 
 my $getRelSuffixes = sub {
     my $self = shift;
-    my $t    = shift // '0';
+    my $t    = shift || '0';
 
     my $date;
     if ($t =~ /^\d{4}-\d{1,2}-\d{1,2}$/) {
@@ -42,7 +42,7 @@ my $getRelSuffixes = sub {
     }
     $date = $getW_C->($date);
 
-    my @releases = sort keys %{$self->config};
+    my @releases = sort grep { /^r1510\d\d$/ } keys %{$self->config};
 
     my @data;
     push @data, [ 'w/c', @releases ];
