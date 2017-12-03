@@ -5,3 +5,4 @@ Geo::IP
 Data::Processor
 Sort::Versions
 Email::Sender
+LaTeX::Encode

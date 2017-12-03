@@ -11,7 +11,7 @@ use Mojo::Home;
 
 # constants
 my $MODULES = __PACKAGE__ . '::Model';
-my $CONFFILE = $ENV{OOCEAPP_CONF} || Mojo::Home->new->rel_file("../etc/ooceapps.conf")->to_string; # CONFFILE
+my $CONFFILE = $ENV{OOCEAPP_CONF} || Mojo::Home->new->rel_file("etc/ooceapps.conf")->to_string; # CONFFILE
 my $DATADIR = "$FindBin::RealBin/../var"; # DATADIR
 
 # attributes

@@ -1,0 +1,57 @@
+% use POSIX qw(strftime);
+% use LaTeX::Encode ':all', add => { "\n" => '\\newline{}' };
+\nonstopmode
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2cm,top=1.5cm,bottom=1.5cm]{geometry}
+\usepackage{color}
+\usepackage{fontspec}
+\usepackage{textcomp}
+\setmainfont{Roboto}[
+    Path = <%= $AssetPath %>/,
+    Extension = .ttf,
+    UprightFont = *-Regular,
+    BoldFont = *-Bold,
+    BoldItalicFont = *-BoldItalic,
+    ItalicFont = *-Italic
+]
+\usepackage{graphicx}
+\usepackage{calc}
+\pagestyle{empty}
+\setlength{\unitlength}{1mm}
+\setlength{\parindent}{0ex}
+\setlength{\parskip}{2ex plus 0.5ex minus 0.2ex}
+\begin{document}
+\vspace*{-6ex}
+\hspace*{\stretch{1}}\includegraphics[width=3cm]{<%= $AssetPath %>/logo.pdf}
+
+OmniOS Community Edition\newline
+Aarweg 17\newline
+4600 Olten\newline
+patrons@omniosce.org
+
+\hspace*{\stretch{1}}\begin{minipage}{0.4\textwidth}
+<%= latex_encode $Address %>
+\end{minipage}
+
+\vspace{4ex}
+<%= strftime "Olten, %m %B %Y", localtime %>
+
+\vspace{3ex}
+\textbf{Invoice <%= $InvoiceId %>}
+
+\vspace{5ex}
+\begin{minipage}{0.6\textwidth}
+<%= latex_encode $Product %>
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\textbf{<%= $Price %>\,<%= $Currency %>}
+\end{minipage}
+
+\vspace{\stretch{1}}
+Please send your payment to:
+
+OmniOS Community Edition\newline
+IBAN CH22 0900 0000 6188 9767 7, BIC POFICHBEXX\newline
+Bank: PostFinance Ltd, Mingerstrasse 20, 3030 Bern, Switzerland
+
+\end{document}
