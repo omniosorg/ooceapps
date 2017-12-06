@@ -3,7 +3,7 @@ Subject: OmniOSce subscription upcoming payment
 
 Hello <%= $card->{name} %>
 
-We are going to charge <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($stripeData->{data}{object}{currency}) %> to <%= $card->{brand} %> x<%= $card->{last4} %> in the next few days.
+We are going to charge <%= $stripeData->{data}{object}{amount_due}/100 %> <%= uc($stripeData->{data}{object}{currency}) %> to <%= $card->{brand} %> x<%= $card->{last4} %> in the next few days.
 
 Thank you for being an OmniOSce Patron.
 
