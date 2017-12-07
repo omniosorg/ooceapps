@@ -48,6 +48,8 @@ my $getPkgAvailVer = sub {
                     $pkgList->{$pkg}->{notes} ]
                     if versioncmp($pkgList->{$pkg}->{version}, $latest); 
             }
+            push @data, '---';
+
             $self->render(json => OOCEapps::Mattermost->table(\@data));
         }
     );
