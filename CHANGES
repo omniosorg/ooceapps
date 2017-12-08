@@ -1,3 +1,39 @@
+commit b7d517448a7d77efe2464f7f049a1e699c85b1ee
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Dec 8 17:04:05 2017 +0100
+
+    include unique IPS images to statistics
+
+commit ac82b0d30e0786e95b2fa9e0510c48f3f46c0ec0
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Dec 7 18:48:46 2017 +0100
+
+    add line to PkgUpd output
+
+commit 69602b10bfb5f070667274cd1ed4b60d73c1e753
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Wed Dec 6 08:56:10 2017 +0100
+
+    it seems the amount for the upcoming invoice is stored in 'amount_due' and not in 'amount'
+
+commit e286201c03e1ece1a4b408929e3d66f30373e6c1
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Dec 4 13:10:41 2017 +0100
+
+    parser for new packages added
+
+commit ea2c614075b560ef796abad420eace645ab60e58
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Nov 30 16:55:18 2017 +0100
+
+    fix regression due to token
+
+commit fca02572654351b2296ece7b43edfa7a96b0c42d
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Nov 30 15:26:44 2017 +0100
+
+    ready for 0.2.3
+
 commit 59bfb0eba5e318285d892cf1ceba1a15ea650f43
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Thu Nov 30 11:12:33 2017 +0100
