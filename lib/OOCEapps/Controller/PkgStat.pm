@@ -11,7 +11,7 @@ my $formatNumber = sub { scalar reverse join ',', unpack '(A3)*', reverse shift 
 
 my $getPkgStat = sub {
     my $self = shift;
-    my $args = shift // '';
+    my $args = shift;
 
     # set defaults
     my $days = 0;
@@ -26,11 +26,12 @@ my $getPkgStat = sub {
 
     my @data;
     push @data, "### $rel IPS stats" . ($days ? " for the last $days day(s):" : ':');
-    push @data, [ 'Country', 'Unique IP', 'Access Count' ];
-    push @data, [ qw(:--- ---: ---:) ];
+    push @data, [ 'Country', 'Unique IPS images', 'Unique IP', 'Access Count' ];
+    push @data, [ qw(:--- ---: ---: ---:) ];
 
-    my $ips = 0;
-    my $acc = 0;
+    my $uuids = 0;
+    my $ips   = 0;
+    my $acc   = 0;
 
     # load db
     open my $fh, '<', $self->pkgDB
@@ -47,22 +48,24 @@ my $getPkgStat = sub {
         next if $days && $day > $days;
 
         for my $country (keys %{$DB->{$rel}->{$day}}) {
-            $db{$country}->{$_} += $DB->{$rel}->{$day}->{$country}->{$_} // 0 for qw(unique total);
+            $db{$country}->{$_} += $DB->{$rel}->{$day}->{$country}->{$_} // 0 for qw(uuids unique total);
         }
     }
 
-    for my $country (sort { $db{$b}->{unique} <=> $db{$a}->{unique}
+    for my $country (sort { $db{$b}->{uuids} <=> $db{$a}->{uuids}
+        || $db{$b}->{unique} <=> $db{$a}->{unique}
         || $db{$b}->{total} <=> $db{$a}->{total} } keys %db) {
 
-        $ips += $db{$country}->{unique};
-        $acc += $db{$country}->{total};
+        $uuids += $db{$country}->{uuids};
+        $ips   += $db{$country}->{unique};
+        $acc   += $db{$country}->{total};
 
-        push @data, [ $country, $formatNumber->($db{$country}->{unique}),
-            $formatNumber->($db{$country}->{total}) ];
+        push @data, [ $country, $formatNumber->($db{$country}->{uuids}),
+            $formatNumber->($db{$country}->{unique}), $formatNumber->($db{$country}->{total}) ];
     }
 
-    push @data, [ '**Total**', '**' . $formatNumber->($ips) . '**',
-        '**' . $formatNumber->($acc) . '**' ];
+    push @data, [ '**Total**',  '**' . $formatNumber->($uuids) . '**',
+        '**' . $formatNumber->($ips) . '**', '**' . $formatNumber->($acc) . '**' ];
     push @data, '---';
 
     return OOCEapps::Mattermost->table(\@data);
