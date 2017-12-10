@@ -44,7 +44,7 @@ my $parseFiles = sub {
         open my $fh, '<', $logfile or die "ERROR: opening file '$logfile': $!\n";
 
         while (my $line = <$fh>) {
-            my ($ip, $ts, $rel, $uuid) # TODO: make uuid optional for now as we just started logging, can be removed in March 2018
+            my ($ip, $ts, $rel, $uuid) # keep uuid optional
                 = $line =~ m|^((?:\d{1,3}\.){3}\d{1,3})[^\[]+\[([^\]]+)\][^/]+/([^/]+).*"pkg/[^"]+"\s+(\S*)| or next;
 
             # get how many days the entry is past
@@ -59,7 +59,6 @@ my $parseFiles = sub {
 
     my $gip = Geo::IP->open($self->config->{geoipDB}, GEOIP_MEMORY_CACHE);
     my $db = {};
-    my %ipTbl;
     my %uuidTbl;
 
     for my $rel (keys %$data) {
@@ -67,15 +66,18 @@ my $parseFiles = sub {
             for my $ip (keys %{$data->{$rel}->{$day}}) {
                 my $country = $gip->country_name_by_addr($ip);
 
-                $db->{$rel}->{$day}->{$country}->{unique}++ if !exists $ipTbl{$rel}->{$ip};
-                $db->{$rel}->{$day}->{$country}->{total} += $data->{$rel}->{$day}->{$ip}->{count};
+                $db->{$rel}->{$day}->{$country}->{unique}++
+                    if !exists $uuidTbl{$rel}->{$ip};
+                $db->{$rel}->{$day}->{$country}->{total}
+                    += $data->{$rel}->{$day}->{$ip}->{count};
 
                 for my $uuid (keys %{$data->{$rel}->{$day}->{$ip}->{uuids}}) {
-                    $db->{$rel}->{$day}->{$country}->{uuids}++ if !exists $uuidTbl{$rel}->{$uuid};
-                    $uuidTbl{$rel}->{$uuid} = undef;
+                    $db->{$rel}->{$day}->{$country}->{uuids}++
+                        if !exists $uuidTbl{$rel}->{$ip}->{$uuid};
+                    $uuidTbl{$rel}->{$ip}->{$uuid} = undef;
                 }
 
-                $ipTbl{$rel}->{$ip} = undef;
+                $uuidTbl{$rel}->{$ip} = {} if !exists $uuidTbl{$rel}->{$ip};
             }
         }
     }
