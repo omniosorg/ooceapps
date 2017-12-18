@@ -6,6 +6,7 @@ use Time::Piece;
 use Geo::IP;
 use Mojo::JSON qw(encode_json);
 use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
+use File::Temp;
 use OOCEapps::Utils;
 
 # attributes
@@ -35,6 +36,27 @@ has schema  => sub {
 };
 
 #private methods
+my $updateGeoIP;
+$updateGeoIP = sub {
+    my $self   = shift;
+    my $oneoff = shift;
+
+    my $res = $self->ua->get($self->config->{geoip_url})->result;
+    die "ERROR: downloading GeoIP database from '$self->config->{geoip_url}'\n"
+        if !$res->is_success;
+
+    my $fh = File::Temp->new(SUFFIX => '.gz');
+    close $fh;
+    my $filename = $fh->filename;
+    $res->content->asset->move_to($filename);
+    gunzip $filename => $self->config->{geoipDB}
+        or die "ERROR: gunzip GeoIP failed: $GunzipError\n";
+
+    unlink $filename;
+    # update geoip DB once a week
+    Mojo::IOLoop->timer(7 * 24 * 3600 => sub { $self->$updateGeoIP }) if !$oneoff;
+};
+
 my $parseFiles = sub {
     my $self  = shift;
     my $epoch = gmtime->epoch;
@@ -64,7 +86,12 @@ my $parseFiles = sub {
     for my $rel (keys %$data) {
         for my $day (sort { $a <=> $b } keys %{$data->{$rel}}) {
             for my $ip (keys %{$data->{$rel}->{$day}}) {
-                my $country = $gip->country_name_by_addr($ip);
+                my $country = $gip->country_name_by_addr($ip) or do {
+                    # geoip database likely to be broken if we don't get a 'valid' country
+                    # update geoip and skip this round of refreshing the statistics
+                    $self->$updateGeoIP(1);
+                    return;
+                };
 
                 $db->{$rel}->{$day}->{$country}->{unique}++
                     if !exists $uuidTbl{$rel}->{$ip};
@@ -83,12 +110,11 @@ my $parseFiles = sub {
     }
 
     # save db
-    open my $fh, '>', $self->config->{pkgDB} . '.new'
-        or die "ERROR: opening '" . $self->config->{pkgDB} . "' for writing: $!\n";
+    my $fh = File::Temp->new();
     print $fh encode_json $db;
     close $fh;
 
-    rename $self->config->{pkgDB} . '.new', $self->config->{pkgDB};
+    rename $fh->filename, $self->config->{pkgDB};
 };
 
 my $refreshDB;
@@ -110,23 +136,6 @@ $refreshDB = sub {
     $self->config->{pid} = $proc->pid;
     # set next refresh in 1h + a maximum random 5 minutes
     Mojo::IOLoop->timer(3600 + int(rand(300)) => sub { $self->$refreshDB });
-};
-
-my $updateGeoIP;
-$updateGeoIP = sub {
-    my $self = shift;
-
-    my $res = $self->ua->get($self->config->{geoip_url})->result;
-    die "ERROR: downloading GeoIP database from '$self->config->{geoip_url}'\n"
-        if !$res->is_success;
-
-    $res->content->asset->move_to($self->config->{geoipDB} . '.gz');
-    gunzip $self->config->{geoipDB} . '.gz' => $self->config->{geoipDB}
-        or die "ERROR: gunzip GeoIP failed: $GunzipError\n";
-
-    unlink $self->config->{geoipDB} . '.gz';
-    # update geoip DB once a week
-    Mojo::IOLoop->timer(7 * 24 * 3600 => sub { $self->$updateGeoIP });
 };
 
 sub register {
