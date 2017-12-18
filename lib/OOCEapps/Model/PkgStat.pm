@@ -7,6 +7,7 @@ use Geo::IP;
 use Mojo::JSON qw(encode_json);
 use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
 use File::Temp;
+use File::Copy;
 use OOCEapps::Utils;
 
 # attributes
@@ -108,13 +109,15 @@ my $parseFiles = sub {
             }
         }
     }
+    # add timestamp of statistics refresh
+    $db->{update_ts} = gmtime;
 
     # save db
-    my $fh = File::Temp->new();
+    my $fh = File::Temp->new(UNLINK => 0);
     print $fh encode_json $db;
     close $fh;
 
-    rename $fh->filename, $self->config->{pkgDB};
+    move($fh->filename, $self->config->{pkgDB});
 };
 
 my $refreshDB;

@@ -40,6 +40,10 @@ my $getPkgStat = sub {
     my $DB = decode_json do { local $/; <$fh> };
     close $fh;
 
+    # get timestamp and remove it from data structure
+    my $updTS = $DB->{update_ts};
+    delete $DB->{update_ts};
+
     exists $DB->{$rel}
         or return OOCEapps::Mattermost->error("No data for release '$rel'.");
 
@@ -66,7 +70,7 @@ my $getPkgStat = sub {
 
     push @data, [ '**Total**',  '**' . $formatNumber->($uuids) . '**',
         '**' . $formatNumber->($ips) . '**', '**' . $formatNumber->($acc) . '**' ];
-    push @data, '---';
+    push @data, "Last statistics update at: $updTS";
 
     return OOCEapps::Mattermost->table(\@data);
 };
