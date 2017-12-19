@@ -49,7 +49,6 @@ my $getRelSuffixes = sub {
     push @data, [ ':---', map { ':---:' } @releases ];
     push @data, [ $date->ymd, map { $getRelease->($_, ($date
         - $getW_C->(Time::Piece->strptime($self->config->{$_}, '%Y-%m-%d')))->weeks) } @releases ];
-    push @data, '---';
 
     return OOCEapps::Mattermost->table(\@data);
 };

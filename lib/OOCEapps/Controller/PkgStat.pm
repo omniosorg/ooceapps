@@ -4,7 +4,8 @@ use Mojo::Base 'OOCEapps::Controller::base';
 use Mojo::JSON qw(decode_json);
 
 # attributes
-has pkgDB => sub { shift->config->{pkgDB} }; 
+has pkgDB  => sub { shift->config->{pkgDB} };
+has fields => sub { [ qw(uuids global nonglobal unique total) ] };
 
 #private methods
 my $formatNumber = sub { scalar reverse join ',', unpack '(A3)*', reverse shift };
@@ -26,12 +27,9 @@ my $getPkgStat = sub {
 
     my @data;
     push @data, "### $rel IPS stats" . ($days ? " for the last $days day(s):" : ':');
-    push @data, [ 'Country', 'Unique IPS images', 'Unique IP', 'Access Count' ];
-    push @data, [ qw(:--- ---: ---: ---:) ];
-
-    my $uuids = 0;
-    my $ips   = 0;
-    my $acc   = 0;
+    push @data, [ 'Country', 'Unique IPS images', 'Installation',
+        'Zones', 'Unique IP', 'Access Count' ];
+    push @data, [ qw(:--- ---: ---: ---: ---: ---:) ];
 
     # load db
     open my $fh, '<', $self->pkgDB
@@ -52,24 +50,26 @@ my $getPkgStat = sub {
         next if $days && $day > $days;
 
         for my $country (keys %{$DB->{$rel}->{$day}}) {
-            $db{$country}->{$_} += $DB->{$rel}->{$day}->{$country}->{$_} // 0 for qw(uuids unique total);
+            $db{$country}->{$_} += $DB->{$rel}->{$day}->{$country}->{$_} // 0
+                for @{$self->fields};
         }
     }
 
+    my %acc;
     for my $country (sort { $db{$b}->{uuids} <=> $db{$a}->{uuids}
         || $db{$b}->{unique} <=> $db{$a}->{unique}
         || $db{$b}->{total} <=> $db{$a}->{total} } keys %db) {
 
-        $uuids += $db{$country}->{uuids};
-        $ips   += $db{$country}->{unique};
-        $acc   += $db{$country}->{total};
+        $acc{$_} += $db{$country}->{$_} for @{$self->fields};
 
-        push @data, [ $country, $formatNumber->($db{$country}->{uuids}),
-            $formatNumber->($db{$country}->{unique}), $formatNumber->($db{$country}->{total}) ];
+        push @data, [ $country,
+            map { $formatNumber->($db{$country}->{$_}) } @{$self->fields}
+        ];
     }
 
-    push @data, [ '**Total**',  '**' . $formatNumber->($uuids) . '**',
-        '**' . $formatNumber->($ips) . '**', '**' . $formatNumber->($acc) . '**' ];
+    push @data, [ '**Total**',
+        map { '**' . $formatNumber->($acc{$_}) . '**' } @{$self->fields}
+    ];
     push @data, "Last statistics update at: $updTS";
 
     return OOCEapps::Mattermost->table(\@data);
