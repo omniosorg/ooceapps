@@ -67,14 +67,25 @@ my $parseFiles = sub {
         open my $fh, '<', $logfile or die "ERROR: opening file '$logfile': $!\n";
 
         while (my $line = <$fh>) {
-            my ($ip, $ts, $rel, $uuid) # keep uuid optional
-                = $line =~ m|^((?:\d{1,3}\.){3}\d{1,3})[^\[]+\[([^\]]+)\][^/]+/([^/]+).*"pkg/[^"]+"\s+(\S*)| or next;
+            my ($ip, $ts, $rel, $uuid, $zone, $image)
+                = $line =~ m!^((?:\d{1,3}\.){3}\d{1,3})[^\[]+\[([^\]]+)\]\s+    # ip and ts
+                    "GET\s+/([^/]+)[^"]+"(?:\s+\S+){2}\s+"[^"]+"\s+"pkg/[^"]+"  # release
+                    (?:\s+([\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12})            # uuid
+                    (?:;((?:non)?global),(full|partial))?)?!x or next;          # zone and image
 
             # get how many days the entry is past
             my $days = int(($epoch - Time::Piece->strptime($ts, '%d/%b/%Y:%H:%M:%S %z')->epoch) / (24 * 3600)) + 1;
 
+            # set defaults
+            $uuid  //= '-';
+            $zone  //= 'global';
+            $image //= 'full';
+
             $data->{$_}->{$days}->{$ip}->{count}++ for ($rel, 'total');
-            $data->{$_}->{$days}->{$ip}->{uuids}->{$uuid} = undef for ($rel, 'total');
+            exists $data->{$_}->{$days}->{$ip}->{uuids}->{$uuid} || do {
+                $data->{$_}->{$days}->{$ip}->{uuids}->{$uuid}->{$zone}  = 1;
+                $data->{$_}->{$days}->{$ip}->{uuids}->{$uuid}->{$image} = 1;
+            } for ($rel, 'total');
         }
 
         close $fh;
@@ -99,11 +110,14 @@ my $parseFiles = sub {
                 $db->{$rel}->{$day}->{$country}->{total}
                     += $data->{$rel}->{$day}->{$ip}->{count};
 
-                for my $uuid (keys %{$data->{$rel}->{$day}->{$ip}->{uuids}}) {
-                    $db->{$rel}->{$day}->{$country}->{uuids}++
-                        if !exists $uuidTbl{$rel}->{$ip}->{$uuid};
+                exists $uuidTbl{$rel}->{$ip}->{$_} || do {
+                    my $uuid = $_;
                     $uuidTbl{$rel}->{$ip}->{$uuid} = undef;
-                }
+
+                    $db->{$rel}->{$day}->{$country}->{uuids}++;
+                    $db->{$rel}->{$day}->{$country}->{$_}
+                        += $data->{$rel}->{$day}->{$ip}->{uuids}->{$uuid}->{$_} // 0 for qw(global nonglobal);
+                } for (keys %{$data->{$rel}->{$day}->{$ip}->{uuids}});
 
                 $uuidTbl{$rel}->{$ip} = {} if !exists $uuidTbl{$rel}->{$ip};
             }
