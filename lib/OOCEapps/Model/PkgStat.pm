@@ -66,13 +66,14 @@ my $parseFiles = sub {
     for my $logfile (glob $self->config->{logdir} . '/access*') {
         open my $fh, '<', $logfile or die "ERROR: opening file '$logfile': $!\n";
 
-        while (my $line = <$fh>) {
+        while (<$fh>) {
             my ($ip, $ts, $rel, $uuid, $zone, $image)
-                = $line =~ m!^((?:\d{1,3}\.){3}\d{1,3})[^\[]+\[([^\]]+)\]\s+    # ip and ts
-                    "(?:GET|HEAD)\s+/([^/]+)/core[^"]+"                         # release
-                    (?:\s+\S+){2}\s+"[^"]+"\s+"pkg/[^"]+"                       # filter user agent
-                    (?:\s+([\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12})            # uuid
-                    (?:\s+((?:non)?global),(full|partial))?)?!x or next;        # zone and image
+                = m!^((?:\d{1,3}\.){3}\d{1,3})[^\[]+\[([^\]]+)\]\s+         # ip and ts
+                    "(?:GET|HEAD)\s+/([^/]+)/core[^"]+"                     # release
+                    (?:\s+\S+){2}\s+"[^"]+"\s+"pkg/[^"]+"                   # filter user agent
+                    (?:\s+(-|[\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12})      # uuid
+                    (?:(?:;|\s+)((?:non)?global)(?:,(full|partial))?)?)?!x  # zone and image
+                    or next;
 
             # get how many days the entry is past
             my $days = int(($epoch - Time::Piece->strptime($ts, '%d/%b/%Y:%H:%M:%S %z')->epoch) / (24 * 3600)) + 1;
