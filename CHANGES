@@ -1,3 +1,57 @@
+commit ba682b69d99e5107b64106492c376fa0aafabcc2
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Jan 6 02:22:54 2018 +0100
+
+    image variant is optional
+
+commit 80de386b2630b0d23ac2ec0a7f685d23c122ec0a
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Dec 31 10:58:26 2017 +0100
+
+    fix parser for ntpsec
+
+commit b03733a8c2d1d7755211d18fa7bbbf2b09b39e2e
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Dec 22 15:19:35 2017 +0100
+
+    bmake parser added
+
+commit f8e9db66eda96733352a18615fb25d29edc16282
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Dec 20 14:50:57 2017 +0100
+
+    core packages only
+
+commit 13e21eaf906f6f9a4fe6acd44a3ee7f86c7706c9
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Dec 19 16:20:10 2017 +0100
+
+    add GZ/NGZ statistics
+
+commit 5a5f8d427586c8516ec68e345356a88d04b22cb9
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Dec 18 20:26:53 2017 +0100
+
+    add timestamp of statistics refresh
+
+commit 6750fb902d58b07220c348a44ef576ede7a95181
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Dec 18 19:16:01 2017 +0100
+
+    pkgstat: check for corrupted GeoIP database
+
+commit e084e1ff962154becdae7a81287c8c6ae2d2d72a
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Dec 10 21:55:57 2017 +0100
+
+    fall back to ip if uuid is not provided
+
+commit a5cbe7b591d737d11e248dfd83e0b68431b5a958
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Dec 8 18:49:08 2017 +0100
+
+    ready for 0.2.4
+
 commit b7d517448a7d77efe2464f7f049a1e699c85b1ee
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Fri Dec 8 17:04:05 2017 +0100
