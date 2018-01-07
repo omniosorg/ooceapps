@@ -15,21 +15,16 @@ my $getPkgStat = sub {
     my $args = shift;
 
     # set defaults
-    my $days = 0;
-    my $rel  = 'total';
+    my $days    = 0;
+    my $relpat  = 'total';
     for (split /\s+/, $args) {
         /^\d+$/ && do {
             $days = $_;
             next;
         };
-        $rel = $_;
+        $relpat = $_;
+        $relpat =~ s/^r//;
     }
-
-    my @data;
-    push @data, "### $rel IPS stats" . ($days ? " for the last $days day(s):" : ':');
-    push @data, [ 'Country', 'Unique IPS images', 'Installation',
-        'Zones', 'Unique IP', 'Access Count' ];
-    push @data, [ qw(:--- ---: ---: ---: ---: ---:) ];
 
     # load db
     open my $fh, '<', $self->pkgDB
@@ -38,12 +33,18 @@ my $getPkgStat = sub {
     my $DB = decode_json do { local $/; <$fh> };
     close $fh;
 
+    my ($rel) = grep { /$relpat$/ } keys %$DB
+        or return OOCEapps::Mattermost->error("No data for release '$relpat'.");
+
+    my @data;
+    push @data, "### $rel IPS stats" . ($days ? " for the last $days day(s):" : ':');
+    push @data, [ 'Country', 'Unique IPS images', 'Installation',
+        'Zones', 'Unique IP', 'Access Count' ];
+    push @data, [ qw(:--- ---: ---: ---: ---: ---:) ];
+
     # get timestamp and remove it from data structure
     my $updTS = $DB->{update_ts};
     delete $DB->{update_ts};
-
-    exists $DB->{$rel}
-        or return OOCEapps::Mattermost->error("No data for release '$rel'.");
 
     my %db;
     for my $day (keys %{$DB->{$rel}}) {
