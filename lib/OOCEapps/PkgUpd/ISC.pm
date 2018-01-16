@@ -22,7 +22,7 @@ sub getVersions {
     $name = $self->extractName($name);
     my $mVer = $name =~ /bind/ ? "$BIND_MVER." : '';
     return [
-        map { /$name-($mVer(?:\d+\.){0,2}\d+)(?:-source)?\.(?:tar\.(?:gz|xz|bz2|lz)|zip)/i ? $1 : () }
+        map { /$name-($mVer(?:\d+\.){0,2}\d+(?:-P\d+)?)(?:-source)?\.(?:tar\.(?:gz|xz|bz2|lz)|zip)/i ? $1 : () }
             $res->dom->find('a')->each
     ];
 }
@@ -34,7 +34,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
