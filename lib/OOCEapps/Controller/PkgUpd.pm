@@ -58,6 +58,8 @@ sub process {
     my $c = shift;
 
     $c->checkToken;
+    # increase inactivity timeout
+    $c->inactivity_timeout(30);
 
     my $pkgList = $c->model->getPkgList;
 
@@ -67,7 +69,6 @@ sub process {
     };
 
     $c->$getPkgAvailVer($pkgList);
-    $c->render_later;
 }
 
 1;
@@ -76,7 +77,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
