@@ -8,6 +8,7 @@ use Data::Processor;
 use Mojo::JSON qw(decode_json);
 use Mojo::File;
 use Mojo::Home;
+use Mojo::SQLite;
 
 # constants
 my $MODULES = __PACKAGE__ . '::Model';
@@ -65,6 +66,11 @@ has config  => sub {
 };
 
 has schema  => sub { { MODULES => { members => {} } } };
+
+has sqlite => sub {
+    my $app = shift;
+    Mojo::SQLite->new->from_filename($app->home->child('var', 'ooceapps.db'))
+};
 
 # public methods
 sub startup {

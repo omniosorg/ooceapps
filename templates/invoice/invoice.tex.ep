@@ -25,33 +25,52 @@
 \hspace*{\stretch{1}}\includegraphics[width=3cm]{<%= $AssetPath %>/logo.pdf}
 
 OmniOS Community Edition\newline
-Aarweg 17\newline
-4600 Olten\newline
+Aarweg 17, 4600 Olten\newline
+Switzerland\\[2ex]
 patrons@omniosce.org
 
 \hspace*{\stretch{1}}\begin{minipage}{0.4\textwidth}
+<%= latex_encode $Company %>\newline
+<%= latex_encode $Name %>\newline
 <%= latex_encode $Address %>
 \end{minipage}
 
 \vspace{4ex}
-<%= strftime "Olten, %m %B %Y", localtime %>
+<%= strftime "Olten, %e %B %Y", localtime %>
 
-\vspace{3ex}
-\textbf{Invoice <%= $InvoiceId %>}
+\vspace{4ex}
+\textbf{\Large Invoice <%= $InvoiceId %>}
 
-\vspace{5ex}
-\begin{minipage}{0.6\textwidth}
-<%= latex_encode $Product %>
+\vspace{2ex}
+\begin{minipage}[b]{0.6\textwidth}
+\flushleft
+\textbf{OmniOS CE Prime Enterprise Support Package\footnotemark{} 
+	<%= strftime("%Y.%m" , localtime) %> --
+	<%= strftime("%Y.%m" , localtime(time+3600*24*360) %>
+}
+
+The package includes weekly security updates,
+   LTS releases with one year migration overlap and direct developer
+    access for second level support.
 \end{minipage}%
-\begin{minipage}{0.4\textwidth}
-\textbf{<%= $Price %>\,<%= $Currency %>}
+\footnotetext{
+Support comes with a best
+ effort reaction time of 4 hours on our Gitter support channel.
+ This contract does NOT include any guaranteed problem resolutions. Depending on
+  the nature of your request we will offer custom development and debugging
+  services on a case by case basis and we will facilitate contacts with relevant domain
+  experts from our support network.}
+\begin{minipage}[b]{0.2\textwidth}
+\hspace*{\stretch{1}}\textbf{<%= $Amount %>\,<%= $Currency %>}
 \end{minipage}
 
 \vspace{\stretch{1}}
 Please send your payment to:
 
-OmniOS Community Edition\newline
+Verein OmniOS Community Edition\newline
 IBAN CH22 0900 0000 6188 9767 7, BIC POFICHBEXX\newline
 Bank: PostFinance Ltd, Mingerstrasse 20, 3030 Bern, Switzerland
+
+\vspace*{8ex}
 
 \end{document}

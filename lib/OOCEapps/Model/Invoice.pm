@@ -9,15 +9,34 @@ sub register {
     my $r = $self->app->routes;
     $r->any('/' . $self->name.'/create')
         ->to(namespace =>  $self->controller, action => 'createInvoice');
+
+    $self->app->sqlite
+        ->auto_migrate(1)
+        ->migrations->name('Invoice')->from_data(__PACKAGE__,'invoice.sql');
 }
 
 1;
+__DATA__
+
+@@ invoice.sql
+
+-- 1 up
+
+CREATE TABLE invoice (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    company TEXT NOT NULL,
+    address TEXT NOT NULL,
+    currency TEXT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    date INTEGER
+);
 
 __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

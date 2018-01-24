@@ -13,15 +13,32 @@ has luaLaTeX => sub {'lualatex'};
 
 sub createInvoice {
     my $c = shift;
+    my $data = $c->req->json or
+        return $c->render(text => 'bad input', code => 500);
+    my $result = eval {
+        $c->app->sqlite->db->insert('invoice',{
+            name => $data->{name},
+            company => $data->{company},
+            address => $data->{address},
+            currency => $data->{currency},
+            amount => $data->{amount},
+            date => time,
+        });
+    };
+    if ($@){
+        if ($@ =~ m{execute failed:\s(.+?) at /}){
+            return $c->render(text => $1, code => 500);
+        }
+        return $c->render(text => 'bad input', code => 500);
+    }
     $c->stash(
-        AssetPath => Mojo::Home->new->rel_file("share/invoice")->to_string,
-        Address => $c->param('address') // 'Tobi Oetiker
-Aarweg 15
-4600 Olten',
-        Product => $c->param('product') // 'A cool description of the stuff you are getting',
-        Price => $c->param('price') // '10',
-        Currency => $c->param('currency') // 'CHF',
-        InvoiceId => 42,
+        AssetPath =>$c->app->home->rel_file("share/invoice")->to_string,
+        Company => $data->{company},
+        Name => $data->{name},
+        Address => $data->{address},
+        Amount => $data->{amount},
+        Currency => $data->{currency},
+        InvoiceId => $result->last_insert_id,
     );
     my $tex = $c->render_to_string(template=>'invoice/invoice',format=>'tex');
     my $subprocess = Mojo::IOLoop::Subprocess->new;
