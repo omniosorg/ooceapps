@@ -1,3 +1,51 @@
+commit d7744e4b4a8235e423c1a3e67b20c9db82279040
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Jan 25 10:37:31 2018 +0100
+
+    cleanup
+
+commit 340ef81e9884ee085341bbd537af2c3fe1a62429
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Thu Jan 25 11:19:50 2018 +0100
+
+    add email
+
+commit 755fd84f6cf46eb2b23a24d03ee117e9a9c2e031
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Wed Jan 24 23:56:32 2018 +0100
+
+    a better invoice including a database to track all the invoices we send.
+
+commit c6043e34c1889240251941a724ebeba3b986f147
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Mon Dec 4 00:28:10 2017 +0100
+
+    initial invoice support
+
+commit 2ef7aa8e71f0f5520460732bf27e805e2b5bef5f
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Jan 22 14:43:31 2018 +0100
+
+    increase 'inactivity_timeout' for PkgUpd
+
+commit 94e6a644bd4a6950d0d0825835d62ae916c27e87
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Jan 16 23:06:35 2018 +0100
+
+    ISC parser should honour patch versions
+
+commit 6fc7c5310299ab55c43be8b10094b283995bbb44
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Jan 7 16:45:53 2018 +0100
+
+    relax release pattern for PkgStat
+
+commit b4f530c0636362902734d577d8b143cfc0e289af
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Jan 6 02:51:29 2018 +0100
+
+    ready for 0.2.5
+
 commit ba682b69d99e5107b64106492c376fa0aafabcc2
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Sat Jan 6 02:22:54 2018 +0100
