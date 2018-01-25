@@ -2,6 +2,7 @@ package OOCEapps::Controller::Invoice;
 use Mojo::Base 'OOCEapps::Controller::base';
 use File::Temp;
 use Mojo::File;
+use Mojo::Util qw(encode html_unescape);
 
 has sqlite => sub { shift->model->sqlite };
 has fields => sub { [ qw(name company address currency amount email ref) ] };
@@ -11,12 +12,14 @@ sub createInvoice {
     my $data = $c->req->json
         or return $c->render(text => 'bad input', code => 500);
 
-    my $invnr  = sprintf('%010d', int (rand (9999999999) + 1));
+    my $invnr = sprintf('%010d', int (rand (9999999999) + 1));
+    my %data  = map { $_ => html_unescape $data->{$_} } @{$c->fields};
+
     my $result = eval {
         $c->sqlite->db->insert('invoice', {
             date  => time,
             invnr => $invnr,
-            map { $_ => $data->{$_} } @{$c->fields}
+            %data
         });
     };
 
@@ -30,7 +33,7 @@ sub createInvoice {
     $c->stash(
         AssetPath => $c->app->home->rel_file('share/invoice')->to_string,
         InvoiceId => $invnr,
-        map { $_ => $data->{$_} } @{$c->fields}
+        %data
     );
     my $tex = $c->render_to_string(template => 'invoice/invoice', format => 'tex');
 
@@ -42,7 +45,7 @@ sub createInvoice {
             my $tmpDir = File::Temp->newdir();
             chdir $tmpDir;
             my $texFile = Mojo::File->new('invoice.tex');
-            $texFile->spurt($tex);
+            $texFile->spurt(encode 'UTF-8', $tex);
 
             open my $latex, '-|', $c->config->{lualatex}, 'invoice';
             my $latexOut = do { local $/; <$latex> };
@@ -63,8 +66,9 @@ sub createInvoice {
                 return $c->render(text => "<pre>ERROR: $err</pre>", staus => 500);
             }
 
-            $c->stash(map { $_ => $data->{$_} } @{$c->fields});
-            my $mail = $c->render_to_string(template => 'invoice/mail/invoice_created', format => 'txt');
+            $c->stash(%data);
+            my $mail = encode 'UTF-8',
+                $c->render_to_string(template => 'invoice/mail/invoice_created', format => 'txt');
             $c->model->sendMail($c->config->{email_to}, $invnr, $mail, $pdf);
 
             $c->res->headers->content_disposition("inline; filename=invoice-$invnr.pdf;");
