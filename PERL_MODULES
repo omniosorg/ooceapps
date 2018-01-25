@@ -5,3 +5,6 @@ Geo::IP
 Data::Processor
 Sort::Versions
 Email::Sender
+Email::MIME
+LaTeX::Encode
+Mojo::SQLite

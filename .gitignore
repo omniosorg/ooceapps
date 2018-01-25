@@ -4,7 +4,7 @@ Makefile
 *.rej
 *.orig
 *.tar.gz
-etc/ooceapps.conf
+etc
 aclocal.m4
 autom4te.cache
 config.log
@@ -14,3 +14,4 @@ var
 README
 !thirdparty/Makefile.am
 !thirdparty/Makefile.in
+!etc/ooceapps.conf.dist

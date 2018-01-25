@@ -44,7 +44,17 @@ sub dir {
 
     return sub {
         my $dir = shift;
-        -d $dir ? undef : "$msg '$dir': $!";
+        return -d $dir ? undef : "$msg '$dir': $!";
+    }
+}
+
+sub executable {
+    my $self = shift;
+
+    return sub {
+        my $exe = shift;
+        my @cmd = (qw(test -x), $exe);
+        return system (@cmd) ? "'$exe' is not an executable." : undef;
     }
 }
 
@@ -76,7 +86,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
