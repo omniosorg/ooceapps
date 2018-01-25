@@ -17,11 +17,10 @@ sub createInvoice {
         return $c->render(text => 'bad input', code => 500);
     my $result = eval {
         $c->app->sqlite->db->insert('invoice',{
-            name => $data->{name},
-            company => $data->{company},
-            address => $data->{address},
-            currency => $data->{currency},
-            amount => $data->{amount},
+            (map { $_ => $data->{$_} } qw(
+                name company address currency
+                email amount
+            )),
             date => time,
         });
     };
@@ -32,12 +31,10 @@ sub createInvoice {
         return $c->render(text => 'bad input', code => 500);
     }
     $c->stash(
+        (map { ucfirst($_) => $data->{$_} } qw(
+            Company Name Address Email Amount Currency
+        )),
         AssetPath =>$c->app->home->rel_file("share/invoice")->to_string,
-        Company => $data->{company},
-        Name => $data->{name},
-        Address => $data->{address},
-        Amount => $data->{amount},
-        Currency => $data->{currency},
         InvoiceId => $result->last_insert_id,
     );
     my $tex = $c->render_to_string(template=>'invoice/invoice',format=>'tex');

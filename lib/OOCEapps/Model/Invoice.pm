@@ -32,6 +32,10 @@ CREATE TABLE invoice (
     date INTEGER
 );
 
+-- 2 up
+
+ALTER TABLE invoice ADD email TEXT NOT NULL;
+
 __END__
 
 =head1 COPYRIGHT
