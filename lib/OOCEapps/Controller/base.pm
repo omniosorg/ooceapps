@@ -1,17 +1,18 @@
 package OOCEapps::Controller::base;
 use Mojo::Base 'Mojolicious::Controller';
 
-use OOCEapps::Mattermost;
-
 # attributes
 has ua      => sub { shift->app->ua->new };
 has module  => sub { ref shift };
 has name    => sub { lc ((split /::/, shift->module)[-1]) };
-has config  => sub { my $self = shift; $self->app->config->{MODULES}->{$self->name} };
 has model   => sub { my $self = shift; $self->app->model->{$self->name} };
+has config  => sub { shift->model->config };
+has log     => sub { shift->model->log };
+has datadir => sub { shift->model->datadir };
 
+# methods
 sub process {
-    shift->render(json => OOCEapps::Mattermost->error('process not implemented...'));
+    shift->render(text => 'Process not implemented.', status => 404);
 }
 
 sub checkToken {

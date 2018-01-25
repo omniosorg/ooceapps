@@ -8,12 +8,11 @@ use Data::Processor;
 use Mojo::JSON qw(decode_json);
 use Mojo::File;
 use Mojo::Home;
-use Mojo::SQLite;
 
 # constants
-my $MODULES = __PACKAGE__ . '::Model';
-my $CONFFILE = $ENV{OOCEAPP_CONF} || Mojo::Home->new->rel_file("etc/ooceapps.conf")->to_string; # CONFFILE
-my $DATADIR = "$FindBin::RealBin/../var"; # DATADIR
+my $MODULES  = __PACKAGE__ . '::Model';
+my $CONFFILE = $ENV{OOCEAPP_CONF} || Mojo::Home->new->rel_file('etc/ooceapps.conf')->to_string; # CONFFILE
+my $DATADIR  = Mojo::Home->new->rel_file('var')->to_string; # DATADIR
 
 # attributes
 my %loaded;
@@ -38,9 +37,7 @@ has model => sub {
                     require $file;
                     $loaded{$mod} = 1;
                 }
-                $mod->new(
-                    app=>$app,
-                );
+                $mod->new(app => $app);
             };
             $module && do {
                 $app->schema->{MODULES}->{members}->{$module->name}
@@ -54,7 +51,7 @@ has model => sub {
 
 has datadir => $DATADIR;
 
-has config  => sub {
+has config => sub {
     my $app = shift;
     # load config
     my $cfg = decode_json do { Mojo::File->new($CONFFILE)->slurp };
@@ -65,12 +62,7 @@ has config  => sub {
     return $cfg;
 };
 
-has schema  => sub { { MODULES => { members => {} } } };
-
-has sqlite => sub {
-    my $app = shift;
-    Mojo::SQLite->new->from_filename($app->home->child('var', 'ooceapps.db'))
-};
+has schema => sub { { MODULES => { members => {} } } };
 
 # public methods
 sub startup {
@@ -88,7 +80,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

@@ -60,6 +60,7 @@ sub process {
     $c->checkToken;
     # increase inactivity timeout
     $c->inactivity_timeout(30);
+    $c->render_later;
 
     my $pkgList = $c->model->getPkgList;
 

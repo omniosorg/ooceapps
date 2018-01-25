@@ -3,70 +3,75 @@ use Mojo::Base 'OOCEapps::Controller::base';
 use File::Temp;
 use Mojo::File;
 
-has log  => sub { shift->app->log };
-
-has model => sub {
-    shift->app->model->{Invoice};
-};
-
-has luaLaTeX => sub {'lualatex'};
+has sqlite => sub { shift->model->sqlite };
+has fields => sub { [ qw(name company address currency amount email ref) ] };
 
 sub createInvoice {
     my $c = shift;
-    my $data = $c->req->json or
-        return $c->render(text => 'bad input', code => 500);
+    my $data = $c->req->json
+        or return $c->render(text => 'bad input', code => 500);
+
+    my $invnr  = sprintf('%010d', int (rand (9999999999) + 1));
     my $result = eval {
-        $c->app->sqlite->db->insert('invoice',{
-            (map { $_ => $data->{$_} } qw(
-                name company address currency
-                email amount
-            )),
-            date => time,
+        $c->sqlite->db->insert('invoice', {
+            date  => time,
+            invnr => $invnr,
+            map { $_ => $data->{$_} } @{$c->fields}
         });
     };
+
     if ($@){
         if ($@ =~ m{execute failed:\s(.+?) at /}){
             return $c->render(text => $1, code => 500);
         }
         return $c->render(text => 'bad input', code => 500);
     }
+
     $c->stash(
-        (map { ucfirst($_) => $data->{$_} } qw(
-            Company Name Address Email Amount Currency
-        )),
-        AssetPath =>$c->app->home->rel_file("share/invoice")->to_string,
-        InvoiceId => $result->last_insert_id,
+        AssetPath => $c->app->home->rel_file('share/invoice')->to_string,
+        InvoiceId => $invnr,
+        map { $_ => $data->{$_} } @{$c->fields}
     );
-    my $tex = $c->render_to_string(template=>'invoice/invoice',format=>'tex');
+    my $tex = $c->render_to_string(template => 'invoice/invoice', format => 'tex');
+
     my $subprocess = Mojo::IOLoop::Subprocess->new;
     $subprocess->run(
         sub {
             my $subprocess = shift;
+
             my $tmpDir = File::Temp->newdir();
             chdir $tmpDir;
             my $texFile = Mojo::File->new('invoice.tex');
             $texFile->spurt($tex);
-            open my $latex, '-|', $c->luaLaTeX,'invoice';
-            my $latexOut = join '', <$latex>;
+
+            open my $latex, '-|', $c->config->{lualatex}, 'invoice';
+            my $latexOut = do { local $/; <$latex> };
             close $latex;
+
             my $output = 'invoice.pdf';
-            if (not -e $output or -z $output){
-                die $latexOut;
-            }
+            die $latexOut if !-e $output || -z $output;
+
             my $pdf = Mojo::File->new($output)->slurp;
             chdir '/';
             return $pdf;
         },
         sub {
             my ($subprocess, $err, $pdf) = @_;
-            if (not $pdf){
+
+            if (!$pdf){
                 $c->log->error("Subprocess error: $err");
-                return $c->render(staus=>500,text=>"<pre>ERROR: $err</pre>");
+                return $c->render(text => "<pre>ERROR: $err</pre>", staus => 500);
             }
-            $c->res->headers->content_disposition("inline; filename=invoice-42.pdf;");
-            return $c->render(data=>$pdf,format=>'pdf');
+
+            $c->stash(map { $_ => $data->{$_} } @{$c->fields});
+            my $mail = $c->render_to_string(template => 'invoice/mail/invoice_created', format => 'txt');
+            $c->model->sendMail($c->config->{email_to}, $invnr, $mail, $pdf);
+
+            $c->res->headers->content_disposition("inline; filename=invoice-$invnr.pdf;");
+            return $c->render(data => $pdf, format => 'pdf');
         }
     );
+
     $c->inactivity_timeout(60);
     $c->render_later;
 }
@@ -77,7 +82,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

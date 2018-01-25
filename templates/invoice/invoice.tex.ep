@@ -1,4 +1,4 @@
-% use POSIX qw(strftime);
+% use Time::Piece;
 % use LaTeX::Encode ':all', add => { "\n" => '\\newline{}' };
 \nonstopmode
 \documentclass[11pt]{article}
@@ -24,32 +24,42 @@
 \vspace*{-6ex}
 \hspace*{\stretch{1}}\includegraphics[width=3cm]{<%= $AssetPath %>/logo.pdf}
 
-OmniOS Community Edition\newline
+\textbf{OmniOS Community Edition Association}\newline
 Aarweg 17, 4600 Olten\newline
 Switzerland\\[2ex]
 patrons@omniosce.org
 
 \hspace*{\stretch{1}}\begin{minipage}{0.4\textwidth}
-<%= latex_encode $Company %>\newline
-<%= latex_encode $Name %>\newline
-<%= latex_encode $Address %>
+\textbf{<%= latex_encode $company %>}\newline
+<%= latex_encode $name %>\newline
+<%= latex_encode $address %>
 \end{minipage}
 
 \vspace{4ex}
-<%= strftime "Olten, %e %B %Y", localtime %>
+<%= localtime->strftime('Olten, %e %B %Y') %>
 
+% if ($ref) {
 \vspace{4ex}
+Your reference: <%= $ref %>
+%}
+% else {
+\vspace{2ex}
+%}
+
+\vspace{2ex}
 \textbf{\Large Invoice <%= $InvoiceId %>}
 
 \vspace{2ex}
 \begin{minipage}[b]{0.6\textwidth}
 \flushleft
-\textbf{OmniOS CE Prime Enterprise Support Package\footnotemark{} 
-	<%= strftime("%Y.%m" , localtime) %> --
-	<%= strftime("%Y.%m" , localtime(time+3600*24*360) %>
+\textbf{OmniOS CE Prime Enterprise Support Package\footnotemark{}
+    \mbox{%
+        <%= localtime->strftime('%Y.%m') %> --
+        <%= localtime->add_months(11)->strftime('%Y.%m') %>
+    }
 }
 
-The package includes weekly security updates,
+The package includes weekly security updates as necessary,
    LTS releases with one year migration overlap and direct developer
     access for second level support.
 \end{minipage}%
@@ -61,7 +71,7 @@ Support comes with a best
   services on a case by case basis and we will facilitate contacts with relevant domain
   experts from our support network.}
 \begin{minipage}[b]{0.2\textwidth}
-\hspace*{\stretch{1}}\textbf{<%= $Amount %>\,<%= $Currency %>}
+\hspace*{\stretch{1}}\textbf{<%= $amount %>\,<%= $currency %>}
 \end{minipage}
 
 \vspace{\stretch{1}}

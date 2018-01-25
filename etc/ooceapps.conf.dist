@@ -1,6 +1,8 @@
 {
     "MODULES" : {
-        "invoice": {
+        "invoice" : {
+            "lualatex"  : "/opt/ooce/texlive/bin/lualatex",
+            "email_to"  : "patrons@omniosce.org"
         },
         "pkgstat" : {
             "logdir"    : "<path_to_logs>",

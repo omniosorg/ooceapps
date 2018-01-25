@@ -1,0 +1,16 @@
+% use Time::Piece;
+% if ($ref) {
+Customer reference: <%= $ref %>
+
+%}
+Amount: <%= $currency %> <%= $amount %>
+
+Period: <%= localtime->strftime('%Y.%m') %> - <%= localtime->add_months(11)->strftime('%Y.%m') %>
+
+Address:
+<%= $company %>
+<%= $name %>
+<%= $address %>
+
+<%= $email %>
+
