@@ -15,3 +15,5 @@ README
 !thirdparty/Makefile.am
 !thirdparty/Makefile.in
 !etc/ooceapps.conf.dist
+!etc/Makefile.am
+!etc/Makefile.in
