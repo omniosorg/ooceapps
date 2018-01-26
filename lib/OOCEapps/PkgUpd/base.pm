@@ -24,8 +24,10 @@ sub getVersions {
 
     $name = $self->extractName($name);
     return [
-        map { /$name-((?:\d+\.){1,3}[^-.]+|\d+)(?:-source)?\.(?:tar\.(?:gz|xz|bz2|lz)|zip)/i ? $1 : () }
-            $res->dom->find('a')->each
+        map { /$name-((?:\d+\.){1,3}[^-.]+|\d+)(?:-source)?
+            (?<!rc\d)\.(?:tar\.(?:gz|xz|bz2|lz)|zip)/ix ? $1 : ()
+        } $res->dom->find('a')->each
+
     ];
 }
 
