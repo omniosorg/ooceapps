@@ -2,7 +2,7 @@ package OOCEapps::Controller::Invoice;
 use Mojo::Base 'OOCEapps::Controller::base';
 use File::Temp;
 use Mojo::File;
-use Mojo::Util qw(encode html_unescape);
+use Mojo::Util qw(encode);
 
 has sqlite => sub { shift->model->sqlite };
 has fields => sub { [ qw(name company address currency amount email ref) ] };
@@ -13,7 +13,7 @@ sub createInvoice {
         or return $c->render(text => 'bad input', code => 500);
 
     my $invnr = sprintf('%010d', int (rand (9999999999) + 1));
-    my %data  = map { $_ => html_unescape $data->{$_} } @{$c->fields};
+    my %data  = map { $_ => $data->{$_} } @{$c->fields};
 
     my $result = eval {
         $c->sqlite->db->insert('invoice', {
