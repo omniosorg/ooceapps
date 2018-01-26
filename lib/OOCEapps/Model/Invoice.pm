@@ -56,7 +56,8 @@ sub sendMail {
         Email::MIME->create(
             attributes => {
                 content_type => 'text/plain',
-                charset      => 'US-ASCII',
+                encoding     => 'quoted-printable',
+                charset      => 'UTF-8',
             },
             body => $mail,
         ),
