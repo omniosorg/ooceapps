@@ -53,8 +53,7 @@ sub executable {
 
     return sub {
         my $exe = shift;
-        my @cmd = (qw(test -x), $exe);
-        return system (@cmd) ? "'$exe' is not an executable." : undef;
+        return -x $exe ? undef : "'$exe' is not an executable.";
     }
 }
 
