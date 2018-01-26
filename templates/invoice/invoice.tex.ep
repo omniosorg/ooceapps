@@ -7,7 +7,7 @@
 \usepackage{fontspec}
 \usepackage{textcomp}
 \setmainfont{Roboto}[
-    Path = <%= $AssetPath %>/,
+    Path = <%== $AssetPath %>/,
     Extension = .ttf,
     UprightFont = *-Regular,
     BoldFont = *-Bold,
@@ -22,7 +22,7 @@
 \setlength{\parskip}{2ex plus 0.5ex minus 0.2ex}
 \begin{document}
 \vspace*{-6ex}
-\hspace*{\stretch{1}}\includegraphics[width=3cm]{<%= $AssetPath %>/logo.pdf}
+\hspace*{\stretch{1}}\includegraphics[width=3cm]{<%== $AssetPath %>/logo.pdf}
 
 \textbf{OmniOS Community Edition Association}\newline
 Aarweg 17, 4600 Olten\newline
@@ -30,32 +30,32 @@ Switzerland\\[2ex]
 patrons@omniosce.org
 
 \hspace*{\stretch{1}}\begin{minipage}{0.4\textwidth}
-\textbf{<%= latex_encode $company %>}\newline
-<%= latex_encode $name %>\newline
-<%= latex_encode $address %>
+\textbf{<%== latex_encode $company %>}\newline
+<%== latex_encode $name %>\newline
+<%== latex_encode $address %>
 \end{minipage}
 
 \vspace{4ex}
-<%= localtime->strftime('Olten, %e %B %Y') %>
+<%== localtime->strftime('Olten, %e %B %Y') %>
 
 % if ($ref) {
 \vspace{4ex}
-Your reference: <%= $ref %>
+Your reference: <%== latex_encode $ref %>
 %}
 % else {
 \vspace{2ex}
 %}
 
 \vspace{2ex}
-\textbf{\Large Invoice <%= $InvoiceId %>}
+\textbf{\Large Invoice <%== $InvoiceId %>}
 
 \vspace{2ex}
 \begin{minipage}[b]{0.6\textwidth}
 \flushleft
 \textbf{OmniOS CE Prime Enterprise Support Package\footnotemark{}
     \mbox{%
-        <%= localtime->strftime('%Y.%m') %> --
-        <%= localtime->add_months(11)->strftime('%Y.%m') %>
+        <%== localtime->strftime('%Y.%m') %> --
+        <%== localtime->add_months(11)->strftime('%Y.%m') %>
     }
 }
 
@@ -68,10 +68,10 @@ Support comes with a best
  effort reaction time of 4 hours on our Gitter support channel.
  This contract does NOT include any guaranteed problem resolutions. Depending on
   the nature of your request we will offer custom development and debugging
-  services on a case by case basis and we will facilitate contacts with relevant domain
+  services on a case by case basis and we will facilitate contact with relevant domain
   experts from our support network.}
 \begin{minipage}[b]{0.2\textwidth}
-\hspace*{\stretch{1}}\textbf{<%= $amount %>\,<%= $currency %>}
+\hspace*{\stretch{1}}\textbf{<%== latex_encode $amount %>\,<%== latex_encode $currency %>}
 \end{minipage}
 
 \vspace{\stretch{1}}
