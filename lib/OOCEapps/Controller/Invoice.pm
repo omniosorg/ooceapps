@@ -12,14 +12,14 @@ sub createInvoice {
     my $data = $c->req->json
         or return $c->render(text => 'bad input', code => 500);
 
-    my $invnr = sprintf('%010d', int (rand (9999999999) + 1));
-    my %data  = map { $_ => $data->{$_} } @{$c->fields};
+    my $rand = sprintf('%04d', int (rand (9999) + 1));
+    my %data = map { $_ => $data->{$_} } @{$c->fields};
 
     my $result = eval {
         $c->sqlite->db->insert('invoice', {
-            date  => time,
-            invnr => $invnr,
-            addr  => $c->tx->remote_address,
+            date => time,
+            rand => $rand,
+            addr => $c->tx->remote_address,
             %data
         });
     };
@@ -31,6 +31,7 @@ sub createInvoice {
         return $c->render(text => 'bad input', code => 500);
     }
 
+    my $invnr = $result->last_insert_id . ".$rand";
     $c->stash(
         AssetPath => $c->app->home->rel_file('share/invoice')->to_string,
         InvoiceId => $invnr,
