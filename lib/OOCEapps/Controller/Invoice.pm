@@ -67,7 +67,6 @@ sub createInvoice {
                 return $c->render(text => "<pre>ERROR: $err</pre>", staus => 500);
             }
 
-            $c->stash(%data);
             my $mail = encode 'UTF-8',
                 $c->render_to_string(template => 'invoice/mail/invoice_created', format => 'txt');
             $c->model->sendMail($c->config->{email_to}, $invnr, $mail, $pdf);
