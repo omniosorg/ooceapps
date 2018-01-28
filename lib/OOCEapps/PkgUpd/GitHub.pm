@@ -19,8 +19,9 @@ sub getVersions {
     my @versions = $res->dom->find('a')->each;
     s/_/./g for @versions;
     return [
-        map { /$name\/releases\/tag\/(?:v|release-|stable-|$name-?\.?)?([\d.]+)/i ? $1 : () }
-             @versions
+        map { m#$name/releases/tag/(?:v|release-|stable-|$name-?\.?)?
+            ([\d.]+)(?!-?rc\d+)#ix ? $1 : ()
+        } @versions
     ];
 }
 
