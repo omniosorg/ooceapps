@@ -19,6 +19,7 @@ sub createInvoice {
         $c->sqlite->db->insert('invoice', {
             date  => time,
             invnr => $invnr,
+            addr  => $c->tx->remote_address,
             %data
         });
     };

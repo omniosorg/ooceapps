@@ -95,6 +95,7 @@ __DATA__
 CREATE TABLE invoice (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     invnr TEXT NOT NULL,
+    addr TEXT NOT NULL,
     ref TEXT,
     name TEXT NOT NULL,
     company TEXT NOT NULL,
