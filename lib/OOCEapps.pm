@@ -72,6 +72,9 @@ sub startup {
     for my $module (keys %{$model}) {
         $model->{$module}->register;
     }
+
+    # set home dir if not set
+    $ENV{HOME} ||= $app->datadir;
 }
 
 1;

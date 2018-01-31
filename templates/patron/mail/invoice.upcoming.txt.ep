@@ -12,7 +12,7 @@ You can cancel your OmniOSce subscription at any time via <%= $stripeData->{canc
 Regards
 The OmniOSce Team
 
---
+-- 
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
 patrons@omniosce.org

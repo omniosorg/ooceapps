@@ -14,7 +14,7 @@ The OmniOSce Team
 ps. You can cancel your OmniOSce subscription at any time via <%= $stripeData->{cancelUrl} %>
 
 % }
---
+-- 
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
 patrons@omniosce.org

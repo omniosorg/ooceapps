@@ -13,7 +13,7 @@ Thank you for supporting OmniOSce since <%= strftime('%Y-%m-%d', localtime($stri
 Regards
 The OmniOSce Team
 
---
+-- 
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
 patrons@omniosce.org
