@@ -1,8 +1,11 @@
 {
     "MODULES" : {
         "invoice" : {
-            "lualatex"  : "/opt/ooce/texlive/bin/lualatex",
-            "email_to"  : "patrons@omniosce.org"
+            "lualatex"   : "/opt/ooce/texlive/bin/lualatex",
+            "email_from" : "patrons@omniosce.org",
+            "email_bcc"  : "patrons@omniosce.org",
+            "key_path"   : "./invoice_sec.key",
+            "create_url" : "https://apps.omniosce.org/invoice/create"
         },
         "pkgstat" : {
             "logdir"    : "<path_to_logs>",
@@ -16,7 +19,7 @@
         },
         "patron" : {
             "keyPath"        : "./stripe.keys",
-            "cancelUrl"      : "https://app.omniosce.org/patron/cancel",
+            "cancelUrl"      : "https://apps.omniosce.org/patron/cancel",
             "emailFrom"      : "patrons@omniosce.org",
             "emailBcc"       : "patrons@omniosce.org",
             "subCurrencies"  : [ "chf", "usd", "gbp", "eur" ],

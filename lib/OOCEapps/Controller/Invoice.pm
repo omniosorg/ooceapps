@@ -1,27 +1,93 @@
 package OOCEapps::Controller::Invoice;
 use Mojo::Base 'OOCEapps::Controller::base';
+
 use File::Temp;
 use Mojo::File;
 use Mojo::Util qw(encode);
+use Crypt::Ed25519;
+use OOCEapps::Utils;
 
-has sqlite => sub { shift->model->sqlite };
-has fields => sub { [ qw(name company address currency amount email ref) ] };
+has sqlite  => sub { shift->model->sqlite };
+has sec_key => sub { shift->model->sec_key };
+has fields  => sub { [ qw(name company address currency amount email ref) ] };
 
-sub createInvoice {
+sub access {
     my $c = shift;
+
+    my $headers = $c->res->headers;
+
+    $headers->header('Access-Control-Allow-Origin'  => '*');
+    $headers->header('Access-Control-Allow-Methods' => 'POST');
+    $headers->header('Access-Control-Max-Age'       => 3600);
+    $headers->header('Access-Control-Allow-Headers' => 'Content-Type');
+    $c->render(text => '');
+}
+
+sub requestInvoice {
+    my $c = shift;
+
+    my $headers = $c->res->headers;
+    $headers->header('Access-Control-Allow-Origin' => '*');
+
     my $data = $c->req->json
         or return $c->render(text => 'bad input', code => 500);
 
-    my $rand = sprintf('%04d', int (rand (9999) + 1));
-    my %data = map { $_ => $data->{$_} } @{$c->fields};
+    $data->{req_id} = time . sprintf('%04d', int (rand (9999) + 1));
+    my $req_url = OOCEapps::Utils::pack($data, $c->sec_key);
 
-    my $result = eval {
-        $c->sqlite->db->insert('invoice', {
-            date => time,
-            rand => $rand,
-            addr => $c->tx->remote_address,
-            %data
-        });
+    $c->stash(
+        url         => $c->config->{create_url} . "/$req_url",
+        remote_addr => $c->tx->remote_address,
+        map { $_ => $data->{$_} } @{$c->fields},
+    );
+
+    my $mail = encode 'UTF-8',
+        $c->render_to_string('invoice/mail/invoice_requested', format => 'txt');
+
+    OOCEapps::Utils::sendMail($_, $c->config->{email_from},
+        'Your OmniOS Support pro-forma invoice request',
+        {
+            body => $mail,
+        }
+    ) for ($data->{email}, $c->config->{email_bcc});
+
+    $c->render(text => 'email sent.');
+}
+
+sub createInvoice {
+    my $c = shift;
+
+    my $req_data = OOCEapps::Utils::unpack($c->stash('req_hash'),
+        Crypt::Ed25519::eddsa_public_key($c->sec_key), 24 * 3600);
+
+    my %data;
+    eval {
+        if (my $d = $c->sqlite->db->select(
+            'invoice', '*', { req_id => $req_data->{req_id} })->hash) {
+            %data = (
+                id          => $d->{id},
+                date        => $d->{date},
+                rand        => $d->{rand},
+                remote_addr => $d->{remote_addr},
+                map { $_ => $d->{$_} } @{$c->fields},
+            );
+        }
+        else {
+            %data = (
+                rand => sprintf('%04d', int (rand (9999) + 1)),
+                date => time,
+                map { $_ => $req_data->{$_} } @{$c->fields},
+            );
+
+            my $res = $c->sqlite->db->insert('invoice', {
+                date        => $data{date},
+                rand        => $data{rand},
+                remote_addr => $c->tx->remote_address,
+                req_id      => $req_data->{req_id},
+                %data
+            });
+            $data{id} = $res->last_insert_id if $res;
+        }
     };
 
     if ($@){
@@ -31,7 +97,7 @@ sub createInvoice {
         return $c->render(text => 'bad input', code => 500);
     }
 
-    my $invnr = $result->last_insert_id . ".$rand";
+    my $invnr = "$data{id}.$data{rand}";
     $c->stash(
         AssetPath => $c->app->home->rel_file('share/invoice')->to_string,
         InvoiceId => $invnr,
@@ -39,8 +105,7 @@ sub createInvoice {
     );
     my $tex = $c->render_to_string(template => 'invoice/invoice', format => 'tex');
 
-    my $subprocess = Mojo::IOLoop::Subprocess->new;
-    $subprocess->run(
+    Mojo::IOLoop->subprocess(
         sub {
             my $subprocess = shift;
 
@@ -70,7 +135,22 @@ sub createInvoice {
 
             my $mail = encode 'UTF-8',
                 $c->render_to_string(template => 'invoice/mail/invoice_created', format => 'txt');
-            $c->model->sendMail($c->config->{email_to}, $invnr, $mail, $pdf);
+
+            my $filename = "$data{date}_invoice-$invnr.pdf";
+            OOCEapps::Utils::sendMail($c->config->{email_bcc}, $c->config->{email_from},
+                "Invoice $invnr created",
+                {
+                    body => $mail,
+                },
+                [
+                    {
+                        filename     => $filename,
+                        content_type => 'application/pdf',
+                        name         => $filename,
+                        body         => $pdf,
+                    }
+                ],
+            );
 
             $c->res->headers->content_disposition("inline; filename=invoice-$invnr.pdf;");
             return $c->render(data => $pdf, format => 'pdf');
