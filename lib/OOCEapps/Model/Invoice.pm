@@ -29,7 +29,7 @@ has schema => sub {
         },
         key_path => {
             description => 'path to file containing the secret key',
-            example     => '/etc/opt/ooce/private/stripe.key',
+            example     => '/etc/opt/ooce/private/invoice_sec.key',
         },
         create_url => {
             description => 'url prefix for invoice creation requests',
