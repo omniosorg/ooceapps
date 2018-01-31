@@ -1,6 +1,4 @@
 % my $card = $stripeData->{data}{customer}{sources}{data}[0];
-Subject: OmniOSce donation collection failed
-
 Hello <%= $card->{name} %>
 
 We just failed to charge <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($stripeData->{data}{object}{currency}) %> to <%= $card->{brand} %> x<%= $card->{last4} %>.

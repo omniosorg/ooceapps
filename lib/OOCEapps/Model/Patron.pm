@@ -7,9 +7,6 @@ use Mojo::File;
 use Mojo::Template;
 use Mojo::JSON qw(true);
 use Digest::SHA qw(hmac_sha256_hex);
-use Email::Sender::Simple qw(sendmail);
-use Email::Simple;
-use Email::Simple::Creator;
 
 # attributes
 has schema  => sub {
@@ -189,20 +186,6 @@ sub cancelSubscription {
         die [ $err ];
     }
     return $json;
-}
-
-sub sendMail {
-    my $self = shift;
-    my $recipient = shift;
-    my $mail = shift;
-    my $sender = $self->config->{emailFrom};
-    my $email = Email::Simple->new(<<"MESSAGE_END");
-From: $sender
-To: $recipient
-$mail
-MESSAGE_END
-    sendmail($email, { to => $self->config->{emailBcc}});
-    sendmail($email);
 }
 
 sub callStripe {

@@ -1,7 +1,5 @@
 % use POSIX qw(strftime);
 % my $card = $stripeData->{data}{customer}{sources}{data}[0];
-Subject: OmniOSce subscription created
-
 Hello <%= $card->{name} %>
 
 Thank you for becoming an OmniOSce Patron!

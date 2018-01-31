@@ -1,6 +1,9 @@
 package OOCEapps::Controller::Patron;
 use Mojo::Base 'OOCEapps::Controller::base';
+
 use Digest::SHA qw(hmac_sha256_hex);
+use Mojo::Util qw(encode);
+use OOCEapps::Utils;
 
 # attributes
 has log  => sub { shift->app->log };
@@ -78,13 +81,17 @@ sub webhook {
             my $subKey         = $c->model->getSubKey($data->{data}{subscriptions}{data}[0]{id});
             $data->{cancelUrl} = $c->model->config->{cancelUrl}.'/'.$subKey if $subKey;
 
-            $c->stash(stripeData => $data);
-            if (my $mail = $c->render_to_string(
                 template => 'patron/mail/'.$data->{type},
-                format   => 'txt')){
 
-                $c->model->sendMail($data->{data}{customer}{email}, $mail->to_string);
-            }
+            $c->stash(stripeData => $data);
+            my ($mail, $subj) = map {
+                encode 'UTF-8', $c->render_to_string(
+                    template => "patron/mail/$_",
+                    format   => 'txt')
+            } ($data->{type}, "$data->{type}.subject");
+
+            OOCEapps::Utils::sendMail($_, $c->config->{emailFrom}, $subj, $mail)
+                for ($data->{data}{customer}{email}, $self->config->{emailBcc});
         }
         else {
             $c->log->debug('Webhook Unhandled:'.$c->app->dumper($data));
