@@ -1,11 +1,12 @@
 % use Time::Piece;
+% use OOCEapps::Utils;
 % if ($ref) {
 Customer reference: <%= $ref %>
 
 %}
 Amount: <%= $currency %> <%= $amount %>
 
-Period: <%= localtime->strftime('%Y.%m') %> - <%= localtime->add_months(11)->strftime('%Y.%m') %>
+Period: <%= Time::Piece->new($date)->strftime('%Y.%m') %> - <%= Time::Piece->new(OOCEapps::Utils::addMonths($date, 11))->strftime('%Y.%m') %>
 
 Address:
 <%= $company %>

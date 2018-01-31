@@ -85,7 +85,7 @@ sub register {
     my $r = $self->app->routes;
 
     $r->options('/' . $self->name.'/subscribe')
-        ->to(namespace =>  $self->controller, action => 'access');
+        ->to(namespace => $self->controller, action => 'access');
 
     $r->post('/' . $self->name.'/subscribe')
         ->to(namespace => $self->controller, action => 'subscribe');
@@ -100,12 +100,8 @@ sub register {
         ->to(namespace => $self->controller, action => 'webhook');
 
     my $file = $self->config->{keyPath};
-    if ($file =~ m{^[^/]}){
-        $file = Mojo::Home->new->child('..', 'etc', $file);
-    }
-    else {
-        $file = Mojo::File->new($file);
-    }
+    $file = $file =~ m|^/| ? Mojo::File->new($file)
+        : Mojo::Home->new->child('..', 'etc', $file);
 
     my ($pubKey, $secret, $hook, $mail) = split /[\n\r]+/, $file->slurp;
     $self->pubKey($pubKey);
@@ -164,7 +160,7 @@ sub getSubscriptions {
 
 sub createSubscription {
     my ($self, $customer, $plan, $amount) = @_;
-    
+
     die [ "Plan $plan does not exist" ] if !$self->plans->{$plan};
 
     my ($err, $json) = $self->callStripe('POST', 'subscriptions', {

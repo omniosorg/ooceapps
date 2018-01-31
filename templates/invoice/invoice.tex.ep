@@ -1,4 +1,5 @@
 % use Time::Piece;
+% use OOCEapps::Utils;
 % use LaTeX::Encode ':all', add => { "\n" => '\\newline{}' };
 \nonstopmode
 \documentclass[11pt]{article}
@@ -36,7 +37,7 @@ patrons@omniosce.org
 \end{minipage}
 
 \vspace{4ex}
-<%== localtime->strftime('Olten, %e %B %Y') %>
+<%== Time::Piece->new($date)->strftime('Olten, %e %B %Y') %>
 
 % if ($ref) {
 \vspace{4ex}
@@ -52,10 +53,10 @@ Your reference: <%== latex_encode $ref %>
 \vspace{2ex}
 \begin{minipage}[b]{0.6\textwidth}
 \flushleft
-\textbf{OmniOS CE Prime Enterprise Support Package\footnotemark{}
+\textbf{OmniOS CE Support Package\footnotemark{}
     \mbox{%
-        <%== localtime->strftime('%Y.%m') %> --
-        <%== localtime->add_months(11)->strftime('%Y.%m') %>
+        <%== Time::Piece->new($date)->strftime('%Y.%m') %> --
+        <%== Time::Piece->new(OOCEapps::Utils::addMonths($date, 11))->strftime('%Y.%m') %>
     }
 }
 

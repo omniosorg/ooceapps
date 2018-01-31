@@ -1,10 +1,151 @@
 package OOCEapps::Utils;
 use Mojo::Base -base;
+
 use Mojo::JSON qw(encode_json decode_json);
 use Mojo::Util qw(b64_encode b64_decode encode decode);
 use Crypt::Ed25519;
-
 use File::Spec qw(catdir splitpath);
+use Email::MIME;
+use Email::Sender::Simple;
+use Time::Piece;
+use Time::Seconds;
+use Data::Dumper; # don't remove, not used for debugging here only
+
+my %DEF_MAILATTR = (
+    mail => {
+        content_type => 'text/plain',
+        encoding     => 'quoted-printable',
+        charset      => 'UTF-8',
+    },
+    attach => {
+        filename     => 'text.txt',
+        content_type => 'text/plain',
+        encoding     => 'base64',
+        name         => 'text.txt',
+    },
+);
+
+# private methods
+my $dump = sub {
+    my $dumper = Data::Dumper->new([ shift ]);
+    $dumper->Sortkeys(1);
+
+    return $dumper->Dump;
+};
+
+# static methods
+=head2 pack($hash, $sec_key)
+
+#pack the content of the hash, adding a timestamp and a signature
+#in the process. Returns a b64 encoded string.
+
+#The sec_key is generated with C<Crypt::Ed25519::eddsa_secret_key>.
+
+=cut
+
+sub pack {
+    my $data    = shift;
+    my $sec_key = shift;
+
+    $data = { %$data };
+    # add a timestamp guard against replay attacks
+    $data->{__timestamp__} = time;
+
+    # add a nonce to to make sure the signature
+    # is different every time around
+    $data->{__nonce__} = rand;
+
+    # make sure we end up with a regular text string
+    # to build the signature on and not something encoded
+    my $content = encode 'UTF-8', $dump->($data);
+
+    $data->{__signature__} = b64_encode(Crypt::Ed25519::eddsa_sign(
+        $content, Crypt::Ed25519::eddsa_public_key($sec_key), $sec_key), q{});
+
+    return b64_encode(encode_json($data), q{});
+}
+
+=head2 unpack($b64string, $pub_key[, $validity])
+
+unpack the given string, checking the timestamp (for maximum age),
+the signature vor validity and the presence of a nonce.
+if anything fails, the method dies.
+
+The pub_key is generated with C<Crypt::Ed25519::eddsa_public_key $sec_key>.
+
+How old can a data pack be to be considered valid.
+
+=cut
+
+sub unpack {
+    my $data      = decode_json(b64_decode(shift));
+    my $pub_key   = shift;
+    my $validity  = shift;
+    my $signature = b64_decode(delete $data->{__signature__}) // die "invalid packege 2";
+
+    # first remove the signature then walk the remaining data
+    # to get the basis to check the signature
+    my $content = encode 'UTF-8', $dump->($data);
+
+    # finally remove the other bits that were added
+    # in the pack routine above
+    my $nonce = delete $data->{__nonce__} // die "invalid package 3";
+    my $ts    = delete $data->{__timestamp__} // die "invalid package 1";
+
+    Crypt::Ed25519::eddsa_verify($content, $pub_key, $signature)
+        or die "invalid package 4";
+
+    my $now = time;
+    $validity && $now - $ts > $validity
+        and die "invalid package 5 now:$now - ts:$ts >= $validity";
+
+    return $data;
+}
+
+sub sendMail {
+    my $to     = shift;
+    my $from   = shift;
+    my $subj   = shift // '';
+    my $mail   = shift // {};
+    my $attach = shift // [];
+
+    my $mimeparts = [
+        Email::MIME->create(
+            attributes => {
+                map { $_ => $mail->{$_} // $DEF_MAILATTR{mail}->{$_} }
+                    keys %{$DEF_MAILATTR{mail}},
+            },
+            body => $mail->{body} // '',
+        ),
+        map {
+            my $atts = $_;
+            Email::MIME->create(
+                attributes => {
+                    map { $_ => $atts->{$_} // $DEF_MAILATTR{attach}->{$_} }
+                        keys %{$DEF_MAILATTR{attach}},
+                },
+                body => $atts->{body},
+            )
+        } @$attach,
+    ];
+
+    my $message = Email::MIME->create(
+        header => [
+            From    => $from,
+            To      => $to,
+            Subject => $subj,
+        ],
+        parts => $mimeparts,
+    );
+
+    Email::Sender::Simple->send($message);
+}
+
+sub addMonths {
+    my $time = Time::Piece->new(shift);
+
+    return (($time - ($time->mday - 1) * ONE_DAY)->add_months(shift // 0))->epoch;
+}
 
 # public methods
 sub loadModules {
@@ -51,12 +192,13 @@ sub dir {
     }
 }
 
-sub executable {
+sub exe {
     my $self = shift;
+    my $msg  = shift;
 
     return sub {
         my $exe = shift;
-        return -x $exe ? undef : "'$exe' is not an executable.";
+        return -x $exe ? undef : "$msg '$exe': $!";
     }
 }
 
@@ -81,85 +223,6 @@ sub elemOf {
             : 'expected a value from the list: ' . join(', ', @$elems);
     }
 }
-
-=head2 pack($hash,$secret_key)
-
-pack the content of the hash, adding a timestamp and a signature in the process. Returns a b64 encoded string.
-The secret_key is generated with C<Crypt::Ed25519::eddsa_secret_key>.
-
-=cut
-
-my $dataWalker;
-
-sub pack {
-    my $self = shift;
-    my $data = shift;
-    my $secret_key = shift;
-    $data = { %$data };
-    # add a timestamp guard against replay attacks
-    $data->{__timestamp__} = time;
-
-    # add a nonce to to make sure the signature
-    # is different every time around
-    $data->{__nonce__} = rand;
-
-    # make sure we end up with a regular text string
-    # to build the signature on and not something encoded
-    my $content = encode('UTF-8',$dataWalker->($data));
-
-    $data->{__signature__} = b64_encode(Crypt::Ed25519::eddsa_sign($content,Crypt::Ed25519::eddsa_public_key $secret_key,$secret_key),'');
-    return b64_encode(encode_json($data), "");
-}
-
-=head2 unpack($b64string,$public_key[,$pack_validity])
-
-unpack the given string, checking the timestamp (for maximum age), the signature vor validity and the presence of a nonce.
-if anything fails, the method dies.
-
-The public_key is generated with C<Crypt::Ed25519::eddsa_public_key $secret_key>.
-
-How old can a data pack be to be considered valid.
-
-=cut
-
-sub unpack {
-    my $self = shift;
-    my $json = b64_decode(shift);
-    my $data = decode_json($json);
-    my $public_key = shift;
-    my $signature = b64_decode(delete $data->{__signature__}) // die "invalid packege 2";
-
-    # first remove the signature then walk the remaining data
-    # to get the basis to check the signature
-    my $content = encode('UTF-8',$dataWalker->($data));
-
-    # finally remove the other bits that were added
-    # in the pack routine above
-    my $nonce = delete $data->{__nonce__} // die "invalid package 3";
-    my $timestamp = delete $data->{__timestamp__} // die "invalid package 1";
-    my $now = time;
-    if (Crypt::Ed25519::eddsa_verify $content, $public_key, $signature){
-        if (not $packValidaity or $now - $timestamp < $packValidity ){
-            return $data;
-        }
-        die "invalid package 5 now:$now - ts:$timestamp >= ".$packValidity;
-    }
-    die "invalid package 4";
-}
-
-
-$dataWalker = sub {
-    my $data = shift;
-    my $antiLoop = shift // {};
-    for (ref $data){
-        next if $antiLoop->{''.$data};
-        $antiLoop->{''.$data} = 1;
-        /ARRAY/ && return join "\n", map { $dataWalker->($_, $antiLoop) } @$data;
-        /HASH/ &&  return join "\n", map { $dataWalker->($data->{$_}, $antiLoop) } sort keys %$data;
-        /^$/ && return $data;
-        die "Unknown data type '$_'";
-    }
-};
 
 1;
 
@@ -191,5 +254,6 @@ S<Tobias Oetiker E<lt>tobi@omniosce.orgE<gt>>
 
 2017-09-06 had Initial Version
 2018-01-28 to Added Crypt Tools
+
 =cut
 

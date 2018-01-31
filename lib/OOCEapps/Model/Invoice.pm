@@ -2,9 +2,8 @@ package OOCEapps::Model::Invoice;
 use Mojo::Base 'OOCEapps::Model::base';
 
 use Mojo::SQLite;
-use Email::MIME;
-use Email::Sender::Simple;
-use Time::Piece;
+use Mojo::File;
+use Mojo::Home;
 use OOCEapps::Utils;
 
 # attributes
@@ -16,11 +15,25 @@ has schema => sub {
         lualatex => {
             description => 'path to LuaLaTeX',
             example     => '/opt/ooce/texlive/bin/lualatex',
-            validator   => $sv->executable,
+            validator   => $sv->exe('not an executable'),
         },
-        email_to => {
-            description => 'email recipient address',
+        email_from => {
+            description => 'email sender address',
             example     => 'patrons@omniosce.org',
+            validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
+        },
+        email_bcc => {
+            description => 'email bcc address',
+            example     => 'patrons@omniosce.org',
+            validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
+        },
+        key_path => {
+            description => 'path to file containing the secret key',
+            example     => '/etc/opt/ooce/private/stripe.key',
+        },
+        create_url => {
+            description => 'url prefix for invoice creation requests',
+            example     => 'https://apps.omniosce.org/invoice/create',
             validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
         },
     },
@@ -32,56 +45,31 @@ has sqlite => sub {
     Mojo::SQLite->new->from_filename($self->datadir . '/' . $self->name . '.db');
 };
 
+has sec_key => sub {
+    my $file = shift->config->{key_path};
+
+    return Mojo::File->new($file)->slurp
+        if $file =~ m|^/|;
+
+    return Mojo::Home->new->child('..', 'etc', $file)->slurp;
+};
+
 sub register {
     my $self = shift;
-
     my $r = $self->app->routes;
-    $r->any('/' . $self->name . '/create')
+
+    $r->options('/' . $self->name . '/request')
+        ->to(namespace => $self->controller, action => 'access');
+
+    $r->post('/' . $self->name . '/request')
+        ->to(namespace => $self->controller, action => 'requestInvoice');
+
+    $r->get('/' . $self->name . '/create/:req_hash')
         ->to(namespace => $self->controller, action => 'createInvoice');
 
     $self->sqlite
         ->auto_migrate(1)
         ->migrations->name($self->name)->from_data($self->module, 'invoice.sql');
-}
-
-sub sendMail {
-    my $self = shift;
-    my $to   = shift;
-    my $id   = shift;
-    my $mail = shift;
-    my $pdf  = shift;
-
-    my $filename = localtime->strftime('%Y%m%d') . "_invoice-$id.pdf";
-    my $mimeparts = [
-        Email::MIME->create(
-            attributes => {
-                content_type => 'text/plain',
-                encoding     => 'quoted-printable',
-                charset      => 'UTF-8',
-            },
-            body => $mail,
-        ),
-        Email::MIME->create(
-            attributes => {
-                filename     => $filename,
-                content_type => 'application/pdf',
-                encoding     => 'base64',
-                name         => $filename,
-            },
-            body => $pdf,
-        ),
-    ];
-
-    my $message = Email::MIME->create(
-        header => [
-            From    => $to,
-            To      => $to,
-            Subject => "Invoice $id created",
-        ],
-        parts => $mimeparts,
-    );
-
-    Email::Sender::Simple->send($message);
 }
 
 1;
@@ -94,8 +82,9 @@ __DATA__
 
 CREATE TABLE invoice (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    req_id INTEGER,
     rand TEXT NOT NULL,
-    addr TEXT NOT NULL,
+    remote_addr TEXT NOT NULL,
     ref TEXT,
     name TEXT NOT NULL,
     company TEXT NOT NULL,
@@ -103,7 +92,8 @@ CREATE TABLE invoice (
     email TEXT NOT NULL,
     currency TEXT NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
-    date INTEGER
+    date INTEGER,
+    cancelled INTEGER DEFAULT 0
 );
 
 __END__

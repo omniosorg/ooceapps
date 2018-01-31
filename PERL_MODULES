@@ -1,10 +1,11 @@
-Mojolicious
-IO::Socket::SSL
-Mozilla::CA
-Geo::IP
+Crypt::Ed25519
 Data::Processor
-Sort::Versions
-Email::Sender
 Email::MIME
+Email::Sender
+Geo::IP
+IO::Socket::SSL
 LaTeX::Encode
 Mojo::SQLite
+Mojolicious
+Mozilla::CA
+Sort::Versions
