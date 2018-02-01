@@ -14,14 +14,14 @@ use Data::Dumper; # don't remove, not used for debugging here only
 my %DEF_MAILATTR = (
     mail => {
         content_type => 'text/plain',
+        disposition  => 'inline',
         encoding     => 'quoted-printable',
         charset      => 'UTF-8',
     },
     attach => {
-        filename     => 'text.txt',
         content_type => 'text/plain',
+        disposition  => 'attachment',
         encoding     => 'base64',
-        name         => 'text.txt',
     },
 );
 
@@ -31,6 +31,17 @@ my $dump = sub {
     $dumper->Sortkeys(1);
 
     return $dumper->Dump;
+};
+
+my $fixMIMEheader = sub {
+    my $mimeparts = shift;
+    for my $mime (@$mimeparts) {
+        my $headers = $mime->{header}->{headers};
+        for (my $i = $#$headers; $i >= 0; $i--) {
+            $headers->[$i] =~ /^(?:MIME-Version|Date)$/
+                && splice @$headers, $i, 2;
+        }
+    }
 };
 
 # static methods
@@ -108,32 +119,42 @@ sub sendMail {
     my $subj   = shift // '';
     my $mail   = shift // {};
     my $attach = shift // [];
+    my $header = shift // {};
+
+    # use a local copy
+    my $attr = { %$mail };
+    my $body = delete $attr->{body} // '';
+    $attr->{$_} //= $DEF_MAILATTR{mail}->{$_} for keys %{$DEF_MAILATTR{mail}};
 
     my $mimeparts = [
         Email::MIME->create(
-            attributes => {
-                map { $_ => $mail->{$_} // $DEF_MAILATTR{mail}->{$_} }
-                    keys %{$DEF_MAILATTR{mail}},
-            },
-            body => $mail->{body} // '',
+            attributes => $attr,
+            body       => $body,
         ),
         map {
-            my $atts = $_;
+            # use local copy
+            $attr = { %$_ };
+            $body = delete $attr->{body};
+            $attr->{$_} //= $DEF_MAILATTR{attach}->{$_} for keys %{$DEF_MAILATTR{attach}};
+
             Email::MIME->create(
-                attributes => {
-                    map { $_ => $atts->{$_} // $DEF_MAILATTR{attach}->{$_} }
-                        keys %{$DEF_MAILATTR{attach}},
-                },
-                body => $atts->{body},
+                attributes => $attr,
+                body       => $body,
             )
         } @$attach,
     ];
+
+    # Email::MIME::create always adds MIME-Version and Date headers
+    # which should not be present in sub-parts. Email::MIME does not
+    # provide a method to remove headers so we need this hack.
+    $fixMIMEheader->($mimeparts);
 
     my $message = Email::MIME->create(
         header => [
             From    => $from,
             To      => $to,
             Subject => $subj,
+            %$header,
         ],
         parts => $mimeparts,
     );
