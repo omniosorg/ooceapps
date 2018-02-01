@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>OmniOS Support Packe Invoice Request</title>
+  </head>
+  <body>
+
+<p>Thank you for your interest in an OmniOS Support Package and for
+completing the invoice request form on our web site.  Your pro-forma invoice
+has been generated and can be retrieved by visiting the following link
+(valid for 24h).</p>
+
+<p><a href="<%= $url %>">Invoice Download Link</a></p>
+
+<p>This message has been automatically generated as a result of your email
+address being entered into the <a href="https://omniosce.org/invoice">invoice request
+form</a> on the OmniOS website.</p>
+
+<p>The originator's details were:</p>
+
+<ul>
+<li>Request origin: <%== $remote_addr %></li>
+% if ($ref) {
+<li>Your reference: <%== $ref %></li>
+%}
+<li>Amount: <%== $currency %> <%= $amount %> p.a.</li>
+<li>Company: <%== $company %></li>
+<li>Name: <%== $name %></li>
+<li>Address: <%== join ', ', split /[\r\n]/, $address %></li>
+<li>Email: <%== $email %></li>
+</ul>
+
+<p>If you did not initiate this request, please discard this message; no further action is
+required.</p>
+
+<p>Thanks,<br/>
+The OmniOSce Team</p>
+
+<address>
+OmniOS Community Edition Association<br/>
+Aarweg 17, 4600 Olten, Switzerland<br/>
+patrons@omniosce.org</address>
+
+</body>
+</html>
