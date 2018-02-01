@@ -1,6 +1,4 @@
 % my $card = $stripeData->{data}{customer}{sources}{data}[0];
-Subject: OmniOSce donation collection succeeded
-
 Hello <%= $card->{name} %>
 
 We have successfully charged <%= $stripeData->{data}{object}{amount}/100 %> <%= uc($stripeData->{data}{object}{currency}) %> to <%= $card->{brand} %> x<%= $card->{last4} %>.
@@ -14,7 +12,7 @@ The OmniOSce Team
 ps. You can cancel your OmniOSce subscription at any time via <%= $stripeData->{cancelUrl} %>
 
 % }
---
+-- 
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
 patrons@omniosce.org

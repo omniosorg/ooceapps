@@ -1,7 +1,5 @@
 % use POSIX qw(strftime);
 % my $card = $stripeData->{data}{customer}{sources}{data}[0];
-Subject: OmniOSce subscription cancelled
-
 Hello <%= $card->{name} %>
 
 Upon your request, we have cancelled your OmniOSce subscription: <%= $stripeData->{data}{object}{quantity} * $stripeData->{data}{object}{plan}{amount} / 100 %> <%= $stripeData->{data}{object}{plan}{name} %>.
@@ -13,7 +11,7 @@ Thank you for supporting OmniOSce since <%= strftime('%Y-%m-%d', localtime($stri
 Regards
 The OmniOSce Team
 
---
+-- 
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
 patrons@omniosce.org

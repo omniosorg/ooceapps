@@ -11,6 +11,15 @@ has sqlite  => sub { shift->model->sqlite };
 has sec_key => sub { shift->model->sec_key };
 has fields  => sub { [ qw(name company address currency amount email ref) ] };
 
+#private methods
+my $remote_addr = sub {
+    my $c = shift;
+
+    return $c->req->headers->header('X-Real-IP')
+        || $c->req->headers->header('X-Forwarded-For')
+        || $c->tx->remote_address;
+};
+
 sub access {
     my $c = shift;
 
@@ -37,7 +46,7 @@ sub requestInvoice {
 
     $c->stash(
         url         => $c->config->{create_url} . "/$req_url",
-        remote_addr => $c->tx->remote_address,
+        remote_addr => $c->$remote_addr,
         map { $_ => $data->{$_} } @{$c->fields},
     );
 
@@ -51,7 +60,7 @@ sub requestInvoice {
         }
     ) for ($data->{email}, $c->config->{email_bcc});
 
-    $c->render(text => 'email sent.');
+    $c->render(json => { status => 'ok' });
 }
 
 sub createInvoice {
@@ -82,7 +91,7 @@ sub createInvoice {
             my $res = $c->sqlite->db->insert('invoice', {
                 date        => $data{date},
                 rand        => $data{rand},
-                remote_addr => $c->tx->remote_address,
+                remote_addr => $c->$remote_addr,
                 req_id      => $req_data->{req_id},
                 %data
             });

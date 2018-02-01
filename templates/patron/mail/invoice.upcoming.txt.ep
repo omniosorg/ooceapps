@@ -1,6 +1,4 @@
 % my $card = $stripeData->{data}{customer}{sources}{data}[0];
-Subject: OmniOSce subscription upcoming payment
-
 Hello <%= $card->{name} %>
 
 We are going to charge <%= $stripeData->{data}{object}{amount_due}/100 %> <%= uc($stripeData->{data}{object}{currency}) %> to <%= $card->{brand} %> x<%= $card->{last4} %> in the next few days.
@@ -12,7 +10,7 @@ You can cancel your OmniOSce subscription at any time via <%= $stripeData->{canc
 Regards
 The OmniOSce Team
 
---
+-- 
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
 patrons@omniosce.org
