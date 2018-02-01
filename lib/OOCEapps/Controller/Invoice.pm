@@ -65,6 +65,7 @@ sub requestInvoice {
                 content_type => 'text/html',
                 disposition  => 'inline',
                 encoding     => 'quoted-printable',
+                charset      => 'UTF-8',
                 body         => $mail_html,
             },
         ],
@@ -158,7 +159,7 @@ sub createInvoice {
             my $mail = encode 'UTF-8',
                 $c->render_to_string(template => 'invoice/mail/invoice_created', format => 'txt');
 
-            my $filename = "$data{date}_invoice-$invnr.pdf";
+            my $filename = Time::Piece->new($data{date})->strftime('%F') . "_invoice-$invnr.pdf";
             OOCEapps::Utils::sendMail($c->config->{email_bcc}, $c->config->{email_from},
                 "Invoice $invnr created",
                 {

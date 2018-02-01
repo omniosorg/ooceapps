@@ -14,6 +14,7 @@ use Data::Dumper; # don't remove, not used for debugging here only
 my %DEF_MAILATTR = (
     mail => {
         content_type => 'text/plain',
+        disposition  => 'inline',
         encoding     => 'quoted-printable',
         charset      => 'UTF-8',
     },
@@ -30,6 +31,17 @@ my $dump = sub {
     $dumper->Sortkeys(1);
 
     return $dumper->Dump;
+};
+
+my $fixMIMEheader = sub {
+    my $mimeparts = shift;
+    for my $mime (@$mimeparts) {
+        my $headers = $mime->{header}->{headers};
+        for (my $i = $#$headers; $i >= 0; $i--) {
+            $headers->[$i] =~ /^(?:MIME-Version|Date)$/
+                && splice @$headers, $i, 2;
+        }
+    }
 };
 
 # static methods
@@ -131,6 +143,11 @@ sub sendMail {
             )
         } @$attach,
     ];
+
+    # Email::MIME::create always adds MIME-Version and Date headers
+    # which should not be present in sub-parts. Email::MIME does not
+    # provide a method to remove headers so we need this hack.
+    $fixMIMEheader->($mimeparts);
 
     my $message = Email::MIME->create(
         header => [
