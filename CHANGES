@@ -1,3 +1,129 @@
+commit 0785021874f8f1f5f3bcf13bb88b59b537b4fb98
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 1 19:40:28 2018 +0100
+
+    data validation
+
+commit f3472887f471281c2c6c81347f40dd05baa730f5
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 1 15:54:45 2018 +0100
+
+    remove MIME-Version and Date headers from sub-parts
+
+commit b5c0e0f5625d6213ec9ce71f60c4d4e337736c07
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 1 13:31:41 2018 +0100
+
+    invoice request message also as html
+
+commit 741cf9ce120f60cc6eeb80dc808c01ef8f2df95f
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Thu Feb 1 12:09:04 2018 +0100
+
+    add html invoice
+
+commit c76c72760e3a14bc3accd3d89760df01074f7f2e
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Jan 31 23:20:44 2018 +0100
+
+    patrons: use generic mailer
+
+commit f8eea6831b5a18f05472277a6f05b8016835902d
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Jan 31 22:54:01 2018 +0100
+
+    bugfixes
+
+commit fa8d4aa5445891a6e5476bb358ee764d55f6dad6
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Jan 31 21:22:21 2018 +0100
+
+    fixing example
+
+commit 285da84b7060f4141d4afcfeb66cb1645c22fc7a
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Jan 31 02:59:05 2018 +0100
+
+    invoice creation module
+
+commit 768be4a2452b438339f4bd659d6c910d6d09974f
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Sun Jan 28 19:05:17 2018 +0100
+
+    added crypto code
+
+commit 164fdf38c2f6d373db562d1bdd3af5e25fd28521
+Author: Dominik Hassler <hadfl@cpan.org>
+Date:   Tue Jan 30 09:03:39 2018 +0100
+
+    fix parser for libedit
+
+commit cd0c761a05804311b3364d505e309a9e71b3e039
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Jan 28 16:39:00 2018 +0100
+
+    unique invoice numbers
+
+commit 8953ad302897079f9502e551fa9e2517b7d73fa5
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Jan 28 13:53:11 2018 +0100
+
+    ignore 'rc' releases for GitHub packages
+
+commit c6dd39d7fb40f11d926e876629fb5e233b996611
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Jan 28 13:39:49 2018 +0100
+
+    reuse stashed data
+
+commit 9515e68d6167c9eeadcebae481bddbc98ec350f9
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Jan 28 13:34:19 2018 +0100
+
+    log remote address
+
+commit 8f046ef4256d61016eeaba14a15db39f954e163b
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Jan 26 18:57:19 2018 +0100
+
+    fix .gitignore
+
+commit 16f6c4fb7cb830ca2a4a11fe8add49f2bf48cad1
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Jan 26 15:09:05 2018 +0100
+
+    ignore 'rc' releases
+
+commit 5ce536c50abbb77c64597bda7e14fe3caef9eb61
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Jan 26 13:22:38 2018 +0100
+
+    just use '-x'
+
+commit 5a1ca020ee966a2cabbd6860bdde059471ab9a5c
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Jan 26 12:21:30 2018 +0100
+
+    fix encoding #2
+
+commit 23d478a963d67f067edbed1d266aa897eb3e27d9
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Jan 25 23:50:49 2018 +0100
+
+    don't check perl versions not shipped with OmniOS
+
+commit e753c7af3e64fdd61cb1e235d7e90e4ee82aa788
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Jan 25 23:09:59 2018 +0100
+
+    fix encoding
+
+commit d6d89e3e2546cff62bdd8734346ef578bb1c3934
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Jan 25 19:12:38 2018 +0100
+
+    ready for 0.3.0
+
 commit d7744e4b4a8235e423c1a3e67b20c9db82279040
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Thu Jan 25 10:37:31 2018 +0100
