@@ -123,8 +123,10 @@ sub requestInvoice {
 sub createInvoice {
     my $c = shift;
 
-    my $req_data = OOCEapps::Utils::unpack($c->stash('req_hash'),
+    my $req_data = eval { OOCEapps::Utils::unpack($c->stash('req_hash'),
         Crypt::Ed25519::eddsa_public_key($c->sec_key), 24 * 3600);
+    };
+    return $c->render(text => 'Invalid or outdated request URL.', status => 500) if ($@);
 
     my %data;
     eval {
