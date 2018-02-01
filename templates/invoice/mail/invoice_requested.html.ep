@@ -1,14 +1,14 @@
 <!doctype html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>OmniOS Support Packe Invoice Request</title>
-  </head>
-  <body>
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>OmniOS Support Package Invoice Request</title>
+</head>
+<body>
 
 <p>Thank you for your interest in an OmniOS Support Package and for
-completing the invoice request form on our web site.  Your pro-forma invoice
+completing the invoice request form on our web site. Your pro-forma invoice
 has been generated and can be retrieved by visiting the following link
 (valid for 24h).</p>
 
@@ -28,7 +28,7 @@ form</a> on the OmniOS website.</p>
 <li>Amount: <%== $currency %> <%= $amount %> p.a.</li>
 <li>Company: <%== $company %></li>
 <li>Name: <%== $name %></li>
-<li>Address: <%== join ', ', split /[\r\n]/, $address %></li>
+<li>Address: <%== join ', ', split /[\r\n]+/, $address %></li>
 <li>Email: <%== $email %></li>
 </ul>
 

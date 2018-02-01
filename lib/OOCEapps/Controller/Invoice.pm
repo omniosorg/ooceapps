@@ -50,13 +50,26 @@ sub requestInvoice {
         map { $_ => $data->{$_} } @{$c->fields},
     );
 
-    my $mail = encode 'UTF-8',
-        $c->render_to_string('invoice/mail/invoice_requested', format => 'txt');
+    my ($mail, $mail_html) = map {
+        encode 'UTF-8',
+            $c->render_to_string('invoice/mail/invoice_requested', format => $_)
+    } qw(txt html);
 
     OOCEapps::Utils::sendMail($_, $c->config->{email_from},
         'Your OmniOS Support pro-forma invoice request',
         {
             body => $mail,
+        },
+        [
+            {
+                content_type => 'text/html',
+                disposition  => 'inline',
+                encoding     => 'quoted-printable',
+                body         => $mail_html,
+            },
+        ],
+        {
+            'Content-Type' => 'multipart/alternative',
         }
     ) for ($data->{email}, $c->config->{email_bcc});
 

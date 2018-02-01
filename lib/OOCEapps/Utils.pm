@@ -18,10 +18,9 @@ my %DEF_MAILATTR = (
         charset      => 'UTF-8',
     },
     attach => {
-        filename     => 'text.txt',
         content_type => 'text/plain',
+        disposition  => 'attachment',
         encoding     => 'base64',
-        name         => 'text.txt',
     },
 );
 
@@ -108,23 +107,27 @@ sub sendMail {
     my $subj   = shift // '';
     my $mail   = shift // {};
     my $attach = shift // [];
+    my $header = shift // {};
+
+    # use a local copy
+    my $attr = { %$mail };
+    my $body = delete $attr->{body} // '';
+    $attr->{$_} //= $DEF_MAILATTR{mail}->{$_} for keys %{$DEF_MAILATTR{mail}};
 
     my $mimeparts = [
         Email::MIME->create(
-            attributes => {
-                map { $_ => $mail->{$_} // $DEF_MAILATTR{mail}->{$_} }
-                    keys %{$DEF_MAILATTR{mail}},
-            },
-            body => $mail->{body} // '',
+            attributes => $attr,
+            body       => $body,
         ),
         map {
-            my $atts = $_;
+            # use local copy
+            $attr = { %$_ };
+            $body = delete $attr->{body};
+            $attr->{$_} //= $DEF_MAILATTR{attach}->{$_} for keys %{$DEF_MAILATTR{attach}};
+
             Email::MIME->create(
-                attributes => {
-                    map { $_ => $atts->{$_} // $DEF_MAILATTR{attach}->{$_} }
-                        keys %{$DEF_MAILATTR{attach}},
-                },
-                body => $atts->{body},
+                attributes => $attr,
+                body       => $body,
             )
         } @$attach,
     ];
@@ -134,6 +137,7 @@ sub sendMail {
             From    => $from,
             To      => $to,
             Subject => $subj,
+            %$header,
         ],
         parts => $mimeparts,
     );
