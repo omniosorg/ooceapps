@@ -9,7 +9,37 @@ use OOCEapps::Utils;
 
 has sqlite  => sub { shift->model->sqlite };
 has sec_key => sub { shift->model->sec_key };
-has fields  => sub { [ qw(name company address currency amount email ref) ] };
+has fields  => sub { [ qw(name email company ref address amount currency) ] };
+has fschema => sub { {
+    name     => {
+        rx  => qr/^.+$/,
+        msg => 'Name must be provided.',
+    },
+    company  => {
+        rx  => qr/^.*$/,
+        msg => 'Company name is invalid.',
+    },
+    address  => {
+        rx  => qr/^.+$/s,
+        msg => 'Address must be provided.',
+    },
+    currency => {
+        rx  => qr/^(?:usd|eur|gbp|chf)$/i,
+        msg => 'Currency is invalid.',
+    },
+    amount   => {
+        rx  => qr/^\d+(?:\.\d{2})?$/,
+        msg => 'Amount must be numeric.',
+    },
+    email    => {
+        rx  => qr/^[^\@]+\@[^\@]+$/,
+        msg => 'Email address is invalid.',
+    },
+    ref      => {
+        rx  => qr/^.*$/,
+        msg => 'Ref is invalid.',
+    },
+} };
 
 #private methods
 my $remote_addr = sub {
@@ -40,6 +70,19 @@ sub requestInvoice {
 
     my $data = $c->req->json
         or return $c->render(text => 'bad input', code => 500);
+
+    # validate input data
+    for my $field (@{$c->fields}) {
+        my $rx = $c->fschema->{$field}->{rx};
+        return $c->render(
+            json => {
+                status => 'error',
+                target => $field . '_fld',
+                text   => $c->fschema->{$field}->{msg},
+            },
+            code => 500
+        ) if $data->{$field} !~ /$rx/;
+    }
 
     $data->{req_id} = time . sprintf('%04d', int (rand (9999) + 1));
     my $req_url = OOCEapps::Utils::pack($data, $c->sec_key);
