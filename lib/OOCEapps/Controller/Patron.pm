@@ -91,7 +91,7 @@ sub webhook {
             } ($data->{type}, "$data->{type}.subject");
 
             OOCEapps::Utils::sendMail($_, $c->config->{emailFrom}, $subj, $mail)
-                for ($data->{data}{customer}{email}, $self->config->{emailBcc});
+                for ($data->{data}{customer}{email}, $c->config->{emailBcc});
         }
         else {
             $c->log->debug('Webhook Unhandled:'.$c->app->dumper($data));
