@@ -81,8 +81,6 @@ sub webhook {
             my $subKey         = $c->model->getSubKey($data->{data}{subscriptions}{data}[0]{id});
             $data->{cancelUrl} = $c->model->config->{cancelUrl}.'/'.$subKey if $subKey;
 
-                template => 'patron/mail/'.$data->{type},
-
             $c->stash(stripeData => $data);
             my ($mail, $subj) = map {
                 encode 'UTF-8', $c->render_to_string(
@@ -90,7 +88,7 @@ sub webhook {
                     format   => 'txt')
             } ($data->{type}, "$data->{type}.subject");
 
-            OOCEapps::Utils::sendMail($_, $c->config->{emailFrom}, $subj, $mail)
+            OOCEapps::Utils::sendMail($_, $c->config->{emailFrom}, $subj, { body => $mail } )
                 for ($data->{data}{customer}{email}, $c->config->{emailBcc});
         }
         else {
