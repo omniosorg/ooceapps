@@ -83,13 +83,16 @@ sub webhook {
 
             $c->stash(stripeData => $data);
             my ($mail, $subj) = map {
-                encode 'UTF-8', $c->render_to_string(
+                $c->render_to_string(
                     template => "patron/mail/$_",
                     format   => 'txt')
             } ($data->{type}, "$data->{type}.subject");
 
-            OOCEapps::Utils::sendMail($_, $c->config->{emailFrom}, $subj, { body => $mail } )
-                for ($data->{data}{customer}{email}, $c->config->{emailBcc});
+            if ($mail && $subj) {
+                OOCEapps::Utils::sendMail($_, $c->config->{emailFrom},
+                    encode('UTF-8', $subj), { body => encode('UTF-8', $mail) })
+                    for ($data->{data}{customer}{email}, $c->config->{emailBcc});
+            }
         }
         else {
             $c->log->debug('Webhook Unhandled:'.$c->app->dumper($data));

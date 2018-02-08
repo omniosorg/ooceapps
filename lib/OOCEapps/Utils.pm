@@ -121,6 +121,11 @@ sub sendMail {
     my $attach = shift // [];
     my $header = shift // {};
 
+    # no vertical whitespaces in subject
+    $subj =~ s/[\r\n]+/ /g;
+    # remove leading and trailing whitespaces
+    $subj =~ s/^\s+|\s+$//g;
+
     # use a local copy
     my $attr = { %$mail };
     my $body = delete $attr->{body} // '';
