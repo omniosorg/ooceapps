@@ -58,6 +58,17 @@ $updateGeoIP = sub {
     Mojo::IOLoop->timer(7 * 24 * 3600 => sub { $self->$updateGeoIP }) if !$oneoff;
 };
 
+my $seenInRel = sub {
+    my $uuid   = shift;
+    my $ip     = shift;
+    my $relTbl = shift;
+
+    # if UUID is not given (i.e. '-') check if the unique IP has been seen
+    # otherwise check if the UUID has been seen
+    return $uuid eq '-' ? exists $relTbl->{ips}->{$ip}
+        : exists $relTbl->{uuids}->{$uuid};
+};
+
 my $parseFiles = sub {
     my $self  = shift;
     my $epoch = gmtime->epoch;
@@ -95,7 +106,7 @@ my $parseFiles = sub {
 
     my $gip = Geo::IP->open($self->config->{geoipDB}, GEOIP_MEMORY_CACHE);
     my $db = {};
-    my %uuidTbl;
+    my %seenTbl;
 
     for my $rel (keys %$data) {
         for my $day (sort { $a <=> $b } keys %{$data->{$rel}}) {
@@ -108,20 +119,20 @@ my $parseFiles = sub {
                 };
 
                 $db->{$rel}->{$day}->{$country}->{unique}++
-                    if !exists $uuidTbl{$rel}->{$ip};
+                    if !exists $seenTbl{$rel}->{ips}->{$ip};
                 $db->{$rel}->{$day}->{$country}->{total}
                     += $data->{$rel}->{$day}->{$ip}->{count};
 
-                exists $uuidTbl{$rel}->{$ip}->{$_} || do {
+                $seenInRel->($_, $ip, $seenTbl{$rel}) || do {
                     my $uuid = $_;
-                    $uuidTbl{$rel}->{$ip}->{$uuid} = undef;
+                    $seenTbl{$rel}->{uuids}->{$uuid} = undef;
 
                     $db->{$rel}->{$day}->{$country}->{uuids}++;
                     $db->{$rel}->{$day}->{$country}->{$_}
                         += $data->{$rel}->{$day}->{$ip}->{uuids}->{$uuid}->{$_} // 0 for qw(global nonglobal);
                 } for (keys %{$data->{$rel}->{$day}->{$ip}->{uuids}});
 
-                $uuidTbl{$rel}->{$ip} = {} if !exists $uuidTbl{$rel}->{$ip};
+                $seenTbl{$rel}->{ips}->{$ip} = undef;
             }
         }
     }
