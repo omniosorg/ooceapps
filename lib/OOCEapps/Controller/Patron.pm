@@ -88,11 +88,12 @@ sub webhook {
                     format   => 'txt')
             } ($data->{type}, "$data->{type}.subject");
 
-            if ($mail && $subj) {
-                OOCEapps::Utils::sendMail($_, $c->config->{emailFrom},
-                    encode('UTF-8', $subj), { body => encode('UTF-8', $mail) })
-                    for ($data->{data}{customer}{email}, $c->config->{emailBcc});
-            }
+            OOCEapps::Utils::sendMail(
+                { to => $data->{data}{customer}{email}, bcc => $c->config->{emailBcc} },
+                $c->config->{emailFrom},
+                encode('UTF-8', $subj),
+                { body => encode('UTF-8', $mail) }
+            ) if $mail && $subj;
         }
         else {
             $c->log->debug('Webhook Unhandled:'.$c->app->dumper($data));
