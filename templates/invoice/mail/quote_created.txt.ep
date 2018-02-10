@@ -1,0 +1,23 @@
+% use Time::Piece;
+% use OOCEapps::Utils;
+% if ($ref) {
+Customer reference: <%= $ref %>
+
+%}
+Amount: <%= $currency %> <%= $amount + 50 %>  (*)
+
+Period: <%= Time::Piece->new($date)->strftime('%Y.%m') %> - <%= Time::Piece->new(OOCEapps::Utils::addMonths($date, 11))->strftime('%Y.%m') %>
+
+Address:
+<%= $company %>
+<%= $name %>
+<%= $address %>
+
+<%= $email %>
+
+*) we add 50 <%= $currency %> to the quoted price for PO based purchases as they tend to involve extra paperwork from our side.
+
+--
+OmniOS Community Edition Association
+Aarweg 17, 4600 Olten, Switzerland
+patrons@omniosce.org

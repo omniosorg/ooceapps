@@ -1,0 +1,79 @@
+% use Time::Piece;
+% use OOCEapps::Utils;
+% use LaTeX::Encode ':all', add => { "\n" => '\\newline{}' };
+\nonstopmode
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2cm,top=1.5cm,bottom=1.5cm]{geometry}
+\usepackage{color}
+\usepackage{fontspec}
+\usepackage{textcomp}
+\setmainfont{Roboto}[
+    Path = <%== $AssetPath %>/,
+    Extension = .ttf,
+    UprightFont = *-Regular,
+    BoldFont = *-Bold,
+    BoldItalicFont = *-BoldItalic,
+    ItalicFont = *-Italic
+]
+\usepackage{graphicx}
+\usepackage{calc}
+\pagestyle{empty}
+\setlength{\unitlength}{1mm}
+\setlength{\parindent}{0ex}
+\setlength{\parskip}{2ex plus 0.5ex minus 0.2ex}
+\begin{document}
+\vspace*{-6ex}
+\hspace*{\stretch{1}}\includegraphics[width=3cm]{<%== $AssetPath %>/logo.pdf}
+
+\textbf{OmniOS Community Edition Association}\newline
+Aarweg 17, 4600 Olten\newline
+Switzerland\\[2ex]
+patrons@omniosce.org
+
+\hspace*{\stretch{1}}\begin{minipage}{0.4\textwidth}
+\textbf{<%== latex_encode $company %>}\newline
+<%== latex_encode $name %>\newline
+<%== latex_encode $address %>
+\end{minipage}
+
+\vspace{4ex}
+<%== Time::Piece->new($date)->strftime('Olten, %e %B %Y') %>
+
+% if ($ref) {
+\vspace{4ex}
+Your reference: <%== latex_encode $ref %>
+%}
+% else {
+\vspace{2ex}
+%}
+
+\vspace{2ex}
+\textbf{\Large Quote <%== $QuoteId %>}
+
+\vspace{2ex}
+\begin{minipage}[b]{0.6\textwidth}
+\flushleft
+\textbf{OmniOS CE Support Package\footnotemark{}
+    \mbox{%
+        <%== Time::Piece->new($date)->strftime('%Y.%m') %> --
+        <%== Time::Piece->new(OOCEapps::Utils::addMonths($date, 11))->strftime('%Y.%m') %>
+    }
+}
+
+The package includes weekly security updates as necessary,
+   LTS releases with one year migration overlap and direct developer
+    access for second level support.
+\end{minipage}%
+\footnotetext{
+Support comes with a best
+ effort reaction time of 4 hours on our Gitter support channel.
+ This contract does NOT include any guaranteed problem resolutions. Depending on
+  the nature of your request we will offer custom development and debugging
+  services on a case by case basis and we will facilitate contact with relevant domain
+  experts from our support network.}
+\begin{minipage}[b]{0.2\textwidth}
+\hspace*{\stretch{1}}\textbf{<%== latex_encode ($amount + 50 )%>\,<%== latex_encode $currency %>}
+\end{minipage}
+
+
+\end{document}

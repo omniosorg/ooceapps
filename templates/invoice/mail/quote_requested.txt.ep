@@ -1,0 +1,31 @@
+Thank you for your interest in an OmniOS Support Package and for completing the quote request form on our web site. Your quote has been generated and can be retrieved by visiting the following link (valid for 24h):
+
+<%= $url %>
+
+This message has been automatically generated as a result of your email address being entered into the invoice request form at https://omniosce.org/invoice - the originator's details were:
+
+Request origin: <%= $remote_addr %>
+% if ($ref) {
+
+Your reference: <%= $ref %>
+%}
+
+Amount: <%= $currency %> <%= $amount + 100 %> p.a. (*)
+
+<%= $company %>
+<%= $name %>
+<%= $address %>
+<%= $email %>
+
+
+If you did not initiate this request, please discard this message; no further action is required.
+
+Thanks,
+The OmniOSce Team
+
+*) We add 100 <%= $currency %> to the quoted price for PO based purchases as they tend to involve extra paperwork from our side.
+
+--
+OmniOS Community Edition Association
+Aarweg 17, 4600 Olten, Switzerland
+patrons@omniosce.org
