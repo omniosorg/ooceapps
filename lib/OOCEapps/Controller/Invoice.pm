@@ -98,7 +98,9 @@ sub requestInvoice {
             $c->render_to_string('invoice/mail/invoice_requested', format => $_)
     } qw(txt html);
 
-    OOCEapps::Utils::sendMail($_, $c->config->{email_from},
+    OOCEapps::Utils::sendMail(
+        { to => $data->{email}, bcc => $c->config->{email_bcc} },
+        $c->config->{email_from},
         'Your OmniOS Support pro-forma invoice request',
         {
             body => $mail,
@@ -115,7 +117,7 @@ sub requestInvoice {
         {
             'Content-Type' => 'multipart/alternative',
         }
-    ) for ($data->{email}, $c->config->{email_bcc});
+    );
 
     $c->render(json => { status => 'ok' });
 }
@@ -205,7 +207,9 @@ sub createInvoice {
                 $c->render_to_string(template => 'invoice/mail/invoice_created', format => 'txt');
 
             my $filename = Time::Piece->new($data{date})->strftime('%F') . "_invoice-$invnr.pdf";
-            OOCEapps::Utils::sendMail($c->config->{email_bcc}, $c->config->{email_from},
+            OOCEapps::Utils::sendMail(
+                { to => $data{email}, bcc => $c->config->{email_bcc}, bcc_only => 1 },
+                $c->config->{email_from},
                 "Invoice $invnr created",
                 {
                     body => $mail,

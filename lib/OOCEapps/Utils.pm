@@ -121,11 +121,6 @@ sub sendMail {
     my $attach = shift // [];
     my $header = shift // {};
 
-    # no vertical whitespaces in subject
-    $subj =~ s/[\r\n]+/ /g;
-    # remove leading and trailing whitespaces
-    $subj =~ s/^\s+|\s+$//g;
-
     # use a local copy
     my $attr = { %$mail };
     my $body = delete $attr->{body} // '';
@@ -154,17 +149,29 @@ sub sendMail {
     # provide a method to remove headers so we need this hack.
     $fixMIMEheader->($mimeparts);
 
+    # no vertical whitespaces in subject
+    $subj =~ s/[\r\n]+/ /g;
+    # remove leading and trailing whitespaces
+    $subj =~ s/^\s+|\s+$//g;
+
+    my %toHdr = ref $to eq 'HASH'
+        ? map { ucfirst ($_) => $to->{$_} } grep { /^(?:to|cc)$/ } keys %$to
+        : ( To => $to );
+
     my $message = Email::MIME->create(
         header => [
             From    => $from,
-            To      => $to,
+            %toHdr,
             Subject => $subj,
             %$header,
         ],
         parts => $mimeparts,
     );
 
-    Email::Sender::Simple->send($message);
+    Email::Sender::Simple->send($message, { to => $to->{bcc} })
+        if ref $to eq 'HASH' && $to->{bcc};
+    Email::Sender::Simple->send($message)
+        if !(ref $to eq 'HASH' && $to->{bcc_only});
 }
 
 sub addMonths {
