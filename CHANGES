@@ -1,3 +1,57 @@
+commit d96212e104b0fe5d4abb37b4c24a75e267cb99d0
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Feb 12 14:37:48 2018 +0100
+
+    quote request added
+
+commit a82327bd5aca79991d3563ce8c2a3ae7745f8092
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Sat Feb 10 16:52:10 2018 +0100
+
+    quotes templates
+
+commit 26b66f429ef1ea576da19417c621c536273a2f00
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Feb 10 16:02:46 2018 +0100
+
+    support bcc'ing
+
+commit 74a6e57b4bf7310185ab7ed707be7f615467b88b
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 8 19:23:07 2018 +0100
+
+    treat UUIDs unique not IP bound
+
+commit 6acf45dab248bcbdf37f3103e44b3eb7a06a5b73
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 8 12:29:52 2018 +0100
+
+    don't send mail if no template is present
+
+commit 709b1c0b2a7c4d17974ff17c853bedb9c4ca60c2
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Wed Feb 7 11:16:39 2018 +0100
+
+    another mail fix
+
+commit 62763daa55cc7ab4d46f201688bbf4a522b0a080
+Author: Tobias Oetiker <tobi@oetiker.ch>
+Date:   Tue Feb 6 16:17:03 2018 +0100
+
+    self -> c
+
+commit 3ed6a4c0426aa4bb4b7517d554c2305dd5bafb67
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 1 22:50:52 2018 +0100
+
+    error checking
+
+commit 6e7536b630a71d791f14ec989fbd0134a0745b51
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 1 21:40:44 2018 +0100
+
+    ready for 0.3.1
+
 commit 0785021874f8f1f5f3bcf13bb88b59b537b4fb98
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Thu Feb 1 19:40:28 2018 +0100
