@@ -12,10 +12,10 @@ completing the quote request form on our web site. Your quote
 has been generated and can be retrieved by visiting the following link
 (valid for 24h).</p>
 
-<p><a href="<%= $url %>">Invoice Download Link</a></p>
+<p><a href="<%= $url %>">Quote Download Link</a></p>
 
 <p>This message has been automatically generated as a result of your email
-address being entered into the <a href="https://omniosce.org/invoice">invoice request
+address being entered into the <a href="https://omniosce.org/invoice">quote request
 form</a> on the OmniOS website.</p>
 
 <p>The originator's details were:</p>
