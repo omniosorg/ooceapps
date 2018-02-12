@@ -48,7 +48,7 @@ Your reference: <%== latex_encode $ref %>
 %}
 
 \vspace{2ex}
-\textbf{\Large Quote <%== $QuoteId %>}
+\textbf{\Large Quote <%== $InvoiceId %>}
 
 \vspace{2ex}
 \begin{minipage}[b]{0.6\textwidth}
@@ -72,7 +72,7 @@ Support comes with a best
   services on a case by case basis and we will facilitate contact with relevant domain
   experts from our support network.}
 \begin{minipage}[b]{0.2\textwidth}
-\hspace*{\stretch{1}}\textbf{<%== latex_encode ($amount + 50 )%>\,<%== latex_encode $currency %>}
+\hspace*{\stretch{1}}\textbf{<%== latex_encode($amount + $quote_fee) %>\,<%== latex_encode $currency %>}
 \end{minipage}
 
 

@@ -1,17 +1,21 @@
 % use Time::Piece;
 % use OOCEapps::Utils;
 % if ($ref) {
-Customer reference: <%= $ref %>
+Customer reference: <%== $ref %>
 
 %}
-Amount: <%= $currency %> <%= $amount %>
+Amount: <%== $currency %> <%== $amount %>
 
-Period: <%= Time::Piece->new($date)->strftime('%Y.%m') %> - <%= Time::Piece->new(OOCEapps::Utils::addMonths($date, 11))->strftime('%Y.%m') %>
+Period: <%== Time::Piece->new($date)->strftime('%Y.%m') %> - <%== Time::Piece->new(OOCEapps::Utils::addMonths($date, 11))->strftime('%Y.%m') %>
 
 Address:
-<%= $company %>
-<%= $name %>
-<%= $address %>
+<%== $company %>
+<%== $name %>
+<%== $address %>
 
-<%= $email %>
+<%== $email %>
 
+--
+OmniOS Community Edition Association
+Aarweg 17, 4600 Olten, Switzerland
+patrons@omniosce.org

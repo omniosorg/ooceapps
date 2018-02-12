@@ -5,6 +5,7 @@
             "email_from" : "patrons@omniosce.org",
             "email_bcc"  : "patrons@omniosce.org",
             "key_path"   : "./invoice_sec.key",
+            "quote_fee"  : "50",
             "create_url" : "https://apps.omniosce.org/invoice/create"
         },
         "pkgstat" : {
