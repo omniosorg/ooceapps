@@ -4,7 +4,7 @@
 Customer reference: <%== $ref %>
 
 %}
-Amount: <%== $currency %> <%== $amount %>
+Amount: <%== $currency %> <%== $amount + $quote_fee %>  (*)
 
 Period: <%== Time::Piece->new($date)->strftime('%Y.%m') %> - <%== Time::Piece->new(OOCEapps::Utils::addMonths($date, 11))->strftime('%Y.%m') %>
 
@@ -14,6 +14,8 @@ Address:
 <%== $address %>
 
 <%== $email %>
+
+*) we add <%== $quote_fee %> <%== $currency %> to the quoted price for PO based purchases as they tend to involve extra paperwork from our side.
 
 --
 OmniOS Community Edition Association

@@ -3,12 +3,12 @@
 <head>
   <meta name="viewport" content="width=device-width" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>OmniOS Support Package Invoice Request</title>
+  <title>OmniOS Support Package Quote Request</title>
 </head>
 <body>
 
 <p>Thank you for your interest in an OmniOS Support Package and for
-completing the invoice request form on our web site. Your pro-forma invoice
+completing the quote request form on our web site. Your quote
 has been generated and can be retrieved by visiting the following link
 (valid for 24h).</p>
 
@@ -25,7 +25,7 @@ form</a> on the OmniOS website.</p>
 % if ($ref) {
 <li>Your reference: <%= $ref %></li>
 %}
-<li>Amount: <%= $currency %> <%= $amount %> p.a.</li>
+<li>Amount: <%= $currency %> <%= $amount + $quote_fee %> p.a. (*)</li>
 <li>Company: <%= $company %></li>
 <li>Name: <%= $name %></li>
 <li>Address: <%= join ', ', split /[\r\n]+/, $address %></li>
@@ -42,6 +42,7 @@ The OmniOSce Team</p>
 OmniOS Community Edition Association<br/>
 Aarweg 17, 4600 Olten, Switzerland<br/>
 patrons@omniosce.org</address>
-
+<br/>
+<small>*) We add <%= $quote_fee %> <%= $currency %> to the quoted price for PO based purchases as they tend to involve extra paperwork from our side.</small>
 </body>
 </html>

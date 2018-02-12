@@ -31,6 +31,12 @@ has schema => sub {
             description => 'path to file containing the secret key',
             example     => '/etc/opt/ooce/private/invoice_sec.key',
         },
+        quote_fee => {
+            description => 'fee for quote handling',
+            example     => '50',
+            default     => '50',
+            validator   => $sv->regexp(qr/^\d+$/, 'value is not numeric'),
+        },
         create_url => {
             description => 'url prefix for invoice creation requests',
             example     => 'https://apps.omniosce.org/invoice/create',
@@ -81,6 +87,24 @@ __DATA__
 -- 1 up
 
 CREATE TABLE invoice (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    req_id INTEGER,
+    rand TEXT NOT NULL,
+    remote_addr TEXT NOT NULL,
+    ref TEXT,
+    name TEXT NOT NULL,
+    company TEXT NOT NULL,
+    address TEXT NOT NULL,
+    email TEXT NOT NULL,
+    currency TEXT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    date INTEGER,
+    cancelled INTEGER DEFAULT 0
+);
+
+-- 2 up
+
+CREATE TABLE quote (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     req_id INTEGER,
     rand TEXT NOT NULL,

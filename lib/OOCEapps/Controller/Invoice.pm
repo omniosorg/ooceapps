@@ -39,6 +39,10 @@ has fschema => sub { {
         rx  => qr/^.*$/,
         msg => 'Ref is invalid.',
     },
+    type     => {
+        rx  => qr/^(?:invoice|quote)$/,
+        msg => 'Type invalid.',
+    },
 } };
 
 #private methods
@@ -72,7 +76,7 @@ sub requestInvoice {
         or return $c->render(text => 'bad input', code => 500);
 
     # validate input data
-    for my $field (@{$c->fields}) {
+    for my $field (@{$c->fields}, qw(type)) {
         my $rx = $c->fschema->{$field}->{rx};
         return $c->render(
             json => {
@@ -90,18 +94,19 @@ sub requestInvoice {
     $c->stash(
         url         => $c->config->{create_url} . "/$req_url",
         remote_addr => $c->$remote_addr,
+        quote_fee   => $c->config->{quote_fee},
         map { $_ => $data->{$_} } @{$c->fields},
     );
 
     my ($mail, $mail_html) = map {
         encode 'UTF-8',
-            $c->render_to_string('invoice/mail/invoice_requested', format => $_)
+            $c->render_to_string('invoice/mail/' . $data->{type} . '_requested', format => $_)
     } qw(txt html);
 
     OOCEapps::Utils::sendMail(
         { to => $data->{email}, bcc => $c->config->{email_bcc} },
         $c->config->{email_from},
-        'Your OmniOS Support pro-forma invoice request',
+        'Your OmniOS Support ' . $data->{type} . ' request',
         {
             body => $mail,
         },
@@ -130,10 +135,15 @@ sub createInvoice {
     };
     return $c->render(text => 'Invalid or outdated request URL.', status => 500) if ($@);
 
+    my $type = $req_data->{type} // '';
+    # we should not get any 'bad' types as we check when processing the request; but still, double check...
+    return $c->render(text => 'Invalid request type.', status => 500)
+        if $type !~ /^(?:invoice|quote)$/;
+
     my %data;
     eval {
         if (my $d = $c->sqlite->db->select(
-            'invoice', '*', { req_id => $req_data->{req_id} })->hash) {
+            $type, '*', { req_id => $req_data->{req_id} })->hash) {
             %data = (
                 id          => $d->{id},
                 date        => $d->{date},
@@ -149,13 +159,16 @@ sub createInvoice {
                 map { $_ => $req_data->{$_} } @{$c->fields},
             );
 
-            my $res = $c->sqlite->db->insert('invoice', {
-                date        => $data{date},
-                rand        => $data{rand},
-                remote_addr => $c->$remote_addr,
-                req_id      => $req_data->{req_id},
-                %data
-            });
+            my $res = $c->sqlite->db->insert(
+                $type,
+                {
+                    date        => $data{date},
+                    rand        => $data{rand},
+                    remote_addr => $c->$remote_addr,
+                    req_id      => $req_data->{req_id},
+                    %data
+                }
+            );
             $data{id} = $res->last_insert_id if $res;
         }
     };
@@ -171,9 +184,10 @@ sub createInvoice {
     $c->stash(
         AssetPath => $c->app->home->rel_file('share/invoice')->to_string,
         InvoiceId => $invnr,
+        quote_fee => $c->config->{quote_fee},
         %data
     );
-    my $tex = $c->render_to_string(template => 'invoice/invoice', format => 'tex');
+    my $tex = $c->render_to_string(template => "invoice/$type", format => 'tex');
 
     Mojo::IOLoop->subprocess(
         sub {
@@ -181,14 +195,14 @@ sub createInvoice {
 
             my $tmpDir = File::Temp->newdir();
             chdir $tmpDir;
-            my $texFile = Mojo::File->new('invoice.tex');
+            my $texFile = Mojo::File->new("$type.tex");
             $texFile->spurt(encode 'UTF-8', $tex);
 
-            open my $latex, '-|', $c->config->{lualatex}, 'invoice';
+            open my $latex, '-|', $c->config->{lualatex}, $type;
             my $latexOut = do { local $/; <$latex> };
             close $latex;
 
-            my $output = 'invoice.pdf';
+            my $output = "$type.pdf";
             die $latexOut if !-e $output || -z $output;
 
             my $pdf = Mojo::File->new($output)->slurp;
@@ -204,13 +218,13 @@ sub createInvoice {
             }
 
             my $mail = encode 'UTF-8',
-                $c->render_to_string(template => 'invoice/mail/invoice_created', format => 'txt');
+                $c->render_to_string(template => 'invoice/mail/' . $type . '_created', format => 'txt');
 
-            my $filename = Time::Piece->new($data{date})->strftime('%F') . "_invoice-$invnr.pdf";
+            my $filename = Time::Piece->new($data{date})->strftime('%F') . "_$type-$invnr.pdf";
             OOCEapps::Utils::sendMail(
                 { to => $data{email}, bcc => $c->config->{email_bcc}, bcc_only => 1 },
                 $c->config->{email_from},
-                "Invoice $invnr created",
+                ucfirst ($type) . " $invnr created",
                 {
                     body => $mail,
                 },
@@ -224,7 +238,7 @@ sub createInvoice {
                 ],
             );
 
-            $c->res->headers->content_disposition("inline; filename=invoice-$invnr.pdf;");
+            $c->res->headers->content_disposition("inline; filename=$type-$invnr.pdf;");
             return $c->render(data => $pdf, format => 'pdf');
         }
     );
