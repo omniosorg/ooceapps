@@ -10,7 +10,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ /^https?:\/\/download\.gnome\.org/;
+    return $url =~ m|^https?://download\.gnome\.org|;
 }
 
 sub getVersions {
@@ -22,7 +22,7 @@ sub getVersions {
     $name =~ s/glib2/glib/;
     $name = $self->extractName($name);
 
-    return $res->json->[2]->{$name};
+    return $res->json ? $res->json->[2]->{$name} : [];
 }
 
 1;
@@ -31,7 +31,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
