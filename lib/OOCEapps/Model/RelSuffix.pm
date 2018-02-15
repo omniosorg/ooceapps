@@ -9,13 +9,18 @@ has schema  => sub {
 
     return {
     members => {
-        '^r1510\d\d$' => {
-            regex       => 1,
-            description => 'release date',
-            example     => '2017-05-22',
-            validator   => $sv->regexp(qr/\d{4}-\d{1,2}-\d{1,2}/, 'not a valid ISO date'),
+        releases => {
+            members => {
+                '^r1510\d\d$' => {
+                    regex       => 1,
+                    description => 'release date',
+                    example     => '2017-05-22',
+                    validator   => $sv->regexp(qr/\d{4}-\d{1,2}-\d{1,2}/,
+                        'not a valid ISO date'),
+                },
+            },
         },
-        token       => {
+        token => {
             optional    => 1,
             description => 'Mattermost token',
             example     => 'abcd1234',
@@ -31,7 +36,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
