@@ -1,3 +1,39 @@
+commit 161a3d6cb6b691ca367b8d234a883059e072ecd2
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 15 13:24:20 2018 +0100
+
+    move model schema 'members' to global schema
+
+commit f1409ffc27d6aec9cb207e11a06b9118f1decef8
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 15 13:10:16 2018 +0100
+
+    subsection for releases (issue #9)
+
+commit 0195d15ae21df8b1c94708ed0b027b6fadf8248d
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 15 13:00:29 2018 +0100
+
+    use log and data attributes from base class
+
+commit eab87d579ee848edcbd8855587c5b5410ae0b2d6
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Feb 13 12:13:13 2018 +0100
+
+    check result
+
+commit c25d43016c9d603bbe8124e9d685daa551686b76
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Mon Feb 12 15:56:02 2018 +0000
+
+    s/Invoice/Quote/
+
+commit 80eb91b54459124248c9fd5cc3dea7dfefd104a2
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Feb 12 16:07:33 2018 +0100
+
+    ready for 0.3.2
+
 commit d96212e104b0fe5d4abb37b4c24a75e267cb99d0
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Mon Feb 12 14:37:48 2018 +0100

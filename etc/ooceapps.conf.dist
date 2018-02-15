@@ -13,7 +13,9 @@
             "geoip_url" : "http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz"
         },
         "relsuffix" : {
-            "r151022" : "2017-05-22"
+            "releases" : {
+                "r151022" : "2017-05-22"
+            }
         },
         "pkgupd" : {
             "pkglist_url" : "https://raw.githubusercontent.com/omniosorg/omnios-build/master/doc/packages.md"
