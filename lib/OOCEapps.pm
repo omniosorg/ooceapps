@@ -1,9 +1,7 @@
 package OOCEapps;
 use Mojo::Base 'Mojolicious';
 
-use FindBin;
-use File::Basename qw(basename);
-use File::Spec qw(catdir splitpath);
+use File::Spec;
 use Data::Processor;
 use Mojo::JSON qw(decode_json);
 use Mojo::File;
@@ -11,8 +9,8 @@ use Mojo::Home;
 
 # constants
 my $MODULES  = __PACKAGE__ . '::Model';
-my $CONFFILE = $ENV{OOCEAPP_CONF} || Mojo::Home->new->rel_file('etc/ooceapps.conf')->to_string; # CONFFILE
-my $DATADIR  = Mojo::Home->new->rel_file('var')->to_string; # DATADIR
+my $CONFFILE = $ENV{OOCEAPP_CONF} || Mojo::Home->new->rel_file('../etc/ooceapps.conf')->to_string; # CONFFILE
+my $DATADIR  = Mojo::Home->new->rel_file('../var')->to_string; # DATADIR
 
 # attributes
 my %loaded;
@@ -33,14 +31,14 @@ has model => sub {
 
             my $module = do {
                 my $mod = $MODULES . '::' . $moduleName;
-                if (not $loaded{$mod}){
+                if (!$loaded{$mod}){
                     require $file;
                     $loaded{$mod} = 1;
                 }
                 $mod->new(app => $app);
             };
             $module && do {
-                $app->schema->{MODULES}->{members}->{$module->name}
+                $app->schema->{MODULES}->{members}->{$module->name}->{members}
                     = $module->schema;
                 $map{$module->name} = $module;
             };
@@ -67,11 +65,8 @@ has schema => sub { { MODULES => { members => {} } } };
 # public methods
 sub startup {
     my $app = shift;
-    # set individual module config and register
-    my $model = $app->model;
-    for my $module (keys %{$model}) {
-        $model->{$module}->register;
-    }
+    # load models and register
+    $app->model->{$_}->register for keys %{$app->model};
 
     # set home dir if not set
     $ENV{HOME} ||= $app->datadir;

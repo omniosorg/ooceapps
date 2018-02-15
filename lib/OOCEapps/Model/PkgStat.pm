@@ -15,7 +15,6 @@ has schema  => sub {
     my $sv = OOCEapps::Utils->new;
 
     return {
-    members => {
         logdir    => {
             description => 'path to log files',
             example     => '/var/log/nginx',
@@ -32,7 +31,6 @@ has schema  => sub {
             example     => 'abcd1234',
             validator   => $sv->regexp(qr/^\w+$/, 'expected an alphanumeric string'),
         },
-    },
     }
 };
 
@@ -194,7 +192,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

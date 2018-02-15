@@ -8,7 +8,6 @@ has schema  => sub {
     my $sv = OOCEapps::Utils->new;
 
     return {
-    members => {
         releases => {
             members => {
                 '^r1510\d\d$' => {
@@ -26,7 +25,6 @@ has schema  => sub {
             example     => 'abcd1234',
             validator   => $sv->regexp(qr/^\w+$/, 'expected an alphanumeric string'),
         },
-    },
     }
 };
 
