@@ -5,10 +5,6 @@ use Digest::SHA qw(hmac_sha256_hex);
 use Mojo::Util qw(encode);
 use OOCEapps::Utils;
 
-# attributes
-has log  => sub { shift->app->log };
-has data => sub { shift->req->json };
-
 sub access {
     my $c = shift;
 

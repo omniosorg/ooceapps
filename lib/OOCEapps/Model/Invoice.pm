@@ -11,7 +11,6 @@ has schema => sub {
     my $sv = OOCEapps::Utils->new;
 
     return {
-    members => {
         lualatex => {
             description => 'path to LuaLaTeX',
             example     => '/opt/ooce/texlive/bin/lualatex',
@@ -42,7 +41,6 @@ has schema => sub {
             example     => 'https://apps.omniosce.org/invoice/create',
             validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
         },
-    },
     }
 };
 

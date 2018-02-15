@@ -12,35 +12,33 @@ use Digest::SHA qw(hmac_sha256_hex);
 has schema  => sub {
     my $sv = OOCEapps::Utils->new;
     return {
-        members => {
-            'keyPath' => {
-                description => 'path to file containing the stripe public and secret keys on 2 lines',
-                example     => '/etc/opt/ooce/private/stripe.key',
-            },
-            'cancelUrl' => {
-                description => 'url prefix for cancelation requests',
-                example     => 'https://apps.omniosce.org/patron/cancel',
-            },
-            'emailFrom' => {
-                description => 'email sender address',
-                example     => 'patrons@omniosce.org',
-            },
-            'emailBcc' => {
-                description => 'email bcc address',
-                example     => 'patrons@omniosce.org',
-            },
-            'subCurrencies' => {
-                description => 'list of currencies',
-                example     => '[ "chf", "usd", "gbp" ]',
-            },
-            'subIntervals' => {
-                description => 'list of subscription intervals',
-                example     => '[ "week", "month", "year" ]',
-            },
-            'subDescription' => {
-                description => 'statement descriptor',
-                example     => 'OmniOSce Patron',
-            }
+        'keyPath' => {
+            description => 'path to file containing the stripe public and secret keys on 2 lines',
+            example     => '/etc/opt/ooce/private/stripe.key',
+        },
+        'cancelUrl' => {
+            description => 'url prefix for cancelation requests',
+            example     => 'https://apps.omniosce.org/patron/cancel',
+        },
+        'emailFrom' => {
+            description => 'email sender address',
+            example     => 'patrons@omniosce.org',
+        },
+        'emailBcc' => {
+            description => 'email bcc address',
+            example     => 'patrons@omniosce.org',
+        },
+        'subCurrencies' => {
+            description => 'list of currencies',
+            example     => '[ "chf", "usd", "gbp" ]',
+        },
+        'subIntervals' => {
+            description => 'list of subscription intervals',
+            example     => '[ "week", "month", "year" ]',
+        },
+        'subDescription' => {
+            description => 'statement descriptor',
+            example     => 'OmniOSce Patron',
         },
     }
 };
@@ -58,7 +56,7 @@ has plans => sub {
             my ($err, $json) = $self->callStripe('GET', 'plans/'.$plan);
             if ($json->{error} && $json->{error}{type} eq 'invalid_request_error'){
                 my ($err, $json) = $self->callStripe('POST', 'plans', {
-                    name                 => uc($currency). ' '. ucfirst($interval).'ly',
+                    name                 => uc($currency) . ' ' . ucfirst($interval) . 'ly',
                     interval             => $interval,
                     currency             => $currency,
                     statement_descriptor => $cfg->{subDescripton},
@@ -251,7 +249,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

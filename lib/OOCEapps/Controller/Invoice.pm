@@ -72,8 +72,8 @@ sub requestInvoice {
     my $headers = $c->res->headers;
     $headers->header('Access-Control-Allow-Origin' => '*');
 
-    my $data = $c->req->json
-        or return $c->render(text => 'bad input', code => 500);
+    return $c->render(text => 'bad input', code => 500)
+        if !$c->data;
 
     # validate input data
     for my $field (@{$c->fields}, qw(type)) {
@@ -85,28 +85,28 @@ sub requestInvoice {
                 text   => $c->fschema->{$field}->{msg},
             },
             code => 500
-        ) if $data->{$field} !~ /$rx/;
+        ) if $c->data->{$field} !~ /$rx/;
     }
 
-    $data->{req_id} = time . sprintf('%04d', int (rand (9999) + 1));
-    my $req_url = OOCEapps::Utils::pack($data, $c->sec_key);
+    $c->data->{req_id} = time . sprintf('%04d', int (rand (9999) + 1));
+    my $req_url = OOCEapps::Utils::pack($c->data, $c->sec_key);
 
     $c->stash(
         url         => $c->config->{create_url} . "/$req_url",
         remote_addr => $c->$remote_addr,
         quote_fee   => $c->config->{quote_fee},
-        map { $_ => $data->{$_} } @{$c->fields},
+        map { $_ => $c->data->{$_} } @{$c->fields},
     );
 
     my ($mail, $mail_html) = map {
         encode 'UTF-8',
-            $c->render_to_string('invoice/mail/' . $data->{type} . '_requested', format => $_)
+            $c->render_to_string('invoice/mail/' . $c->data->{type} . '_requested', format => $_)
     } qw(txt html);
 
     OOCEapps::Utils::sendMail(
-        { to => $data->{email}, bcc => $c->config->{email_bcc} },
+        { to => $c->data->{email}, bcc => $c->config->{email_bcc} },
         $c->config->{email_from},
-        'Your OmniOS Support ' . $data->{type} . ' request',
+        'Your OmniOS Support ' . $c->data->{type} . ' request',
         {
             body => $mail,
         },

@@ -8,6 +8,7 @@ has name    => sub { lc ((split /::/, shift->module)[-1]) };
 has model   => sub { my $self = shift; $self->app->model->{$self->name} };
 has config  => sub { shift->model->config };
 has log     => sub { shift->model->log };
+has data    => sub { shift->req->json };
 has datadir => sub { shift->model->datadir };
 
 # methods

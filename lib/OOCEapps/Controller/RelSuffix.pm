@@ -27,8 +27,8 @@ my $getRelease = sub {
 };
 
 my $getRelSuffixes = sub {
-    my $self = shift;
-    my $t    = shift || '0';
+    my $c = shift;
+    my $t = shift || '0';
 
     my $date;
     if ($t =~ /^\d{4}-\d{1,2}-\d{1,2}$/) {
@@ -42,13 +42,13 @@ my $getRelSuffixes = sub {
     }
     $date = $getW_C->($date);
 
-    my @releases = sort grep { /^r1510\d\d$/ } keys %{$self->config};
+    my @releases = sort keys %{$c->config->{releases}};
 
     my @data;
     push @data, [ 'w/c', @releases ];
     push @data, [ ':---', map { ':---:' } @releases ];
     push @data, [ $date->ymd, map { $getRelease->($_, ($date
-        - $getW_C->(Time::Piece->strptime($self->config->{$_}, '%Y-%m-%d')))->weeks) } @releases ];
+        - $getW_C->(Time::Piece->strptime($c->config->{releases}->{$_}, '%Y-%m-%d')))->weeks) } @releases ];
 
     return OOCEapps::Mattermost->table(\@data);
 };
@@ -67,7 +67,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
