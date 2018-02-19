@@ -53,12 +53,18 @@ sub getPkgList {
     my %pkgs;
 
     for (split /[\r\n]+/, $tx->result->body) {
-        my ($name, $version, $url, $notes)
-            = /^\s*\|\s*(\S+)\s*\|\s*(\d\S+)\s*\|\s*(\S+)(?:\s*\|\s*(.*))?/ or next;
+    # | pkg | version | url [xurl] | notes
+        my ($name, $version, $url, $xurl, $notes)
+            = /^\s*\|
+              \s*(\S+)\s*\|
+              \s*(\d\S+)\s*\|
+              \s*(\S+)\s*([^\s\|]*)\s*
+              (?:\|(.*))?/x or next;
 
         $pkgs{$name} = {
             version => $version,
             url     => $url,
+            xurl    => $xurl // '',
             notes   => $notes // '',
         };
     }
