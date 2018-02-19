@@ -17,7 +17,7 @@ my $getPkgAvailVer = sub {
     $self->delay(
         sub {
             my $delay = shift;
-            $self->ua->max_redirects(5) #->connect_timeout(10)->request_timeout(10)
+            $self->ua->max_redirects(8) #->connect_timeout(10)->request_timeout(10)
                 ->get($pkgList->{$_}->{url} => $delay->begin) for @pkgs;
         },
         sub {
@@ -35,15 +35,20 @@ my $getPkgAvailVer = sub {
                     ->getVersions($pkgs[$i], $tx[$i]->result);
             }
             for my $pkg (sort keys %$pkgList) {
+                my $url = $pkgList->{$pkg}->{xurl}
+                    ? "[$pkg]($pkgList->{$pkg}->{xurl})"
+                      . " ([data]($pkgList->{$pkg}->{url}))"
+                    : "[$pkg]($pkgList->{$pkg}->{url})";
+
                 @{$pkgList->{$pkg}->{availVer}} || do {
-                    push @data, [ "[$pkg]($pkgList->{$pkg}->{url})",
+                    push @data, [ $url,
                         ($pkgList->{$pkg}->{timeout} ? 'timeout :face_with_head_bandage:'
                             : 'cannot parse versions :panic:'),
                         $pkgList->{$pkg}->{notes} ];
                     next;
                 };
                 my $latest = (sort { versioncmp($a, $b) } @{$pkgList->{$pkg}->{availVer}})[-1];
-                push @data, [ "[$pkg]($pkgList->{$pkg}->{url})",
+                push @data, [ $url,
                     "$pkgList->{$pkg}->{version} -> $latest",
                     $pkgList->{$pkg}->{notes} ]
                     if versioncmp($pkgList->{$pkg}->{version}, $latest); 
