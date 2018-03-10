@@ -34,6 +34,8 @@ has schema  => sub {
     }
 };
 
+has dbrefint => 3600;
+
 #private methods
 my $updateGeoIP;
 $updateGeoIP = sub {
@@ -149,6 +151,14 @@ my $refreshDB;
 $refreshDB = sub {
     my $self = shift;
 
+    # set next refresh in 1h + a maximum random 5 minutes
+    Mojo::IOLoop->timer($self->dbrefint + int (rand (300)) => sub { $self->$refreshDB });
+
+    # only run refresh in one worker process
+    return if -f $self->config->{pkgDB}
+        && time - (stat $self->config->{pkgDB})[9] < $self->dbrefint;
+    utime undef, undef, $self->config->{pkgDB};
+
     my $proc = Mojo::IOLoop->subprocess(
         sub {
             my $subprocess = shift;
@@ -162,8 +172,6 @@ $refreshDB = sub {
     );
 
     $self->config->{pid} = $proc->pid;
-    # set next refresh in 1h + a maximum random 5 minutes
-    Mojo::IOLoop->timer(3600 + int(rand(300)) => sub { $self->$refreshDB });
 };
 
 sub register {
