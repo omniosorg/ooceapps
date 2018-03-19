@@ -17,7 +17,7 @@ sub getVersions {
 
     $name = $self->extractName($name);
     return [
-        map { /$name\/files\/$name[-\/](?:stable-[\d.x]+\/$name-)?([\d.]*\d)/ ? $1 : () }
+        map { /$name\/files\/$name[-\/](?:stable-[\d.x]+\/$name-)?([\d.]*\d)(?!-?pre-?release)/ ? $1 : () }
             $res->dom->find('a')->each
     ];
 }
