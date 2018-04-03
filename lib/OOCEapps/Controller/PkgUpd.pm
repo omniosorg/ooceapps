@@ -41,9 +41,10 @@ my $getPkgAvailVer = sub {
                     : "[$pkg]($pkgList->{$pkg}->{url})";
 
                 @{$pkgList->{$pkg}->{availVer}} || do {
-                    push @data, [ $url,
-                        ($pkgList->{$pkg}->{timeout} ? 'timeout :face_with_head_bandage:'
-                            : 'cannot parse versions :panic:'),
+                    push @data, [ $url, "$pkgList->{$pkg}->{version} -> "
+                        . ($pkgList->{$pkg}->{timeout}
+                           ? 'timeout :face_with_head_bandage:'
+                           : 'cannot parse versions :panic:'),
                         $pkgList->{$pkg}->{notes} ];
                     next;
                 };
