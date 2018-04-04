@@ -1,13 +1,15 @@
 package OOCEapps::PkgUpd::Zip;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
+use Mojo::Util qw(url_unescape);
+
 # public methods
 sub canParse {
     my $self = shift;
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /^compress\/(?:un)?zip/;
+    return $name =~ m|^compress/(?:un)?zip|;
 }
 
 sub getVersions {
@@ -17,8 +19,10 @@ sub getVersions {
 
     $name = $self->extractName($name);
     return [
-        map { /$name\s+(\d+\.\d+)/i ? $1 : () }
-            $res->dom->find('p')->each
+        map {
+            local $_ = url_unescape $_;
+            m|infozip/files/$name[^/]*/(?:$name\s*)?([\d.]+)/|i ? $1 : ()
+        } $res->dom->find('a')->each
     ];
 }
 
@@ -28,7 +32,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

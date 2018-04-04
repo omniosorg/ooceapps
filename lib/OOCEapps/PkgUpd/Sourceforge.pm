@@ -7,7 +7,8 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ /sourceforge\.net/;
+    return $url =~ /sourceforge\.net/
+        && $name !~ m|^compress/(?:un)?zip|;
 }
 
 sub getVersions {
@@ -28,7 +29,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
