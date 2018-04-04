@@ -1,3 +1,39 @@
+commit 318aa2beea28fd375659df17e74be31b07d93daf
+Author: Dominik Hassler <hadfl@cpan.org>
+Date:   Wed Apr 4 13:22:33 2018 +0200
+
+    fix (un)zip parser
+
+commit d71430fd5ceac89a3ee6ed2cd539b9617f0cfb6b
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Thu Mar 29 14:27:47 2018 +0000
+
+    Show current version even on timeout
+
+commit 569074551714abb3e14d925a35c56388d7f957fb
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Mon Mar 19 10:23:52 2018 +0000
+
+    Skip sourceforge pre-releases
+
+commit 38b67b91c0184babf3f953dfce6449b2fadaa821
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Mar 10 16:21:44 2018 +0100
+
+    refresh db only in one worker process
+
+commit a9acca2d0d49aa865352f488d2257319f43bd910
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Mon Feb 19 11:06:55 2018 +0000
+
+    Show secondary URLs and fix notes when they are present
+
+commit cd4e22e595029697818ae14027bc769f564d6a83
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 15 14:03:12 2018 +0100
+
+    ready for 0.3.3
+
 commit 161a3d6cb6b691ca367b8d234a883059e072ecd2
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Thu Feb 15 13:24:20 2018 +0100
