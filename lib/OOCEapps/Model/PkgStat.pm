@@ -63,10 +63,9 @@ my $seenInRel = sub {
     my $ip     = shift;
     my $relTbl = shift;
 
-    # if UUID is not given (i.e. '-') check if the unique IP has been seen
+    # if UUID is not given (i.e. '-') we pretend to have seen it already so it gets ignored
     # otherwise check if the UUID has been seen
-    return $uuid eq '-' ? exists $relTbl->{ips}->{$ip}
-        : exists $relTbl->{uuids}->{$uuid};
+    return $uuid eq '-' || exists $relTbl->{uuids}->{$uuid};
 };
 
 my $parseFiles = sub {
