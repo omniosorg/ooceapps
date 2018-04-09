@@ -28,6 +28,9 @@
             "subCurrencies"  : [ "chf", "usd", "gbp", "eur" ],
             "subIntervals"   : [ "week", "month", "year" ],
             "subDescription" : "OmniOSce Patron"
+        },
+        "pss"    : {
+            "timeout" : "60"
         }
     }
 }
