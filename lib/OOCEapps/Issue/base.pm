@@ -1,23 +1,18 @@
-#!/usr/bin/env perl
+package OOCEapps::Issue::base;
+use Mojo::Base -base;
 
-use lib qw(); # PERL5LIB
-use FindBin;
-# PERL5LIB
-use lib "$FindBin::RealBin/../lib"; use lib "$FindBin::RealBin/../thirdparty/lib/perl5"; # LIBDIR
-use strict;
-use warnings;
+sub virtual {
+    my $method = (caller(1))[3];
 
-use File::Basename qw(basename);
-use Mojolicious::Commands;
-
-my $VERSION = '0.dev'; # VERSION
-
-if ($#ARGV >= 0 && $ARGV[0] eq 'version') {
-    print basename($0) . " $VERSION\n";
-    exit 0; 
+    die "ERROR: '$method' is virtual and must be implemented in a derived class.\n"
 }
 
-Mojolicious::Commands->start_app('OOCEapps');
+has ua  => sub { Mojo::UserAgent->new->connect_timeout(10)->request_timeout(20) };
+has url => sub { virtual };
+
+sub parseIssues { virtual };
+
+1;
 
 __END__
 
@@ -44,7 +39,7 @@ S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
 
 =head1 HISTORY
 
-2017-09-06 had Initial Version
+2018-05-04 had Initial Version
 
 =cut
 

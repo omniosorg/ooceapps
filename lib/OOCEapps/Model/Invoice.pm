@@ -4,11 +4,10 @@ use Mojo::Base 'OOCEapps::Model::base';
 use Mojo::SQLite;
 use Mojo::File;
 use Mojo::Home;
-use OOCEapps::Utils;
 
 # attributes
 has schema => sub {
-    my $sv = OOCEapps::Utils->new;
+    my $sv = shift->utils;
 
     return {
         lualatex => {

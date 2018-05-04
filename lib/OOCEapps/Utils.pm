@@ -7,9 +7,11 @@ use Crypt::Ed25519;
 use File::Spec qw(catdir splitpath);
 use Email::MIME;
 use Email::Sender::Simple;
+use File::Temp;
+use File::Copy;
 use Time::Piece;
 use Time::Seconds;
-use Data::Dumper; # don't remove, not used for debugging here only
+use Data::Dumper; # don't remove, not used for debugging only!
 
 my %DEF_MAILATTR = (
     mail => {
@@ -203,6 +205,18 @@ sub loadModules {
 
     return \@modules;
 };
+
+sub saveDB {
+    my $self = shift;
+    my $file = shift;
+    my $db   = shift // {};
+
+    my $fh = File::Temp->new(UNLINK => 0);
+    print $fh encode_json $db;
+    close $fh;
+
+    move($fh->filename, $file);
+}
 
 sub file {
     my $self = shift;

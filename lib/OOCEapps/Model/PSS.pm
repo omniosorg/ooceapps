@@ -3,13 +3,12 @@ use Mojo::Base 'OOCEapps::Model::base';
 
 use Mojo::File;
 use Mojo::JSON qw(encode_json decode_json);
-use OOCEapps::Utils;
 use OOCEapps::Mattermost;
 
 # attributes
 has gamesdb => sub { shift->datadir . '/games.json' };
 has schema  => sub {
-    my $sv = OOCEapps::Utils->new;
+    my $sv = shift->utils;
 
     return {
         timeout => {

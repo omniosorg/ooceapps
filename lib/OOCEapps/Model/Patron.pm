@@ -2,7 +2,6 @@ package OOCEapps::Model::Patron;
 
 use Mojo::Base 'OOCEapps::Model::base';
 
-use OOCEapps::Utils;
 use Mojo::File;
 use Mojo::Template;
 use Mojo::JSON qw(true);
@@ -10,7 +9,8 @@ use Digest::SHA qw(hmac_sha256_hex);
 
 # attributes
 has schema  => sub {
-    my $sv = OOCEapps::Utils->new;
+    my $sv = shift->utils;
+
     return {
         'keyPath' => {
             description => 'path to file containing the stripe public and secret keys on 2 lines',

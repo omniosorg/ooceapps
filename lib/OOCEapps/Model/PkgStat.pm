@@ -6,13 +6,10 @@ use Time::Piece;
 use Geo::IP;
 use Mojo::JSON qw(encode_json);
 use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
-use File::Temp;
-use File::Copy;
-use OOCEapps::Utils;
 
 # attributes
 has schema  => sub {
-    my $sv = OOCEapps::Utils->new;
+    my $sv = shift->utils;
 
     return {
         logdir    => {
@@ -139,11 +136,7 @@ my $parseFiles = sub {
     $db->{update_ts} = gmtime;
 
     # save db
-    my $fh = File::Temp->new(UNLINK => 0);
-    print $fh encode_json $db;
-    close $fh;
-
-    move($fh->filename, $self->config->{pkgDB});
+    $self->utils->saveDB($self->config->{pkgDB}, $db);
 };
 
 my $refreshDB;
