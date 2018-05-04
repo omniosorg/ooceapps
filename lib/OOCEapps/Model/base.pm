@@ -3,6 +3,7 @@ use Mojo::Base -base;
 
 use File::Path qw(make_path);
 use OOCEapps::Mattermost;
+use OOCEapps::Utils;
 
 # attributes
 has app     => sub { {} };
@@ -26,6 +27,8 @@ has controller => sub {
     return $controller;
 };
 
+has utils => sub { OOCEapps::Utils->new };
+
 has schema  => sub { {} };
 
 # public methods
@@ -45,7 +48,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

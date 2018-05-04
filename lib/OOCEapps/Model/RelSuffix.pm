@@ -1,11 +1,9 @@
 package OOCEapps::Model::RelSuffix;
 use Mojo::Base 'OOCEapps::Model::base';
 
-use OOCEapps::Utils;
-
 # attributes
 has schema  => sub {
-    my $sv = OOCEapps::Utils->new;
+    my $sv = shift->utils;
 
     return {
         releases => {

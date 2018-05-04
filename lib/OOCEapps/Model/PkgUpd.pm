@@ -9,7 +9,7 @@ my $MODULES = join '::', grep { !/^Model$/ } split /::/, __PACKAGE__;
 
 # attributes
 has schema  => sub {
-    my $sv = OOCEapps::Utils->new;
+    my $sv = shift->utils;
 
     return {
         pkglist_url => {
