@@ -1,7 +1,10 @@
 package OOCEapps::PkgUpd::ISC;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
-my $BIND_MVER = '9.10';
+my %VERMAP = (
+    bind    => qr/^9\.11\./,
+    default => qr/^\d\./
+);
 
 # public methods
 sub canParse {
@@ -9,7 +12,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ /^https?:\/\/www\.isc\.org/;
+    return $url =~ m|^https?://ftp\.isc\.org|;
 }
 
 sub getVersions {
@@ -20,13 +23,18 @@ sub getVersions {
     # remove isc- prefix
     $name =~ s/isc-//;
     $name = $self->extractName($name);
-    my $mVer = $name =~ /bind/ ? "$BIND_MVER." : '';
+    my $mVer = $VERMAP{default};
+    for (keys %VERMAP) {
+        next unless /$name/;
+        $mVer = $VERMAP{$_};
+        last;
+    }
     return [
-        map { /$name-($mVer(?:\d+\.){0,2}\d+(?:-P\d+)?)(?:-source)?\.(?:tar\.(?:gz|xz|bz2|lz)|zip)/i ? $1 : () }
-            $res->dom->find('a')->each
+        grep { /$mVer/ && ! /(?:rc|b)\d+$/ }
+            map { $_ = $_->text; s|/$||; $_ // (); }
+            $res->dom->find('td.indexcolname a')->each
     ];
 }
-
 
 1;
 
