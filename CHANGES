@@ -1,3 +1,39 @@
+commit b160805f85ac434d8213a5c0ce60dbb06ee105e9
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri May 4 22:01:55 2018 +0200
+
+    initial support for issue searching
+
+commit 77164f755b2855c13c031ec44f710591714c85c0
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Sun May 6 09:46:50 2018 +0000
+
+    Fix ISC parser for new URLs
+
+commit 7f75d97d8cb135f959ed074872b64f6dd30101a5
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Thu Apr 26 14:02:12 2018 +0000
+
+    Update for new pypi.org page layout
+
+commit 2b0b2166b365f53f639e723982ff5b367336ed35
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Apr 8 13:50:42 2018 +0200
+
+    pss added
+
+commit 05f8442df07944a0e0078ad5598ee3c937402213
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Apr 6 12:04:19 2018 +0200
+
+    stop counting no-uuid as 1 uuid
+
+commit f6e7e22d034d8aa048659ef31d5e6190555a0111
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Apr 4 17:00:32 2018 +0200
+
+    ready for 0.3.4
+
 commit 318aa2beea28fd375659df17e74be31b07d93daf
 Author: Dominik Hassler <hadfl@cpan.org>
 Date:   Wed Apr 4 13:22:33 2018 +0200
