@@ -8,6 +8,7 @@ use OOCEapps::Mattermost;
 
 #attributes
 has issueDB => sub { shift->config->{issueDB} };
+has fields  => sub { [ qw(project status author desc) ] };
 has usage   => sub { OOCEapps::Mattermost->text(<< 'END'
 ```
 Usage:
@@ -29,11 +30,15 @@ my $createTable = sub {
     my $data = shift // [];
 
     my @data;
-    push @data, [ qw(Issue Project Status Description) ];
-    push @data, [ qw(:---- :------ :----- :----------) ];
+    push @data, [ qw(Issue Project Status Author Description) ];
+    push @data, [ qw(:---- :------ :----- :----- :----------) ];
 
-    push @data, [ "[$_->{id}]($_->{url})", $_->{project},
-        $_->{status}, $_->{desc} ] for @$data;
+    for my $issue (@$data) {
+        push @data, [
+            "[$issue->{id}]($issue->{url})",
+            map { $issue->{$_} // '' } @{$self->fields}
+        ];
+    }
 
     return \@data;
 };

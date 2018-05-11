@@ -8,6 +8,7 @@ has fieldmap => sub {{
     project => 1,
     status  => 4,
     desc    => 6,
+    author  => 7,
 }};
 
 sub parseIssues {
