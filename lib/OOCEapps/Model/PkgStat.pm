@@ -82,6 +82,9 @@ my $parseFiles = sub {
                     (?:(?:;|\s+)((?:non)?global)(?:,(full|partial))?)?)?!x  # zone and image
                     or next;
 
+            # filter releases to get rid of 'broken' requests
+            next if $rel !~ /^(?:r1510\d\d|bloody)$/;
+
             # get how many days the entry is past
             my $days = int(($epoch - Time::Piece->strptime($ts, '%d/%b/%Y:%H:%M:%S %z')->epoch) / (24 * 3600)) + 1;
 
