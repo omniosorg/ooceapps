@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::Bash;
+package OOCEapps::PkgUpd::Xz;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /shell\/bash/;
+    return $name =~ /\/xz$/;
 }
 
 sub getVersions {
@@ -15,11 +15,10 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name =~ s/-patchlvl//;
     $name = $self->extractName($name);
     return [
-        map { /$name\d*-([\d.]+)\.(?!\d*-?alpha)/ ? $1 : () }
-            $res->dom->find('a')->each
+        map { /$name-([\d.]+)\.(?!.*alpha)/ ? $1 : ()
+        } $res->dom->find('a')->each
     ];
 }
 
@@ -29,7 +28,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
@@ -46,11 +45,11 @@ this program. If not, see L<http://www.gnu.org/licenses/>.
 
 =head1 AUTHOR
 
-S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
+S<Andy Fiddaman E<lt>andy@omniosce.orgE<gt>>
 
 =head1 HISTORY
 
-2017-09-06 had Initial Version
+2018-05-29 had Initial Version
 
 =cut
 
