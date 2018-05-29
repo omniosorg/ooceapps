@@ -1,3 +1,33 @@
+commit 24a09e85c2b6b6e89e64908a354b37bfb803e511
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Tue May 29 11:34:02 2018 +0000
+
+    Filter more alpha/beta/pre-release packages
+
+commit 0ce58e236d42f31291e79977b4ae096f7c3a2b03
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri May 11 14:21:42 2018 +0200
+
+    issue: author column added
+
+commit adfd42df312e00b264fce9e5e685b32b87878c84
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed May 16 14:09:50 2018 +0200
+
+    ignore bogus releases when parsing log files
+
+commit c177b817b152ae9ea1e911698d99746b62a9a4da
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri May 11 02:25:32 2018 +0200
+
+    fix ooceapps.conf template
+
+commit dcd0caef4e0622ddf239c788f130087bc92d4486
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri May 11 02:21:02 2018 +0200
+
+    ready for 0.4.0
+
 commit b160805f85ac434d8213a5c0ce60dbb06ee105e9
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Fri May 4 22:01:55 2018 +0200
