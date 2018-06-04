@@ -14,7 +14,7 @@ my $getPkgAvailVer = sub {
     push @data, "### Available Package Updates";
     push @data, [ qw(Package Version Notes) ];
     push @data, [ qw(:--- :--- :---) ];
-    $self->delay(
+    Mojo::IOLoop->delay(
         sub {
             my $delay = shift;
             $self->ua->max_redirects(8) #->connect_timeout(10)->request_timeout(10)
@@ -57,7 +57,7 @@ my $getPkgAvailVer = sub {
 
             $self->render(json => OOCEapps::Mattermost->table(\@data));
         }
-    );
+    )->wait;
 };
 
 sub process {
