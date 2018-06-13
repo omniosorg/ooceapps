@@ -47,11 +47,12 @@ my $search = sub {
     my $self  = shift;
     my $query = shift // '';
     my $db    = shift // {};
+    my $field = shift // 'id';
 
     my @data;
     # we are most interested in the most recent issues
     for my $issue (reverse sort keys %$db) {
-        next if $db->{$issue}->{desc} !~ /$query/i;
+        next if $db->{$issue}->{$field} !~ /$query/i;
 
         push @data, $db->{$issue};
         # limit output to 20 lines for now
@@ -75,21 +76,19 @@ my $getIssue = sub {
     for ($mainOpt) {
         /^search$/ && do {
             my $query = shift @p;
-            my $tbl   = $self->$search($query, $DB);
+            my $tbl   = $self->$search($query, $DB, 'desc');
 
             return OOCEapps::Mattermost->error("No issue matching description: '$query'.") if !@$tbl;
 
             return OOCEapps::Mattermost->table($self->$createTable($tbl));
         };
 
-        # default is to use argument as an issue ID
-        # using grep here instead of checking the hash key
-        # as we want it to be case insensitive
-        my ($id) = grep { /$mainOpt/i } keys %$DB;
+        # default is to use argument to match an issue ID
+        my $tbl = $self->$search($mainOpt, $DB);
 
-        return OOCEapps::Mattermost->error("Could not find issue: '$mainOpt'.") if !$id;
+        return OOCEapps::Mattermost->error("Could not find issue matching: '$mainOpt'.") if !@$tbl;
 
-        return OOCEapps::Mattermost->table($self->$createTable([ $DB->{$id} ]));
+        return OOCEapps::Mattermost->table($self->$createTable($tbl));
     }
 
     # not reached
