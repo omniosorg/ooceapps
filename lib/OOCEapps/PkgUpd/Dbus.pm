@@ -1,8 +1,5 @@
-package OOCEapps::PkgUpd::Gnome;
+package OOCEapps::PkgUpd::Dbus;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
-
-use Mojo::JSON qw(decode_json);
-use Data::Dumper;
 
 # public methods
 sub canParse {
@@ -10,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ m|^https?://download\.gnome\.org|;
+    return $name eq "system/library/dbus";
 }
 
 sub getVersions {
@@ -18,16 +15,8 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name =~ s/sigcpp/libsigc++/;
-    $name =~ s/glib2/glib/;
-    $name = $self->extractName($name);
-
-    my $versions = $res->json ? $res->json->[2]->{$name} : [];
-
-    return [ grep { ! /^\d+\.\d+[13579]\./ } @$versions ]
-        if $name eq "glib";
-
-    return $versions;
+    return [ grep { ! /^\d+\.\d+[13579]\./ }
+        @{$self->SUPER::getVersions($name, $res)} ];
 }
 
 1;
@@ -53,11 +42,11 @@ this program. If not, see L<http://www.gnu.org/licenses/>.
 
 =head1 AUTHOR
 
-S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
+S<Andy Fiddaman E<lt>andy@omniosce.orgE<gt>>
 
 =head1 HISTORY
 
-2017-09-06 had Initial Version
+2018-06-21 had Initial Version
 
 =cut
 
