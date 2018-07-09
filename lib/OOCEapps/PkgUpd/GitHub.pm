@@ -16,6 +16,10 @@ sub getVersions {
     my $res  = shift;
 
     $name = $self->extractName($name);
+
+    # jsonrpclib is a Python package - remove the version suffix
+    $name =~ s/-\d{2}$// if $name =~ /^jsonrpclib/;
+
     my @versions = $res->dom->find('a')->each;
     s/_/./g for @versions;
     return [

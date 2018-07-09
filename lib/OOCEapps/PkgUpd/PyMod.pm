@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /^library\/python-2/;
+    return $url =~ m|^https://pypi\.org/project/|;
 }
 
 sub getVersions {
@@ -15,8 +15,8 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    # remove -27 suffix
-    $name =~ s/-27$//;
+    # remove version suffix
+    $name =~ s/-\d{2}$//;
 
     $name = $self->extractName($name);
     # enum is a backport from python3
