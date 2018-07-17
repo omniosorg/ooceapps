@@ -1,3 +1,33 @@
+commit edb3fe41c6d4f224871fcb08f6898c659b412695
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Sat Jul 7 22:22:56 2018 +0000
+
+    Update to handle python3 packages
+
+commit 122f4fda9a15db1ffeafc701793d9c4340cb327b
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Wed Jun 20 12:29:30 2018 +0000
+
+    Exclude development versions of some packages
+
+commit f423b403b8fccecf1ba92d2af497058330b872ed
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Jun 11 13:58:40 2018 +0200
+
+    match multiple issue IDs
+
+commit 08691d172a0c4dd8593e33c8bfa119076aa35588
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Jun 4 14:01:11 2018 +0200
+
+    fix 'delay helper is DEPRECATED'
+
+commit 80b345fbfd64032000268c23c63a948516931afa
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed May 30 00:37:29 2018 +0200
+
+    ready for 0.4.1
+
 commit 24a09e85c2b6b6e89e64908a354b37bfb803e511
 Author: Andy Fiddaman <omnios@citrus-it.co.uk>
 Date:   Tue May 29 11:34:02 2018 +0000
