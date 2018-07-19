@@ -21,9 +21,9 @@ sub getVersions {
     $name = $self->extractName($name);
     # enum is a backport from python3
     $name .= '34' if $name eq 'enum';
-    return [
+    return [ grep { ! /a\d+$/ }
         map { $_->text // () } $res->dom->find('p.release__version a')->each
-    ]
+    ];
 }
 
 1;
