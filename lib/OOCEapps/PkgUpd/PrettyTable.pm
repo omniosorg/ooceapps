@@ -1,7 +1,5 @@
-package OOCEapps::PkgUpd::Perl;
-use Mojo::Base 'OOCEapps::PkgUpd::base';
-
-my $PERLVER = '5.28';
+package OOCEapps::PkgUpd::PrettyTable;
+use Mojo::Base 'OOCEapps::PkgUpd::PyMod';
 
 # public methods
 sub canParse {
@@ -9,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /runtime\/perl/;
+    return $name =~ m|python-\d/prettytable|;
 }
 
 sub getVersions {
@@ -17,11 +15,8 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name = $self->extractName($name);
-    return [
-        map { /$name-($PERLVER\.\d+)\.(?:tar\.(?:gz|xz|bz2|lz)|zip)/i ? $1 : () }
-            $res->dom->find('a')->each
-    ];
+    # Version 0.7 is mistakenly shown as 7 on the project page
+    return [ grep { /^\d+\./ } @{$self->SUPER::getVersions($name, $res)} ];
 }
 
 1;
@@ -30,7 +25,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
@@ -47,11 +42,11 @@ this program. If not, see L<http://www.gnu.org/licenses/>.
 
 =head1 AUTHOR
 
-S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
+S<Andy Fiddaman E<lt>andy@omniosce.orgE<gt>>
 
 =head1 HISTORY
 
-2017-09-06 had Initial Version
+2018-07-27 had Initial Version
 
 =cut
 
