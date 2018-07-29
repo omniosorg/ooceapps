@@ -1,5 +1,6 @@
 package OOCEapps::PkgUpd::PyMod;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
+use Mojo::Util 'trim';
 
 # public methods
 sub canParse {
@@ -22,7 +23,8 @@ sub getVersions {
     # enum is a backport from python3
     $name .= '34' if $name eq 'enum';
     return [ grep { ! /a\d+$/ }
-        map { $_->text // () } $res->dom->find('p.release__version a')->each
+        map { $_->text ? trim($_->text) : () }
+        $res->dom->find('p.release__version')->each
     ];
 }
 
