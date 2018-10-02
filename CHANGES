@@ -1,3 +1,39 @@
+commit 8e0ada9b6287dd88b6ff76a7542f2af99a356c49
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Oct 2 18:53:27 2018 +0200
+
+    PkgStat: don't abort parsing if an IP is not in the GeoIP database
+
+commit b148cf4e0c9923e9700778cf5323a84b63041fe7
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Thu Sep 20 11:31:48 2018 +0000
+
+    Add readline parser to handle patchlvl monitoring
+
+commit 53970c90c0303c9eecefc25159b5620e7fc011e3
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Sun Jul 29 22:02:48 2018 +0000
+
+    Update for new PyPi layout
+
+commit aac6245accc3b1a1156a96c333e30a1340561299
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Fri Jul 27 22:13:55 2018 +0000
+
+    Updates for new perl version and prettytable
+
+commit 8e5eb1abe5052f987987ae5b795daf9494dff08c
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Thu Jul 19 08:49:40 2018 +0000
+
+    Skip alpha python modules
+
+commit a925228e1c9daf0e573cff6dd81f046f10c8afa7
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Jul 17 19:13:30 2018 +0200
+
+    ready for 0.4.2
+
 commit edb3fe41c6d4f224871fcb08f6898c659b412695
 Author: Andy Fiddaman <omnios@citrus-it.co.uk>
 Date:   Sat Jul 7 22:22:56 2018 +0000
