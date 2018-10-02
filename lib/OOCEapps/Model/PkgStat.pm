@@ -106,15 +106,17 @@ my $parseFiles = sub {
     my $gip = Geo::IP->open($self->config->{geoipDB}, GEOIP_MEMORY_CACHE);
     my $db = {};
     my %seenTbl;
+    my $needGeoIPupdate = 0;
 
     for my $rel (keys %$data) {
         for my $day (sort { $a <=> $b } keys %{$data->{$rel}}) {
             for my $ip (keys %{$data->{$rel}->{$day}}) {
                 my $country = $gip->country_name_by_addr($ip) or do {
-                    # geoip database likely to be broken if we don't get a 'valid' country
-                    # update geoip and skip this round of refreshing the statistics
-                    $self->$updateGeoIP(1);
-                    return;
+                    # geoip database might be broken if we don't get a 'valid' country
+                    # or the IP is not (yet) in the database. Anyway, update geoip
+                    # and skip this IP for now.
+                    $needGeoIPupdate = 1;
+                    next;
                 };
 
                 $db->{$rel}->{$day}->{$country}->{unique}++
@@ -140,6 +142,8 @@ my $parseFiles = sub {
 
     # save db
     $self->utils->saveDB($self->config->{pkgDB}, $db);
+
+    $self->$updateGeoIP(1) if $needGeoIPupdate;
 };
 
 my $refreshDB;
