@@ -10,7 +10,7 @@ my $getMaxId = sub {
 
     my $tx = $self->ua->get($self->url);
 
-    return -1 if !$tx->success;
+    return -1 if !$tx->result->is_success;
 
     my ($maxId) = $tx->result->dom->find('body > div[class=container] > div')
         ->first->text =~ /of\s+(\d+)/;
@@ -57,7 +57,7 @@ sub parseIssues {
     )->then(sub {
         my @tx = @_;
 
-        $_->[0]->success && do {
+        $_->[0]->result->is_success && do {
             $db = { %$db, %{$self->$parseEntries($_->[0])} }
         } for @tx;
     })->wait;

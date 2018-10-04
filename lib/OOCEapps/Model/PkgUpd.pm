@@ -48,7 +48,7 @@ sub getPkgList {
     my $self = shift;
 
     my $tx = $self->ua->get($self->config->{pkglist_url});
-    return {} if !$tx->success;
+    return {} if !$tx->result->is_success;
 
     my %pkgs;
 
