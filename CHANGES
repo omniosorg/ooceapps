@@ -1,3 +1,15 @@
+commit 86902891a78d5dbb7d50020ef4f060c1af5833ba
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Oct 4 18:32:39 2018 +0200
+
+    Mojo::Transaction::success is deprecated
+
+commit 4fc7aac3e0a419d2a5e6a410ed5fc8f2638b4bb6
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Oct 2 20:34:13 2018 +0200
+
+    ready for 0.4.3
+
 commit 8e0ada9b6287dd88b6ff76a7542f2af99a356c49
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Tue Oct 2 18:53:27 2018 +0200
