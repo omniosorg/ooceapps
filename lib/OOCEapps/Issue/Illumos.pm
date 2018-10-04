@@ -17,7 +17,7 @@ sub parseIssues {
     my $tx = $self->ua->get($self->url->new($self->url . '.csv')->query('columns=all'));
 
     my $db = {};
-    return $db if !$tx->success;
+    return $db if !$tx->result->is_success;
 
     my @issues = split /[\r\n]+/, $tx->result->body;
     # drop header

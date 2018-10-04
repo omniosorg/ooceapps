@@ -24,7 +24,7 @@ my $getPkgAvailVer = sub {
             my ($delay, @tx) = @_;
 
             for (my $i = 0; $i <= $#pkgs; $i++) {
-                $tx[$i]->success || do {
+                $tx[$i]->result->is_success || do {
                     $pkgList->{$pkgs[$i]}->{availVer} = [];
                     $pkgList->{$pkgs[$i]}->{timeout}  = 1;
                     next;
