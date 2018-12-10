@@ -8,7 +8,8 @@ sub canParse {
     my $url  = shift;
 
     return $url =~ /sourceforge\.net/
-        && $name !~ m|^compress/(?:un)?zip|;
+        && $name !~ m|^compress/(?:un)?zip|
+        && $name !~ m|^ooce/editor/joe$|;
 }
 
 sub getVersions {
@@ -17,10 +18,15 @@ sub getVersions {
     my $res  = shift;
 
     $name = $self->extractName($name);
+
+    my $dirname = $name eq 'libid3tag' ? 'mad'
+                : $name eq 'freetype2' ? 'freetype'
+                : $name;
     return [
         map {
-            /$name\/files\/$name[-\/](?:stable-[\d.x]+\/$name-)?([\d.]*\d)
-            (?!-?(?:pre-?release|release-?candidate))/x ? $1 : ()
+            /$dirname\/files\/(?:$name[-\/])?
+            (?:stable-[\d.x]+\/$name-)?([\d.]*\db?)
+            (?!-?(?:pre-?release|release-?candidate))/xi ? $1 : ()
         } $res->dom->find('a')->each
     ];
 }

@@ -12,12 +12,28 @@ has schema  => sub {
     my $sv = shift->utils;
 
     return {
-        pkglist_url => {
-            description => 'url to package list',
-            example     => 'https://raw.githubusercontent.com/omniosorg/omnios-build/master/doc/packages.md',
-            validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
+        repos   => {
+            members => {
+                '^\S+'  => {
+                    regex       => 1,
+                    description => 'url to package list',
+                    example     => 'https://raw.githubusercontent.com/omniosorg/omnios-build/master/doc/packages.md',
+                    validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
+                },
+            },
         },
-        token       => {
+        default => {
+            description => 'when no repo is selected use this as default',
+            example     => '"default" : "core"',
+            validator   => sub {
+                my $repo   = shift;
+                my $parent = shift;
+
+                return exists $parent->{repos}->{$repo} ? undef
+                    : "repo called '$repo' is not configured"
+            },
+        },
+        token   => {
             optional    => 1,
             description => 'Mattermost token',
             example     => 'abcd1234',
@@ -29,15 +45,17 @@ has schema  => sub {
 sub refreshParser {
     my $self = shift;
 
-    my $packages = $self->getPkgList;
+    my %packages = map { $_ => $self->getPkgList($_) } keys %{$self->config->{repos}};
     my $modules  = OOCEapps::Utils::loadModules($MODULES);
 
-    PKG: for my $pkg (keys %$packages) {
-        for my $mod (@$modules) {
-            $mod->canParse($pkg, $packages->{$pkg}->{url}) && do {
-                $self->config->{parser}->{$pkg} = $mod;
-                next PKG;
-            };
+    for my $repo (keys %{$self->config->{repos}}) {
+        PKG: for my $pkg (keys %{$packages{$repo}}) {
+            for my $mod (@$modules) {
+                $mod->canParse($pkg, $packages{$repo}->{$pkg}->{url}) && do {
+                    $self->config->{parser}->{$pkg} = $mod;
+                    next PKG;
+                };
+            }
         }
     }
     # default parser
@@ -46,8 +64,11 @@ sub refreshParser {
 
 sub getPkgList {
     my $self = shift;
+    my $repo = shift || $self->config->{default};
 
-    my $tx = $self->ua->get($self->config->{pkglist_url});
+    return {} if !exists $self->config->{repos}->{$repo};
+
+    my $tx = $self->ua->get($self->config->{repos}->{$repo});
     return {} if !$tx->result->is_success;
 
     my %pkgs;

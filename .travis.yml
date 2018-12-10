@@ -6,8 +6,8 @@ git:
   depth: 3
   
 perl:
+  - "5.28"
   - "5.26"
-  - "5.24"
 
 # disable cpanm
 
