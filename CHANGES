@@ -1,3 +1,21 @@
+commit 8b51ae1433363413ecaaccb3fcf306abbd6ef86e
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Dec 21 23:57:22 2018 +0100
+
+    simplify promise; tune timeouts
+
+commit 7372c4db06882ac62d13b2c4688778a2c99045db
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Dec 21 20:54:24 2018 +0100
+
+    pkgupd: migrate to use Promises/A+
+
+commit fd53d0dafd6e95c121a2b14bf20c33fdef889baf
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Oct 4 21:03:05 2018 +0200
+
+    ready for 0.4.4
+
 commit 86902891a78d5dbb7d50020ef4f060c1af5833ba
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Thu Oct 4 18:32:39 2018 +0200
