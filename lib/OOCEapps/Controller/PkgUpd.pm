@@ -1,9 +1,25 @@
 package OOCEapps::Controller::PkgUpd;
 use Mojo::Base 'OOCEapps::Controller::base';
 
+use Mojo::Promise;
 use Sort::Versions;
 
 #private methods
+my $get = sub {
+    my $self = shift;
+    my $url  = shift;
+
+    my $promise = Mojo::Promise->new;
+
+    $self->ua->get($url => sub {
+        my ($ua, $tx) = @_;
+
+        $promise->resolve($tx->error ? undef : $tx);
+    });
+
+    return $promise;
+};
+
 my $getPkgAvailVer = sub {
     my $self    = shift;
     my $pkgList = shift;
@@ -14,17 +30,17 @@ my $getPkgAvailVer = sub {
     push @data, "### Available Package Updates";
     push @data, [ qw(Package Version Notes) ];
     push @data, [ qw(:--- :--- :---) ];
-    Mojo::IOLoop->delay(
+
+    $self->ua->max_redirects(8)->connect_timeout(8)->request_timeout(12);
+
+    Mojo::Promise->all(
+        map { $self->$get($pkgList->{$_}->{url}) } @pkgs
+    )->then(
         sub {
-            my $delay = shift;
-            $self->ua->max_redirects(8) #->connect_timeout(10)->request_timeout(10)
-                ->get($pkgList->{$_}->{url} => $delay->begin) for @pkgs;
-        },
-        sub {
-            my ($delay, @tx) = @_;
+            my @tx = @_;
 
             for (my $i = 0; $i <= $#pkgs; $i++) {
-                $tx[$i]->result->is_success || do {
+                ($tx[$i]->[0] && $tx[$i]->[0]->result->is_success) || do {
                     $pkgList->{$pkgs[$i]}->{availVer} = [];
                     $pkgList->{$pkgs[$i]}->{timeout}  = 1;
                     next;
@@ -32,9 +48,9 @@ my $getPkgAvailVer = sub {
 
                 $pkgList->{$pkgs[$i]}->{availVer} = $self->config->{parser}
                     ->{exists $self->config->{parser}->{$pkgs[$i]} ? $pkgs[$i] : 'DEFAULT'}
-                    ->getVersions($pkgs[$i], $tx[$i]->result);
+                    ->getVersions($pkgs[$i], $tx[$i]->[0]->result);
             }
-            for my $pkg (sort keys %$pkgList) {
+            for my $pkg (@pkgs) {
                 my $url = $pkgList->{$pkg}->{xurl}
                     ? "[$pkg]($pkgList->{$pkg}->{xurl})"
                       . " ([data]($pkgList->{$pkg}->{url}))"
