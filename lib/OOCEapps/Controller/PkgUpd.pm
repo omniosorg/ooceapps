@@ -5,21 +5,6 @@ use Mojo::Promise;
 use Sort::Versions;
 
 #private methods
-my $get = sub {
-    my $self = shift;
-    my $url  = shift;
-
-    my $promise = Mojo::Promise->new;
-
-    $self->ua->get($url => sub {
-        my ($ua, $tx) = @_;
-
-        $promise->resolve($tx->error ? undef : $tx);
-    });
-
-    return $promise;
-};
-
 my $getPkgAvailVer = sub {
     my $self    = shift;
     my $pkgList = shift;
@@ -31,10 +16,10 @@ my $getPkgAvailVer = sub {
     push @data, [ qw(Package Version Notes) ];
     push @data, [ qw(:--- :--- :---) ];
 
-    $self->ua->max_redirects(8)->connect_timeout(8)->request_timeout(12);
+    $self->ua->max_redirects(8)->connect_timeout(10)->request_timeout(20);
 
     Mojo::Promise->all(
-        map { $self->$get($pkgList->{$_}->{url}) } @pkgs
+        map { $self->ua->get_p($pkgList->{$_}->{url})->catch(sub { }) } @pkgs
     )->then(
         sub {
             my @tx = @_;
@@ -81,7 +66,7 @@ sub process {
 
     $c->checkToken;
     # increase inactivity timeout
-    $c->inactivity_timeout(30);
+    $c->inactivity_timeout(28);
     $c->render_later;
 
     my $pkgList = $c->model->getPkgList;
