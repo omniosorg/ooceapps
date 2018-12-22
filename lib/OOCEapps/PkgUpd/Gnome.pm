@@ -2,7 +2,6 @@ package OOCEapps::PkgUpd::Gnome;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 use Mojo::JSON qw(decode_json);
-use Data::Dumper;
 
 # public methods
 sub canParse {
@@ -20,6 +19,7 @@ sub getVersions {
 
     $name =~ s/sigcpp/libsigc++/;
     $name =~ s/glib2/glib/;
+    $name =~ s/libidl/libIDL/;
     $name = $self->extractName($name);
 
     my $versions = $res->json ? $res->json->[2]->{$name} : [];

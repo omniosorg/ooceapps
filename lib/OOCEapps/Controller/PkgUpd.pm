@@ -9,14 +9,15 @@ my $getPkgAvailVer = sub {
     my $self    = shift;
     my $pkgList = shift;
 
-    my @pkgs = sort keys %$pkgList;
+    #we can't handle ftp URLs
+    my @pkgs = sort grep { $pkgList->{$_}->{url} !~ /^ftp/ } keys %$pkgList;
 
     my @data;
     push @data, "### Available Package Updates";
     push @data, [ qw(Package Version Notes) ];
     push @data, [ qw(:--- :--- :---) ];
 
-    $self->ua->max_redirects(8)->connect_timeout(10)->request_timeout(20);
+    $self->ua->max_redirects(8)->connect_timeout(16)->request_timeout(24);
 
     Mojo::Promise->all(
         map { $self->ua->get_p($pkgList->{$_}->{url})->catch(sub { }) } @pkgs
@@ -64,15 +65,17 @@ my $getPkgAvailVer = sub {
 sub process {
     my $c = shift;
 
+    my $repo = $c->param('text');
+
     $c->checkToken;
     # increase inactivity timeout
     $c->inactivity_timeout(28);
     $c->render_later;
 
-    my $pkgList = $c->model->getPkgList;
+    my $pkgList = $c->model->getPkgList($repo);
 
     keys %$pkgList or do {
-        $c->render(json => OOCEapps::Mattermost->error('could not get package list'));
+        $c->render(json => OOCEapps::Mattermost->error("could not get package list for repo '$repo'"));
         return;
     };
 

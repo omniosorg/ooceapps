@@ -1,5 +1,5 @@
-package OOCEapps::PkgUpd::base;
-use Mojo::Base -base;
+package OOCEapps::PkgUpd::Postgresql;
+use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
 sub canParse {
@@ -7,28 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    # the subclass should implement a check if it can 'getVersions'
-    # for $name and/or $url
-    return 0;
-}
-
-sub extractName {
-    my $self = shift;
-    return (split /\//, shift)[-1];
-}
-
-sub extractNameMajVer {
-    my $self = shift;
-
-    my $name = $self->extractName(shift);
-
-    my $ver = '.';
-    $name =~ /^(\S+)-(\d+)$/ && do {
-        $name = $1;
-        $ver  = join '.', split //, $2, 2;
-    };
-
-	return ($name, $ver);
+    return $name =~ /postgresql/;
 }
 
 sub getVersions {
@@ -38,13 +17,11 @@ sub getVersions {
 
     my $ver;
     ($name, $ver) = $self->extractNameMajVer($name);
+    $ver *= 10.0  if $ver < 9.0;
 
     return [
-        grep { /^$ver/ }
-        map { /$name-((?:\d{8}-)?(?:\d+\.){1,3}[^-.]+|\d+)(?:-source)?
-            (?<!rc\d)\.(?:tar\.(?:gz|xz|bz2|lz)|zip|tgz)/ix ? $1 : ()
-        } $res->dom->find('a')->each
-
+        map { m!v($ver\.(?:\d+\.?)*)! ? $1 : () }
+            $res->dom->find('a')->each
     ];
 }
 

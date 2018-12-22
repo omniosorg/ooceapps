@@ -1,7 +1,7 @@
 package OOCEapps::PkgUpd::JDK;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
-my $VERPREFIX = '1.7.0_';
+my $VERPREFIX = qr/1\.8\./;
 
 # public methods
 sub canParse {
@@ -9,7 +9,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /^developer\/java\/jdk$/;
+    return $name =~ m|^developer/java/jdk$|;
 }
 
 sub getVersions {
@@ -17,14 +17,11 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name = $self->extractName($name);
-    my @versions = $res->dom->find('a')->each;
-    my $tmp = $name . '7u';
-    s/$tmp/$name-$VERPREFIX/g for @versions;
+    $name = 'open' . $self->extractName($name);
 
     return [
-        map { /$name-($VERPREFIX\d+-b\d+)/ ? $1 : () }
-            @versions
+        map { /$name-($VERPREFIX\d+-\d{8})/ ? $1 : () }
+            $res->dom->find('a')->each
     ];
 
 }
