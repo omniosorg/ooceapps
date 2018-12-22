@@ -1,3 +1,15 @@
+commit af9f948e18101e4eab6d6efa4ef6ac73c17b30ae
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Dec 10 21:10:52 2018 +0100
+
+    make pkgupd work with different repos
+
+commit f49cdba9193d86c6535fe478bb72d6d269bf974c
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Dec 22 00:08:52 2018 +0100
+
+    ready for 0.4.5
+
 commit 8b51ae1433363413ecaaccb3fcf306abbd6ef86e
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Fri Dec 21 23:57:22 2018 +0100

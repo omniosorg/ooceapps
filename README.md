@@ -5,7 +5,7 @@ ooceapps
 
 [![Build Status](https://travis-ci.org/omniosorg/ooceapps.svg?branch=master)](https://travis-ci.org/omniosorg/ooceapps)
 
-Version: 0.4.5
+Version: 0.5.0
 
 Date: 2018-12-22
 
