@@ -1,5 +1,7 @@
-package OOCEapps::PkgUpd::Readline;
+package OOCEapps::PkgUpd::GnuPG;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
+
+my $VERPREFIX = qr/1\.4\./;
 
 # public methods
 sub canParse {
@@ -7,7 +9,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /library\/readline/;
+    return $name =~ m|^ooce/security/gnupg$|;
 }
 
 sub getVersions {
@@ -15,12 +17,7 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name =~ s/-patchlvl$//;
-    $name = $self->extractName($name);
-    return [
-        map { /$name\d*-([\d.]+)\.(?!\d*-?(?:alph|beta|rc\d+))/ ? $1 : () }
-            $res->dom->find('a')->each
-    ];
+    return [ grep { /^$VERPREFIX/ } @{$self->SUPER::getVersions($name, $res)} ];
 }
 
 1;
@@ -46,11 +43,11 @@ this program. If not, see L<http://www.gnu.org/licenses/>.
 
 =head1 AUTHOR
 
-S<Andy Fiddaman E<lt>andy@omniosce.orgE<gt>>
+S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
 
 =head1 HISTORY
 
-2018-09-20 had Initial Version
+2017-09-06 had Initial Version
 
 =cut
 
