@@ -18,7 +18,7 @@ sub getVersions {
     $name =~ s/-patchlvl//;
     $name = $self->extractName($name);
     return [
-        map { /$name\d*-([\d.]+)\.(?!\d*-?alpha)/ ? $1 : () }
+        map { /$name\d*-([\d.]+)\.(?!\d*-?(?:alpha|beta|rc\d+))/ ? $1 : () }
             $res->dom->find('a')->each
     ];
 }
