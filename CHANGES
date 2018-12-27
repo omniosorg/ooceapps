@@ -1,3 +1,39 @@
+commit a133a4293f3f80ed69ff1f45624ff590968bfa57
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Dec 27 02:10:41 2018 +0100
+
+    pkgupd: nodejs and python module parser fixes
+
+commit df0e9f79634d6a45499b3bf7e0ff847ca2cf6f6e
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Dec 26 13:56:29 2018 +0100
+
+    pkgupd: ignore beta/rc bash versions
+
+commit 0b50a37bc85f239667149a92258d6f919de064b6
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Dec 24 12:07:23 2018 +0100
+
+    pkgupd: version lock GnuPG; ignore rc versions
+
+commit b8bf966011921a6806a6ecb351944d56a22c84f3
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Dec 22 19:55:48 2018 +0100
+
+    nodejs module added
+
+commit d279c54184bb76c153efb246ea43d4a6edc5782c
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Dec 22 13:07:01 2018 +0100
+
+    pkgupd: Go module added
+
+commit 93d322f8869c219741041224af9f10be335b90ae
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Dec 22 12:44:55 2018 +0100
+
+    ready for 0.5.0
+
 commit af9f948e18101e4eab6d6efa4ef6ac73c17b30ae
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Mon Dec 10 21:10:52 2018 +0100
