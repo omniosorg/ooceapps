@@ -20,9 +20,14 @@ sub getVersions {
     $name =~ s/-\d{2}$//;
 
     $name = $self->extractName($name);
-    # enum is a backport from python3
-    $name .= '34' if $name eq 'enum';
-    return [ grep { ! /a\d+$/ }
+
+    # Version 0.7 is mistakenly shown as 7 on the prettytable project page
+    # we expect at least a version of the pattern x.y
+    my $FILTER = $name eq 'prettytable' ? qr/\d+\./ : qr/./;
+
+    return [
+        grep { /^$FILTER/ }
+        grep { !/a\d+$/ }
         map { $_->text ? trim($_->text) : () }
         $res->dom->find('p.release__version')->each
     ];

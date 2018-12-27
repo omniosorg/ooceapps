@@ -10,6 +10,12 @@ sub canParse {
     return $name =~ m|runtime/node|;
 }
 
+sub extractNameMajVer {
+    my $self = shift;
+
+    return (shift =~ /^([^-]+)-(\d+)$/);
+}
+
 sub getVersions {
     my $self = shift;
     my $name = shift;
@@ -17,7 +23,6 @@ sub getVersions {
 
     my $ver;
     ($name, $ver) = $self->extractNameMajVer($name);
-    $ver *= 10.0  if $ver < 8.0;
 
     return [
         map { m!/v($ver\.(?:\d+\.?)*)! ? $1 : () }
