@@ -3,9 +3,9 @@ use Mojo::Base 'OOCEapps::Model::base';
 
 use POSIX qw(SIGTERM);
 use Time::Piece;
-use Geo::IP;
+use MaxMind::DB::Reader;
 use Mojo::JSON qw(encode_json);
-use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
+use Archive::Tar;
 
 # attributes
 has schema  => sub {
@@ -43,12 +43,16 @@ $updateGeoIP = sub {
     die "ERROR: downloading GeoIP database from '$self->config->{geoip_url}'\n"
         if !$res->is_success;
 
-    my $fh = File::Temp->new(SUFFIX => '.gz');
+    my $fh = File::Temp->new(SUFFIX => 'tar.gz');
     close $fh;
     my $filename = $fh->filename;
     $res->content->asset->move_to($filename);
-    gunzip $filename => $self->config->{geoipDB}
-        or die "ERROR: gunzip GeoIP failed: $GunzipError\n";
+
+    my $tar = Archive::Tar->new;
+    $tar->read($filename);
+    my ($db) = grep { /mmdb$/ } $tar->list_files;
+    $tar->extract_file($db, $self->config->{geoipDB})
+        or die "ERROR: extracting GeoIP failed\n";
 
     unlink $filename;
     # update geoip DB once a week
@@ -103,7 +107,7 @@ my $parseFiles = sub {
         close $fh;
     }
 
-    my $gip = Geo::IP->open($self->config->{geoipDB}, GEOIP_MEMORY_CACHE);
+    my $gip = MaxMind::DB::Reader->new(file => $self->config->{geoipDB});
     my $db = {};
     my %seenTbl;
     my $needGeoIPupdate = 0;
@@ -111,13 +115,19 @@ my $parseFiles = sub {
     for my $rel (keys %$data) {
         for my $day (sort { $a <=> $b } keys %{$data->{$rel}}) {
             for my $ip (keys %{$data->{$rel}->{$day}}) {
-                my $country = $gip->country_name_by_addr($ip) or do {
-                    # geoip database might be broken if we don't get a 'valid' country
-                    # or the IP is not (yet) in the database. Anyway, update geoip
+                local $@;
+                my $rec = eval {
+                    local $SIG{__DIE__};
+                    $gip->record_for_address($ip);
+                };
+                if ($@) {
+                    # geoip database might be broken if we don't get a 'valid' record
+                    # or the IP is not (yet) in the database. Anyway, update GeoIP
                     # and skip this IP for now.
                     $needGeoIPupdate = 1;
                     next;
-                };
+                }
+                my $country = $rec->{country}->{names}->{en} or next;
 
                 $db->{$rel}->{$day}->{$country}->{unique}++
                     if !exists $seenTbl{$rel}->{ips}->{$ip};
@@ -179,7 +189,7 @@ sub register {
 
     $self->SUPER::register($app);
 
-    $self->config->{geoipDB} = $self->datadir . '/GeoIP.dat';
+    $self->config->{geoipDB} = $self->datadir . '/GeoLite2-Country.mmdb';
     $self->config->{pkgDB}   = $self->datadir . '/' . $self->name . '.db';
     $self->config->{pid}     = 0;
 
@@ -199,7 +209,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
@@ -220,6 +230,7 @@ S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
 
 =head1 HISTORY
 
+2019-01-11 had Migration to GeoIP2
 2017-09-06 had Initial Version
 
 =cut

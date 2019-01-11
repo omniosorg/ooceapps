@@ -39,6 +39,6 @@ Configuration
 Take a look at the `ooceapps.conf.dist` file for inspiration.
 
 ---
-This product includes GeoLite data created by MaxMind, available from
+This product includes GeoLite2 data created by MaxMind, available from
 [http://www.maxmind.com](http://www.maxmind.com).
 

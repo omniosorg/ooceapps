@@ -72,6 +72,7 @@ my $getPkgStat = sub {
         map { '**' . $formatNumber->($acc{$_}) . '**' } @{$self->fields}
     ];
     push @data, "Last statistics update at: $updTS";
+    push @data, 'GeoIP2 database date: ' . gmtime ((stat $self->config->{geoipDB})[9]);
 
     return OOCEapps::Mattermost->table(\@data);
 };
@@ -90,7 +91,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
@@ -111,6 +112,7 @@ S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
 
 =head1 HISTORY
 
+2019-01-11 had Migration to GeoIP2
 2017-09-06 had Initial Version
 
 =cut
