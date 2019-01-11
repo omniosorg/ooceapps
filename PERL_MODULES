@@ -2,7 +2,7 @@ Crypt::Ed25519
 Data::Processor
 Email::MIME
 Email::Sender
-Geo::IP
+GeoIP2
 IO::Socket::SSL
 LaTeX::Encode
 Mojo::SQLite

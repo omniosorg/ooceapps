@@ -12,7 +12,7 @@
         },
         "pkgstat" : {
             "logdir"    : "<path_to_logs>",
-            "geoip_url" : "http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz"
+            "geoip_url" : "https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz"
         },
         "relsuffix" : {
             "releases" : {
