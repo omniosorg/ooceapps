@@ -1,3 +1,15 @@
+commit 4d8fbd256bca769c8c162400ed13c76d8f85f2d9
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Jan 11 20:27:22 2019 +0100
+
+    GeoIP is deprecated; migrate to GeoIP2
+
+commit d648d694a81d29734f28402febed7e91fdad1645
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Dec 27 16:16:03 2018 +0100
+
+    ready for 0.5.1
+
 commit a133a4293f3f80ed69ff1f45624ff590968bfa57
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Thu Dec 27 02:10:41 2018 +0100
