@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::GitHub;
+package OOCEapps::PkgUpd::MariaDB;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ /github\.com/;
+    return $name =~ /mariadb/;
 }
 
 sub getVersions {
@@ -15,17 +15,13 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name = $self->extractName($name);
+    my $ver;
+    ($name, $ver) = $self->extractNameMajVer($name);
+    $ver *= 10.0;
 
-    # jsonrpclib is a Python package - remove the version suffix
-    $name =~ s/-\d{2}$// if $name =~ /^jsonrpclib/;
-
-    my @versions = $res->dom->find('a')->each;
-    s/_/./g for @versions;
     return [
-        map { m#$name/releases/tag/(?:v|release-|stable-|$name-?\.?)?
-            ([\d.]+)(?!-?(?:rc\d+|dev|alpha|beta))#ix ? $1 : ()
-        } @versions
+        map { m!$name/($ver\.\d+)! ? $1 : () }
+            $res->dom->find('a')->each
     ];
 }
 
@@ -35,7 +31,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
