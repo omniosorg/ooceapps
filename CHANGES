@@ -1,3 +1,15 @@
+commit e2c30f280b6b5092dc1752dd54ef3c1561bca8ab
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Feb 19 19:35:41 2019 +0100
+
+    not interested in alpha/beta/rc releases
+
+commit 6bbb5d4b70c5234bb40152d47e605b2c53d24b39
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Feb 13 21:19:03 2019 +0100
+
+    ready for 0.5.3
+
 commit ba44ecba9de540379bac7af6c51fe2e82f39781a
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Wed Feb 13 20:48:40 2019 +0100
