@@ -27,7 +27,7 @@ sub getVersions {
 
     return [
         grep { /^$FILTER/ }
-        grep { !/a\d+$/ }
+        grep { !/(?:rc|a(?:lpha)?|b(?:eta)?)\d+$/ }
         map { $_->text ? trim($_->text) : () }
         $res->dom->find('p.release__version')->each
     ];
@@ -39,7 +39,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
