@@ -1,5 +1,10 @@
-package OOCEapps::PkgUpd::Sourceforge;
+package OOCEapps::PkgUpd::VersionLock;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
+
+my %VERLOCKMAP = (
+    'ooce/database/bdb'     => '5.3.28',
+    'ooce/developer/rust'   => '1.29.2',
+);
 
 # public methods
 sub canParse {
@@ -7,9 +12,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ /sourceforge\.net/
-        && $name !~ m|^compress/(?:un)?zip|
-        && $name !~ m|^ooce/editor/joe$|;
+    return exists $VERLOCKMAP{$name};
 }
 
 sub getVersions {
@@ -17,18 +20,7 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name = $self->extractName($name);
-
-    my $dirname = $name eq 'libid3tag' ? 'mad'
-                : $name eq 'freetype2' ? 'freetype'
-                : $name;
-    return [
-        map {
-            /$dirname\/files\/(?:$name[-\/])?
-            (?:stable-[\d.x]+\/$name-)?([\d.-]*\db?)
-            (?!-?(?:pre-?release|release-?candidate))/xi ? $1 : ()
-        } $res->dom->find('a')->each
-    ];
+    return [ $VERLOCKMAP{$name} ];
 }
 
 1;
