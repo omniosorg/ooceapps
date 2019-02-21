@@ -25,7 +25,7 @@ sub getVersions {
     return [
         map {
             /$dirname\/files\/(?:$name[-\/])?
-            (?:stable-[\d.x]+\/$name-)?([\d.]*\db?)
+            (?:stable-[\d.x]+\/$name-)?([\d.-]*\db?)
             (?!-?(?:pre-?release|release-?candidate))/xi ? $1 : ()
         } $res->dom->find('a')->each
     ];
@@ -37,7 +37,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
