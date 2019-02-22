@@ -8,12 +8,13 @@ use Sort::Versions;
 my $getPkgAvailVer = sub {
     my $self    = shift;
     my $pkgList = shift;
+    my $repo    = shift || $self->config->{default};
 
     #we can't handle ftp URLs
     my @pkgs = sort grep { $pkgList->{$_}->{url} !~ /^ftp/ } keys %$pkgList;
 
     my @data;
-    push @data, "### Available Package Updates";
+    push @data, "### Available Package Updates for '$repo'";
     push @data, [ qw(Package Version Notes) ];
     push @data, [ qw(:--- :--- :---) ];
 
@@ -79,7 +80,7 @@ sub process {
         return;
     };
 
-    $c->$getPkgAvailVer($pkgList);
+    $c->$getPkgAvailVer($pkgList, $repo);
 }
 
 1;
