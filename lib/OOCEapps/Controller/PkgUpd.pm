@@ -8,12 +8,13 @@ use Sort::Versions;
 my $getPkgAvailVer = sub {
     my $self    = shift;
     my $pkgList = shift;
+    my $repo    = shift || $self->config->{default};
 
     #we can't handle ftp URLs
     my @pkgs = sort grep { $pkgList->{$_}->{url} !~ /^ftp/ } keys %$pkgList;
 
     my @data;
-    push @data, "### Available Package Updates";
+    push @data, "### Available Package Updates for '$repo'";
     push @data, [ qw(Package Version Notes) ];
     push @data, [ qw(:--- :--- :---) ];
 
@@ -57,6 +58,8 @@ my $getPkgAvailVer = sub {
                     if versioncmp($pkgList->{$pkg}->{version}, $latest); 
             }
 
+            # add a dummy entry if the table would be empty; so markdown does not break
+            push @data, [ ' ', ' ', ' ' ] if @data <= 3;
             $self->render(json => OOCEapps::Mattermost->table(\@data));
         }
     )->wait;
@@ -79,7 +82,7 @@ sub process {
         return;
     };
 
-    $c->$getPkgAvailVer($pkgList);
+    $c->$getPkgAvailVer($pkgList, $repo);
 }
 
 1;
@@ -88,7 +91,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
