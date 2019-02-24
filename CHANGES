@@ -1,3 +1,33 @@
+commit aeea13390d189bfea8b40143f54cc923ce06d255
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Feb 22 21:00:28 2019 +0100
+
+    PkgUpd: handle empty update tables properly
+
+commit 340619a2a6f6cd1c835bef84f64bfc772c115636
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Feb 22 20:54:43 2019 +0100
+
+    PkgUpd: display repo name
+
+commit ae76253f72ce4d821fba5cdb7e2c1c342bfb199d
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 21 21:27:09 2019 +0100
+
+    PkgUpd: add VersionLock module
+
+commit cc94d61ceb4509a68132447ab7413b35d73064f4
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Feb 21 21:26:02 2019 +0100
+
+    PkgUpd: fix Sourceforge parser
+
+commit 247d40693a39cb397798e52b99fd47d4d8262730
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Feb 19 20:22:23 2019 +0100
+
+    ready for 0.5.4
+
 commit e2c30f280b6b5092dc1752dd54ef3c1561bca8ab
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Tue Feb 19 19:35:41 2019 +0100
