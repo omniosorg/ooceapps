@@ -1,3 +1,15 @@
+commit 2f36cc4d2207e0a8244c27495672a62194d7b1fd
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Mar 14 19:34:16 2019 +0100
+
+    fixing various parsers
+
+commit 79e809d735f835515623baeb53f0990190ca0167
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Feb 24 13:44:54 2019 +0100
+
+    ready for 0.5.5
+
 commit aeea13390d189bfea8b40143f54cc923ce06d255
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Fri Feb 22 21:00:28 2019 +0100
