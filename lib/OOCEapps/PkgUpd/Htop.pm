@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::GitHub;
+package OOCEapps::PkgUpd::Htop;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ /github\.com/;
+    return $name eq 'ooce/system/htop';
 }
 
 sub getVersions {
@@ -17,15 +17,9 @@ sub getVersions {
 
     $name = $self->extractName($name);
 
-    # jsonrpclib and meson are Python packages - remove the version suffix
-    $name =~ s/-\d{2}$// if $name =~ /^(?:jsonrpclib|meson)/;
-
-    my @versions = $res->dom->find('a')->each;
-    s/_/./g for @versions;
     return [
-        map { m#$name/releases/tag/(?:v|release-|stable-|$name-?\.?)?
-            ([\d.]+)(?!-?(?:rc\d+|dev|alpha|beta))#ix ? $1 : ()
-        } @versions
+        map { m!([\d.]+)/!i ? $1 : ()
+        } $res->dom->find('a')->each
     ];
 }
 
