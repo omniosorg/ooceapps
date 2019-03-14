@@ -9,7 +9,9 @@ sub canParse {
 
     return $url =~ /sourceforge\.net/
         && $name !~ m|^compress/(?:un)?zip|
-        && $name !~ m|^ooce/editor/joe$|;
+        && $name !~ m|^ooce/editor/joe$|
+        && $name !~ m|^system/network/lldp$|
+        && $name !~ m|^ooce/system/top$|;
 }
 
 sub getVersions {
@@ -23,10 +25,10 @@ sub getVersions {
                 : $name eq 'freetype2' ? 'freetype'
                 : $name;
     return [
+        grep { !/(?:rc|release-?candidate|a(?:lpha)?|b(?:eta)?)\d+$/ }
         map {
             /$dirname\/files\/(?:$name[-\/])?
-            (?:stable-[\d.x]+\/$name-)?([\d.-]*\db?)
-            (?!-?(?:pre-?release|release-?candidate))/xi ? $1 : ()
+            (?:stable-[\d.x]+\/$name-)?([\d.-]+\d+\w*)/xi ? $1 : ()
         } $res->dom->find('a')->each
     ];
 }
