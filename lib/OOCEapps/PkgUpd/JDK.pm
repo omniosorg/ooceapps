@@ -1,15 +1,13 @@
 package OOCEapps::PkgUpd::JDK;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
-my $VERPREFIX = qr/1\.8\./;
-
 # public methods
 sub canParse {
     my $self = shift;
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ m|^developer/java/jdk$|;
+    return $name =~ m|^developer/java/openjdk|;
 }
 
 sub getVersions {
@@ -17,10 +15,13 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name = 'open' . $self->extractName($name);
+    $name = $self->extractName($name);
+
+    my $ver;
+    ($name, $ver) = $name =~ /^(\D+)(\d+)$/;
 
     return [
-        map { /$name-($VERPREFIX\d+-\d{8})/ ? $1 : () }
+        map { /$name-(1\.$ver\.\d+-\d{8})/ ? $1 : () }
             $res->dom->find('a')->each
     ];
 
@@ -32,7 +33,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
