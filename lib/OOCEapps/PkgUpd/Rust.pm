@@ -1,12 +1,5 @@
-package OOCEapps::PkgUpd::VersionLock;
+package OOCEapps::PkgUpd::Rust;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
-
-my %VERLOCKMAP = (
-    'ooce/database/bdb'     => '5.3.28',
-    'ooce/file/lsof'        => '4.91',
-    'ooce/system/top'       => '3.7',
-    'system/network/lldp'   => '0.4alpha',
-);
 
 # public methods
 sub canParse {
@@ -14,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return exists $VERLOCKMAP{$name};
+    return $name =~ m|^ooce/developer/rust$|;
 }
 
 sub getVersions {
@@ -22,7 +15,12 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    return [ $VERLOCKMAP{$name} ];
+    $name = $self->extractName($name) . 'c';
+
+    return [
+        map { /$name-([\d+\.]+)-src\.tar\.gz/i ? $1 : ()
+        } $res->dom->find('a')->each
+    ];
 }
 
 1;
