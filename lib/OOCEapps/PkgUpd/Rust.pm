@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::JDK;
+package OOCEapps::PkgUpd::Rust;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ m|^developer/java/openjdk|;
+    return $name =~ m|^ooce/developer/rust$|;
 }
 
 sub getVersions {
@@ -15,16 +15,12 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name = $self->extractName($name);
-
-    my $ver;
-    ($name, $ver) = $name =~ /^(\D+)(\d+)$/;
+    $name = $self->extractName($name) . 'c';
 
     return [
-        map { /$name-(1\.$ver\.\d+-\d{8})/ ? $1 : () }
-            $res->dom->find('a')->each
+        map { /$name-([\d+\.]+)-src\.tar\.gz/i ? $1 : ()
+        } $res->dom->find('a')->each
     ];
-
 }
 
 1;
