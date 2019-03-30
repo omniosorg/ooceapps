@@ -1,3 +1,27 @@
+commit 69458a93c7a88511ff0f23937b838a4a04d78791
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Mar 29 20:38:05 2019 +0100
+
+    un-versionlock rust
+
+commit df9f46bcc4c1dd7224cad8b613b762da52ac90e8
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Mar 28 18:33:02 2019 +0100
+
+    fix openjdk parser
+
+commit 90401a7f59553e185c93d897d0e6cc4d7177ca10
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Mar 17 22:38:26 2019 +0100
+
+    pkgupd: ant parser removed
+
+commit a06ce01d1b1e854990042d51985336fe0bbb2db4
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Mar 14 23:07:28 2019 +0100
+
+    ready for 0.5.6
+
 commit 2f36cc4d2207e0a8244c27495672a62194d7b1fd
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Thu Mar 14 19:34:16 2019 +0100
