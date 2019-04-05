@@ -50,9 +50,11 @@ sub parseIssues {
 
     return $db if $maxId < 0;
 
+    $self->ua->max_redirects(8)->connect_timeout(16)->request_timeout(24);
+
     Mojo::Promise->all(
         map {
-            $self->ua->get_p($self->url->clone->query('offset=' . $_ * 50))
+            $self->ua->get_p($self->url->clone->query('offset=' . $_ * 50))->catch(sub { })
         } (0 .. int ($maxId / 50))
     )->then(sub {
         my @tx = @_;
