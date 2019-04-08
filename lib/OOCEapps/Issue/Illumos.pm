@@ -6,9 +6,9 @@ has url => sub { Mojo::URL->new('https://www.illumos.org/issues') };
 has fieldmap => sub {{
     id      => 0,
     project => 1,
-    status  => 4,
-    desc    => 6,
-    author  => 7,
+    status  => 3,
+    desc    => 5,
+    author  => 6,
 }};
 
 sub parseIssues {
@@ -43,7 +43,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
