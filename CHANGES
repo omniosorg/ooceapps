@@ -1,3 +1,21 @@
+commit 1120c0e1b8c22045c254bae9c36013ee86abe495
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Apr 7 00:44:01 2019 +0200
+
+    adjust illumos issue column order
+
+commit 237a6155eb273de01a2ac9ef85a9532f7578a10f
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Apr 5 18:17:55 2019 +0200
+
+    issue: don't fail completely if one request fails
+
+commit e9352df0737b18a5912bdb8490d58c8115fd1f41
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Mar 30 02:56:11 2019 +0100
+
+    ready for 0.5.7
+
 commit 69458a93c7a88511ff0f23937b838a4a04d78791
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Fri Mar 29 20:38:05 2019 +0100
