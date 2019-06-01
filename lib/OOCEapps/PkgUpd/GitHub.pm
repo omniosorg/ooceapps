@@ -24,7 +24,7 @@ sub getVersions {
     s/_/./g for @versions;
     return [
         map { m#$name/releases/tag/(?:v|release-|stable-|$name-?\.?)?
-            ([\d.]+)(?!-?(?:rc\d+|dev|alpha|beta))#ix ? $1 : ()
+            ([\d.]+)(?!-?(?:rc\d+|dev|a(?:lpha)?|b(?:eta)?))#ix ? $1 : ()
         } @versions
     ];
 }
