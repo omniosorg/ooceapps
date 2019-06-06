@@ -20,6 +20,8 @@ sub getVersions {
     # jsonrpclib is a Python package - remove the version suffix
     $name =~ s/-\d{2}$// if $name =~ /^jsonrpclib/;
 
+    $name = 'WALinuxAgent' if $name eq 'azure-agent';
+
     my @versions = $res->dom->find('a')->each;
     s/_/./g for @versions;
     return [
