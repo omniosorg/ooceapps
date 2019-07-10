@@ -1,3 +1,45 @@
+commit 9ab790294228c363e8c243c7d7b59dcd70737df5
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Jul 10 17:09:55 2019 +0000
+
+    test perl 5.30
+
+commit 3d5aaf30bc36b35bb5497e36330d2b9122df1e9f
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Jul 10 17:06:57 2019 +0000
+
+    pkgupd: LLVM parser added
+
+commit d7f8b4b570a7dd4fc924d61198fd789a3a0831b6
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Tue Jun 25 14:04:17 2019 +0000
+
+    Adjust github parser for tags starting with R_
+
+commit 0e44bf9599630e4656719794ea9df9bab900edeb
+Author: Andy Fiddaman <omnios@citrus-it.co.uk>
+Date:   Thu Jun 6 14:44:07 2019 +0000
+
+    Adjust expected name for azure-agent
+
+commit 64f2ce980c3146ff0dccefd38c3853c29bf954b9
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Jun 1 16:23:09 2019 +0000
+
+    pkgupd: perl 5.30
+
+commit df5fe2e227de3e55302bbeeacf6d26dbfba7930d
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Jun 1 16:00:29 2019 +0000
+
+    pkgupd: enhance alpha/beta releases exclusion for GitHub
+
+commit a928c7932051e9e01dd936643a227bbb25abd81f
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Apr 11 19:34:42 2019 +0200
+
+    ready for 0.5.8
+
 commit 1120c0e1b8c22045c254bae9c36013ee86abe495
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Sun Apr 7 00:44:01 2019 +0200

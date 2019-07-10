@@ -5,9 +5,9 @@ ooceapps
 
 [![Build Status](https://travis-ci.org/omniosorg/ooceapps.svg?branch=master)](https://travis-ci.org/omniosorg/ooceapps)
 
-Version: 0.5.8
+Version: 0.5.9
 
-Date: 2019-04-11
+Date: 2019-07-10
 
 Web integrations for OmniOS Community Edition (OmniOSce) Association.
 
