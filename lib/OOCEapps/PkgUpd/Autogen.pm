@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::ACPIca;
+package OOCEapps::PkgUpd::Autogen;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ m|acpi/compiler|;
+    return $name =~ /autogen$/;
 }
 
 sub getVersions {
@@ -15,8 +15,7 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name =~ s|acpi/compiler|acpica-unix|;
-    return $self->SUPER::getVersions($name, $res);
+    return [ map { /rel([\d.]+)/ } $res->dom->find('a')->each ];
 }
 
 1;
@@ -25,7 +24,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
@@ -46,7 +45,7 @@ S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
 
 =head1 HISTORY
 
-2017-09-06 had Initial Version
+2019-08-20 had Initial Version
 
 =cut
 
