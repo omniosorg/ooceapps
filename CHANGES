@@ -1,3 +1,15 @@
+commit 7c4c2d669f16fe982ea53edd5615fee22bab088d
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Sep 8 11:56:06 2019 +0200
+
+    pkgupd: fix parsers for new packages
+
+commit 4d40971a540046ab22875b1a1917ed73985c4d78
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Jul 10 18:31:37 2019 +0000
+
+    ready for 0.5.9
+
 commit 9ab790294228c363e8c243c7d7b59dcd70737df5
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Wed Jul 10 17:09:55 2019 +0000
