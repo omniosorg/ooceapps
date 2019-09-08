@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ m|^ooce/developer/llvm-\d+$|;
+    return $name =~ m!^ooce/developer/(?:llvm|clang)-\d+$!;
 }
 
 sub getVersions {
@@ -15,6 +15,7 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
+    $name =~ s/clang/cfe/;
     return [
         map { /^(.+)\.src$/ } @{$self->SUPER::getVersions($name, $res)}
     ]; 

@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::Bmake;
+package OOCEapps::PkgUpd::BDWgc;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /bmake$/;
+    return $name =~ m|^ooce/library/bdw-gc$|;
 }
 
 sub getVersions {
@@ -15,11 +15,8 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name = $self->extractName($name);
-    return [
-        map { /$name-(\d{8})/ ? $1 : () }
-            $res->dom->find('a')->each
-    ];
+    $name =~ s/bdw-gc/gc/;
+    return $self->SUPER::getVersions($name, $res);
 }
 
 1;
@@ -28,7 +25,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
