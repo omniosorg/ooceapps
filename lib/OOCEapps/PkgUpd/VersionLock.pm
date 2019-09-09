@@ -4,7 +4,7 @@ use Mojo::Base 'OOCEapps::PkgUpd::base';
 my %VERLOCKMAP = (
     'ooce/database/bdb'     => '5.3.28',
     'ooce/file/lsof'        => '4.91',
-    'ooce/system/top'       => '3.7',
+    'ooce/system/top'       => '3.8',
     'system/network/lldp'   => '0.4alpha',
 );
 
