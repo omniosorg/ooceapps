@@ -15,10 +15,10 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name = $self->extractName($name) . 'c';
+    $name = $self->extractName($name);
 
     return [
-        map { /$name-([\d+\.]+)-src\.tar\.gz/i ? $1 : ()
+        map { m!dist/$name-([\d.]+)-x86_64-! ? $1 : ()
         } $res->dom->find('a')->each
     ];
 }
