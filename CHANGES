@@ -1,3 +1,27 @@
+commit c0de744ec585dd05a4434f3a0602e530c8897fec
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Oct 1 20:03:01 2019 +0200
+
+    pkgupd: fix broken version parser
+
+commit 1215bc01b14366d02163aef1b9c04e77248764c4
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Sep 11 20:06:41 2019 +0200
+
+    pkgupd: urxvt-terminfo parser added
+
+commit 0354d9cf24133bf96e48ebe5f706298db03b13d7
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Sep 9 18:56:20 2019 +0000
+
+    pkgupd: adjust versionlock for 'top'
+
+commit 4f034f4a446d253075d2e3ad48283dd693946ab3
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Sep 8 11:30:10 2019 +0000
+
+    ready for 0.5.10
+
 commit 7c4c2d669f16fe982ea53edd5615fee22bab088d
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Sun Sep 8 11:56:06 2019 +0200
