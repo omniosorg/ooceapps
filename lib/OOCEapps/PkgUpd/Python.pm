@@ -19,7 +19,7 @@ sub getVersions {
     $mVer = join '.', split //, $mVer;
     $name = $self->extractName($name);
     return [
-        map { /Python\s+($mVer[\d.]+)\W/ ? $1 : () }
+        map { /Python\s+($mVer[\d.]+)\W/ }
             $res->dom->find('a')->each
     ];
 }
@@ -30,7 +30,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

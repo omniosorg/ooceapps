@@ -19,7 +19,7 @@ sub getVersions {
     s/-/./g for @versions;
     $name = $self->extractName($name);
     return [
-        map { /$name\.([-\d.]+)\.tgz/ ? $1 : () }
+        map { /$name\.([-\d.]+)\.tgz/ }
             @versions
     ];
 }
@@ -30,7 +30,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

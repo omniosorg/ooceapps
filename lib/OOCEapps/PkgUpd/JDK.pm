@@ -21,7 +21,7 @@ sub getVersions {
     ($name, $ver) = $name =~ /^(\D+)(\d+)$/;
 
     return [
-        map { /$name-(1\.$ver\.\d+-\d{8})/ ? $1 : () }
+        map { /$name-(1\.$ver\.\d+-\d{8})/ }
             $res->dom->find('a')->each
     ];
 

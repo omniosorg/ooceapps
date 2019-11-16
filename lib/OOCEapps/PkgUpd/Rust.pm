@@ -18,7 +18,7 @@ sub getVersions {
     $name = $self->extractName($name);
 
     return [
-        map { m!dist/$name-([\d.]+)-x86_64-! ? $1 : ()
+        map { m!dist/$name-([\d.]+)-x86_64-!
         } $res->dom->find('a')->each
     ];
 }

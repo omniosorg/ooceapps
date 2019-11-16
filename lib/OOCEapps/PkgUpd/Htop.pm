@@ -18,8 +18,7 @@ sub getVersions {
     $name = $self->extractName($name);
 
     return [
-        map { m!([\d.]+)/!i ? $1 : ()
-        } $res->dom->find('a')->each
+        map { m!([\d.]+)/!i } $res->dom->find('a')->each
     ];
 }
 

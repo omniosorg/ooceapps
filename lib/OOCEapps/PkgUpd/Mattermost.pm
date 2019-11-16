@@ -18,7 +18,7 @@ sub getVersions {
     $name = $self->extractName($name);
 
     return [
-        map { /$name-team-((?:\d+\.)+\d+)-linux-amd64.tar.gz/ ? $1 : () }
+        map { /$name-team-((?:\d+\.)+\d+)-linux-amd64.tar.gz/ }
             $res->dom->find('a')->each
     ];
 }
@@ -29,7 +29,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

@@ -19,7 +19,7 @@ sub getVersions {
 
     return [
         map {
-            m!$name-editor/files/JOE\%20sources/$name-((?:\d+\.)+\d+)! ? $1 : ()
+            m!$name-editor/files/JOE\%20sources/$name-((?:\d+\.)+\d+)!
         } $res->dom->find('a')->each
     ];
 }
@@ -30,7 +30,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

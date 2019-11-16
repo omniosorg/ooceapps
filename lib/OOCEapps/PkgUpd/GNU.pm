@@ -24,7 +24,7 @@ sub getVersions {
     s/_|-(?:v\.)?/./g for @versions;
      
     return [
-        map { /$name\.((?:\d+\.){0,3}\d+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ ? $1 : () }
+        map { /$name\.((?:\d+\.){0,3}\d+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ }
             @versions
     ];
 }
@@ -35,7 +35,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

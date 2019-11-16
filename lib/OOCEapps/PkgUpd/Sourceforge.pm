@@ -28,7 +28,7 @@ sub getVersions {
         grep { !/(?:rc|release-?candidate|a(?:lpha)?|b(?:eta)?)\d+$/ }
         map {
             /$dirname\/files\/(?:$name[-\/])?
-            (?:stable-[\d.x]+\/$name-)?([\d.-]+\d+\w*)/xi ? $1 : ()
+            (?:stable-[\d.x]+\/$name-)?([\d.-]+\d+\w*)/xi
         } $res->dom->find('a')->each
     ];
 }
