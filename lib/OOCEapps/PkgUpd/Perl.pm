@@ -19,7 +19,7 @@ sub getVersions {
 
     $name = $self->extractName($name);
     return [
-        map { /$name-($PERLVER\.\d+)\.(?:tar\.(?:gz|xz|bz2|lz)|zip)/i ? $1 : () }
+        map { /$name-($PERLVER\.\d+)\.(?:tar\.(?:gz|xz|bz2|lz)|zip)/i }
             $res->dom->find('a')->each
     ];
 }

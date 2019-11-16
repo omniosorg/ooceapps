@@ -19,7 +19,7 @@ sub getVersions {
 
     return [
         map { local $_ = $_; s/_/./g; $_ }
-        map { /$name(\d+_\d+)\.tar/ ? $1 : () }
+        map { /$name(\d+_\d+)\.tar/ }
             $res->dom->find('a')->each
     ];
 
@@ -31,7 +31,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

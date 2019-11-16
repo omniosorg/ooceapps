@@ -20,7 +20,7 @@ sub getVersions {
     ($name, $ver) = split /-/, $name, 2;
     $name = $self->extractName($name);
     return [
-        map { /$name-($ver\.[^-.]+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ ? $1 : () }
+        map { /$name-($ver\.[^-.]+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ }
             $res->dom->find('a')->each
     ];
 
@@ -32,7 +32,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

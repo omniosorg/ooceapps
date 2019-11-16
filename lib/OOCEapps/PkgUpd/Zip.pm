@@ -21,7 +21,7 @@ sub getVersions {
     return [
         map {
             local $_ = url_unescape $_;
-            m|infozip/files/$name[^/]*/(?:$name\s*)?([\d.]+)/|i ? $1 : ()
+            m|infozip/files/$name[^/]*/(?:$name\s*)?([\d.]+)/|i
         } $res->dom->find('a')->each
     ];
 }
@@ -32,7 +32,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

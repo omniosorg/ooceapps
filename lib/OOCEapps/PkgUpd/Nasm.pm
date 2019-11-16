@@ -17,7 +17,7 @@ sub getVersions {
 
     $name = $self->extractName($name);
     return [
-        map { /((?:\d+\.)+\d+)\// ? $1 : () }
+        map { /((?:\d+\.)+\d+)\// }
             $res->dom->find('a')->each
     ];
 }
@@ -28,7 +28,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

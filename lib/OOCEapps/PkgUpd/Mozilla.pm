@@ -18,7 +18,7 @@ sub getVersions {
     my @versions = $res->dom->find('a')->each;
     s/_/./g for @versions;
     return [
-        map { /v?((?:\d+\.){1,2}\d+)/i ? $1 : () }
+        map { /v?((?:\d+\.){1,2}\d+)/i }
             @versions
     ];
 }
@@ -29,7 +29,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

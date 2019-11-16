@@ -15,11 +15,11 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    my ($mVer) = $name =~ /(\d+)$/;
-    $mVer = join '.', split //, $mVer;
+    my $mVer;
+    ($name, $mVer) = $name =~ /^(.+\D)(\d+)$/;
     $name = $self->extractName($name);
     return [
-        map { /GCC\s+($mVer(?:\.\d+){1,2})/ ? $1 : () }
+        map { /$name-($mVer\.\d+)/ }
             $res->dom->find('a')->each
     ];
 }
@@ -30,7 +30,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

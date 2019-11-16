@@ -18,7 +18,7 @@ sub getVersions {
     $name =~ s/-patchlvl$//;
     $name = $self->extractName($name);
     return [
-        map { /$name\d*-([\d.]+)\.(?!\d*-?(?:alph|beta|rc\d+))/ ? $1 : () }
+        map { /$name\d*-([\d.]+)\.(?!\d*-?(?:alph|beta|rc\d+))/ }
             $res->dom->find('a')->each
     ];
 }
@@ -29,7 +29,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

@@ -43,7 +43,7 @@ sub getVersions {
         grep { /^$ver/ }
         grep { !/(?:rc|a(?:lpha)?|b(?:eta)?)\d+$/ }
         map { /$name-((?:\d{8}-)?(?:\d+\.){1,3}[^-.]+|\d+)(?:-source)?
-            \.(?:tar\.(?:gz|xz|bz2|lz)|zip|tgz)/ix ? $1 : ()
+            \.(?:tar\.(?:gz|xz|bz2|lz)|zip|tgz)/ix
         } $res->dom->find('a')->each
 
     ];
