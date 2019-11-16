@@ -1,3 +1,15 @@
+commit bea30dd6736124680b89451a1378546ca37273ff
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Nov 16 16:58:37 2019 +0100
+
+    pkgupd: cleanup parser
+
+commit 196dc7587c5dc8100a3990dd199af1959d3bf085
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Wed Oct 23 17:37:12 2019 +0000
+
+    ready for 0.5.11
+
 commit c0de744ec585dd05a4434f3a0602e530c8897fec
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Tue Oct 1 20:03:01 2019 +0200
