@@ -21,7 +21,7 @@ sub getVersions {
     ($name, $ver) = $name =~ /^(\D+)(\d+)$/;
 
     return [
-        map { /$name-(1\.$ver\.\d+-\d{8})/ }
+        map { /jdk${ver}u(\d+)-b(\d+)/ ? "1.$ver.$1-$2" : () }
             $res->dom->find('a')->each
     ];
 
