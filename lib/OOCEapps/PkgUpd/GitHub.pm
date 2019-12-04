@@ -7,7 +7,8 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ /github\.com/;
+    # OpenJDK needs an extra parser
+    return $url =~ /github\.com/ && $name !~ m|^developer/java/openjdk|;
 }
 
 sub getVersions {
