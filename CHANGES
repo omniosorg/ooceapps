@@ -1,3 +1,21 @@
+commit 984ff320f2c6d9f86b8993ad6e598f666cba3e0c
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Dec 13 18:32:00 2019 +0000
+
+    pkgstat: exclude bloody from aggregated stats
+
+commit de71b431aa642b6a6f1084f5510e9d691b175801
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Tue Dec 3 19:17:31 2019 +0100
+
+    pkgupd: fix parser following new OpenJDK source
+
+commit ccd326d98ca29d647ed29adaac893bcb2a23e625
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Nov 16 16:10:25 2019 +0000
+
+    ready for 0.5.12
+
 commit bea30dd6736124680b89451a1378546ca37273ff
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Sat Nov 16 16:58:37 2019 +0100
