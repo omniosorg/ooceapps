@@ -97,11 +97,13 @@ my $parseFiles = sub {
             $zone  //= 'global';
             $image //= 'full';
 
-            $data->{$_}->{$days}->{$ip}->{count}++ for ($rel, 'total');
+            # exclude bloody from aggregated stats
+            my @rels = ($rel, $rel eq 'bloody' ? () : qw(total));
+            $data->{$_}->{$days}->{$ip}->{count}++ for @rels;
             exists $data->{$_}->{$days}->{$ip}->{uuids}->{$uuid} || do {
                 $data->{$_}->{$days}->{$ip}->{uuids}->{$uuid}->{$zone}  = 1;
                 $data->{$_}->{$days}->{$ip}->{uuids}->{$uuid}->{$image} = 1;
-            } for ($rel, 'total');
+            } for @rels;
         }
 
         close $fh;
