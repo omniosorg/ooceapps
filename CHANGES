@@ -1,3 +1,15 @@
+commit dda7d72deb01991f8cdcce16c33002eb92e2cd68
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Jan 4 14:07:43 2020 +0100
+
+    pkgstat: support IPv6
+
+commit ff0432b895093046244b8de9d1e7a0793c41a5ce
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri Dec 13 19:45:39 2019 +0000
+
+    ready for 0.5.13
+
 commit 984ff320f2c6d9f86b8993ad6e598f666cba3e0c
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Fri Dec 13 18:32:00 2019 +0000
