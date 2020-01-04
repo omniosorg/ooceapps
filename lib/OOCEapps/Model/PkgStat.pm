@@ -6,6 +6,8 @@ use Time::Piece;
 use MaxMind::DB::Reader;
 use Mojo::JSON qw(encode_json);
 use Archive::Tar;
+use Regexp::IPv4 qw($IPv4_re);
+use Regexp::IPv6 qw($IPv6_re);
 
 # attributes
 has schema  => sub {
@@ -79,7 +81,7 @@ my $parseFiles = sub {
 
         while (<$fh>) {
             my ($ip, $ts, $rel, $uuid, $zone, $image)
-                = m!^((?:\d{1,3}\.){3}\d{1,3})[^\[]+\[([^\]]+)\]\s+         # ip and ts
+                = m!^($IPv4_re|$IPv6_re)\s+[^\[]+\[([^\]]+)\]\s+            # ip and ts
                     "(?:GET|HEAD)\s+/([^/]+)/core[^"]+"                     # release
                     (?:\s+\S+){2}\s+"[^"]+"\s+"pkg/[^"]+"                   # filter user agent
                     (?:\s+(-|[\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12})      # uuid
