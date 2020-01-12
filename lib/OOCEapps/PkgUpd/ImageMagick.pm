@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::BDWgc;
+package OOCEapps::PkgUpd::ImageMagick;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name eq 'ooce/library/bdw-gc';
+    return $name eq 'ooce/application/imagemagick';
 }
 
 sub getVersions {
@@ -15,8 +15,8 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name =~ s/bdw-gc/gc/;
-    return $self->SUPER::getVersions($name, $res);
+    $name = 'ImageMagick';
+    return [ map { /$name-([\d.-]+)\./ } $res->dom->find('a')->each ];
 }
 
 1;
