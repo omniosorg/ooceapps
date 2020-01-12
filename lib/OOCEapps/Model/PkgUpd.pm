@@ -77,10 +77,10 @@ sub getPkgList {
     # | pkg | version | url [xurl] | notes
         my ($name, $version, $url, $xurl, $notes)
             = /^\s*\|
-              \s*(\S+)\s*\|
-              \s*(\d\S+)\s*\|
-              \s*(\S+)\s*([^\s\|]*)\s*
-              (?:\|(.*))?/x or next;
+              \s*([^\s|]+)\s*\|             # pkg
+              \s*(\d[^\s|]+)\s*\|           # version
+              \s*([^\s|]+)\s*([^\s|]*)\s*   # url [xurl]
+              (?:\|(.*))?/x or next;        # notes
 
         $pkgs{$name} = {
             version => $version,
@@ -107,7 +107,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
