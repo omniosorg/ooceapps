@@ -42,7 +42,7 @@ sub getVersions {
     return [
         grep { /^$ver/ }
         grep { !/(?:rc|a(?:lpha)?|b(?:eta)?)\d+$/ }
-        map { /$name-((?:\d{8}-)?(?:\d+\.){1,3}[^-.]+|\d+)(?:-source)?
+        map { /(?:\b|lib)$name-((?:\d{8}-)?(?:\d+\.){1,3}[^-.]+|\d+)(?:-source)?
             \.(?:tar\.(?:gz|xz|bz2|lz)|zip|tgz)/ix
         } $res->dom->find('a')->each
 
@@ -55,7 +55,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

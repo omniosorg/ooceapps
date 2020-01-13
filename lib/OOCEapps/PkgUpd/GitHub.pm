@@ -1,6 +1,11 @@
 package OOCEapps::PkgUpd::GitHub;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
+my %TRANSFORM = (
+    'azure-agent'   => 'WALinuxAgent',
+    'libgd'         => 'gd',
+);
+
 # public methods
 sub canParse {
     my $self = shift;
@@ -21,7 +26,7 @@ sub getVersions {
     # jsonrpclib and meson are Python packages - remove the version suffix
     $name =~ s/-\d{2}$// if $name =~ /^(?:jsonrpclib|meson)/;
 
-    $name = 'WALinuxAgent' if $name eq 'azure-agent';
+    $name = $TRANSFORM{$name} if exists $TRANSFORM{$name};
 
     my @versions = $res->dom->find('a')->each;
     s/_/./g for @versions;
@@ -38,7 +43,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
