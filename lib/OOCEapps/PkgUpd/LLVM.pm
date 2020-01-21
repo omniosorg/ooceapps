@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ m!^ooce/developer/(?:llvm|clang)-\d+$!;
+    return $url =~ m!^https://releases\.llvm\.org!;
 }
 
 sub getVersions {
@@ -27,7 +27,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
