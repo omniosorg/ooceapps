@@ -15,7 +15,9 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name =~ s/clang/cfe/;
+    my (undef, $ver) = $self->extractNameMajVer($name);
+    $name =~ s/clang/cfe/ if $ver < 9.0;
+
     return [
         map { /^(.+)\.src$/ } @{$self->SUPER::getVersions($name, $res)}
     ]; 
