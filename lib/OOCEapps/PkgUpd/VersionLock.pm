@@ -3,7 +3,6 @@ use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 my %VERLOCKMAP = (
     'ooce/database/bdb'     => '5.3.28',
-    'ooce/file/lsof'        => '4.91',
     'ooce/system/top'       => '3.8',
     'system/network/lldp'   => '0.4alpha',
 );
@@ -31,7 +30,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
