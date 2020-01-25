@@ -1,3 +1,57 @@
+commit 8ccd3e7d0fa13a2633cc757f05f78f12b5089da1
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Jan 25 12:58:39 2020 +0000
+
+    pkgupd: remove lsof version lock
+
+commit dcace74d125507cadb1b1755cfdceba0cb9d854f
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Jan 23 16:39:21 2020 +0000
+
+    pkgupd: fix clang parser
+
+commit 01f990dee939a42aefd4e58430c1f77b9dfe0ab7
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Mon Jan 20 17:41:55 2020 +0000
+
+    pkgupd: adjust LLVM parser to handle compiler-rt packages
+
+commit 3687f79d38e6e4ad69a397541d264213e0e32688
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu Jan 16 19:47:01 2020 +0000
+
+    pkgupd: filter snapshot releases containing dates
+
+commit f1214d1296cc06a7b812fb78e8ba53503e8fe3d3
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Jan 12 15:24:15 2020 +0000
+
+    pkgupd: enhance generic parser
+
+commit 3ecc1ae8027f13236a03822d255c4c50bb4bb93b
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Jan 12 15:12:11 2020 +0000
+
+    pkgupd: ImageMagick parser added
+
+commit 6b1840a62a18bf7de80816a3b6929d905369e940
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Jan 12 14:52:02 2020 +0000
+
+    pkgupd: fix libgd parser
+
+commit 478e270ff5fc4d32653490ddad2187478ea08190
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Jan 12 14:37:05 2020 +0000
+
+    pkgupd: enhance packages.md parser
+
+commit 011e4d5453cb60d4414750c6c7c52ddc6f6f5b03
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat Jan 4 13:56:17 2020 +0000
+
+    ready for 0.6.0
+
 commit dda7d72deb01991f8cdcce16c33002eb92e2cd68
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Sat Jan 4 14:07:43 2020 +0100
