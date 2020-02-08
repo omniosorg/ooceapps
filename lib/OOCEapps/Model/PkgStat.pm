@@ -117,7 +117,7 @@ my $parseFiles = sub {
     my $needGeoIPupdate = 0;
 
     for my $rel (keys %$data) {
-        for my $day (sort { $a <=> $b } keys %{$data->{$rel}}) {
+        for my $day (keys %{$data->{$rel}}) {
             for my $ip (keys %{$data->{$rel}->{$day}}) {
                 local $@;
                 my $rec = eval {
