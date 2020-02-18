@@ -4,6 +4,9 @@ use Mojo::Base 'OOCEapps::PkgUpd::base';
 my %TRANSFORM = (
     'azure-agent'   => 'WALinuxAgent',
     'libgd'         => 'gd',
+    'fuse'          => 'Version',
+    'minio'         => 'RELEASE',
+    'minio-mc'      => 'RELEASE',
 );
 
 # public methods
@@ -32,7 +35,8 @@ sub getVersions {
     s/_/./g for @versions;
     return [
         map { m#/releases/tag/(?:v|release-|stable-|R\.|$name-?\.?)?
-            ([\d.]+\d+)(?!-?(?:\.\d+|rc\d+|dev|a(?:lpha)?|b(?:eta)?))#ix
+            (\d{4}(?:-\d{2}){2}T(?:\d{2}-){2}\d{2}Z|[\d.]+\d+)
+            (?!-?(?:\.\d+|rc\d+|dev|a(?:lpha)?|b(?:eta)?))#ix
         } @versions
     ];
 }
