@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::NCurses;
+package OOCEapps::PkgUpd::NTFS3g;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /library\/ncurses/;
+    return $name =~ /ntfs-3g$/;
 }
 
 sub getVersions {
@@ -15,12 +15,10 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    my @versions = $res->dom->find('a')->each;
-    s/-/./g for @versions;
+    $name =~ s/ntfs-3g/ntfs-3g_ntfsprogs/;
     $name = $self->extractName($name);
     return [
-        map { /$name\.([-\d.]+)\.tgz/ }
-            @versions
+        map { /$name-((?:[\d.]+|AR)+)\.tgz/ } $res->dom->find('a')->each
     ];
 }
 
@@ -30,7 +28,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
