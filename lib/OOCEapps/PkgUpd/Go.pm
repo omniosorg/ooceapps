@@ -19,7 +19,7 @@ sub getVersions {
     ($name, $ver) = $self->extractNameMajVer($name);
 
     return [
-        map { m/$name($ver\.(?:\d+\.?)*)\.src/ }
+        map { m/$name($ver(?:\.\d+)*)\.src/ }
             $res->dom->find('a')->each
     ];
 }
@@ -30,7 +30,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
