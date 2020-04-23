@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::Gnome;
+package OOCEapps::PkgUpd::GitLab;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ m|^https?://download\.gnome\.org|;
+    return $url =~ m!^https://gitlab\.com/api/v4!;
 }
 
 sub getVersions {
@@ -15,17 +15,9 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    $name =~ s/sigcpp/libsigc++/;
-    $name =~ s/glib2/glib/;
-    $name =~ s/libidl/libIDL/;
     $name = $self->extractName($name);
 
-    my $versions = $res->json ? $res->json->[2]->{$name} : [];
-
-    return [ grep { ! /^\d+\.\d+[13579]\./ } @$versions ]
-        if $name eq "glib";
-
-    return $versions;
+    return [ map { $_->{tag_name} =~ /^v?([\d.]+)$/ } @{$res->json // []} ];
 }
 
 1;
@@ -34,7 +26,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
