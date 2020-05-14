@@ -7,6 +7,8 @@ my %TRANSFORM = (
     'fuse'          => 'Version',
     'minio'         => 'RELEASE',
     'minio-mc'      => 'RELEASE',
+    'nagios-nrpe'   => 'nrpe',
+    'nagios-nsca'   => 'nsca',
 );
 
 # public methods
