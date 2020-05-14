@@ -1,6 +1,12 @@
 package OOCEapps::PkgUpd::Sourceforge;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
+my %TRANSFORM = (
+    'libid3tag' => 'mad',
+    'freetype2' => 'freetype',
+    'libmcrypt' => 'mcrypt',
+);
+
 # public methods
 sub canParse {
     my $self = shift;
@@ -21,9 +27,8 @@ sub getVersions {
 
     $name = $self->extractName($name);
 
-    my $dirname = $name eq 'libid3tag' ? 'mad'
-                : $name eq 'freetype2' ? 'freetype'
-                : $name;
+    my $dirname = $TRANSFORM{$name} // $name;
+
     return [
         grep { !/(?:rc|release-?candidate|a(?:lpha)?|b(?:eta)?)\d+$/ }
         map {
