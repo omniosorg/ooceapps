@@ -1,3 +1,27 @@
+commit d36b3322ca6626376f48841ace7cc6eff627d844
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri May 29 17:20:08 2020 +0200
+
+    add method for code block
+
+commit 5b46c801a72d46aaf61c6f2c1f2a4bdb5ffbc145
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri May 29 17:19:11 2020 +0200
+
+    want cowsay
+
+commit f7898d3a99ef218c9ffe99267fc31b71ee03241d
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Thu May 14 15:27:26 2020 +0000
+
+    pkgupd: fix parser following addition of new packages
+
+commit 6a7950a72f18ded88d0745bbae98db0a9c8c8648
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sat May 2 11:10:55 2020 +0000
+
+    ready for 0.6.3
+
 commit 6be86b94d3353d8ed60707cf638b54d1a5e96f37
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Thu Apr 23 19:32:57 2020 +0000
