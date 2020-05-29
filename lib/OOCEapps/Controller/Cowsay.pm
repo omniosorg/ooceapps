@@ -5,7 +5,7 @@ use Mojo::Base 'OOCEapps::Controller::base';
 my $getCow = sub {
     my $c = shift;
 
-    my ($cow, $text) = shift =~ /^(?:-(\S+)\s+)?(.+)$/;
+    my ($cow, $text) = shift =~ /^(?:-(\S+)\s+)?(.+)/s;
 
     my %opts;
     if ($cow && $cow eq 'dragon') {
