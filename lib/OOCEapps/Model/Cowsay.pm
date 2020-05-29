@@ -27,7 +27,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

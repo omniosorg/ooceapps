@@ -29,6 +29,10 @@ sub text {
     return $prepJSON->(shift, shift);
 }
 
+sub code {
+    return shift->text("```\n" . shift . "\n```", shift);
+}
+
 sub table {
     my $self  = shift;
     my $table = shift;
@@ -46,7 +50,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

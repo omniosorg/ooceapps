@@ -9,8 +9,7 @@ use OOCEapps::Mattermost;
 #attributes
 has issueDB => sub { shift->config->{issueDB} };
 has fields  => sub { [ qw(project status author desc) ] };
-has usage   => sub { OOCEapps::Mattermost->text(<< 'END'
-```
+has usage   => sub { OOCEapps::Mattermost->code(<< 'END'
 Usage:
     /issue command [options...]
 
@@ -21,7 +20,6 @@ Usage:
         search <search_string>
 
         help
-```
 END
 )};
 

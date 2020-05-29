@@ -19,11 +19,7 @@ my $getCow = sub {
 
     $c->model->$cow->say($text);
 
-    return OOCEapps::Mattermost->text("```\n"
-        . $c->model->$cow->as_string
-        . "\n```",
-        \%opts
-    );
+    return OOCEapps::Mattermost->code($c->model->$cow->as_string, \%opts);
 };
 
 sub process {
@@ -40,7 +36,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
