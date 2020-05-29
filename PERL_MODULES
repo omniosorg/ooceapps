@@ -11,3 +11,4 @@ Mozilla::CA
 Sort::Versions
 Regexp::IPv4
 Regexp::IPv6
+Acme::Cow
