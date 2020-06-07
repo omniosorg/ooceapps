@@ -15,12 +15,11 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    my (undef, $ver) = $self->extractNameMajVer($name);
+    ($name, my $ver) = $self->extractNameMajVer($name);
+    $ver *= 10.0 if $ver < 8.0;
     $name =~ s/clang/cfe/ if $ver < 9.0;
 
-    return [
-        map { /^(.+)\.src$/ } @{$self->SUPER::getVersions($name, $res)}
-    ]; 
+    return [ map { /$name-($ver\.[\d.]+)\./ } $res->dom->find('a')->each ];
 }
 
 1;
