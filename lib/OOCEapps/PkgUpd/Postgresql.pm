@@ -17,7 +17,7 @@ sub getVersions {
 
     my $ver;
     ($name, $ver) = $self->extractNameMajVer($name);
-    $ver *= 10.0  if $ver < 9.0;
+    $ver *= 10.0 if $ver < 9.0;
 
     return [
         map { m!v($ver\.(?:\d+\.?)*)! }
