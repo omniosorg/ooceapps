@@ -1,3 +1,21 @@
+commit e3c71f5650990e63cb8f9293a94d93200ea36867
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Sun Jun 7 11:35:52 2020 +0000
+
+    pkgupd: fix parser to handle llvm/clang 10.0
+
+commit 4bf1a153007d3d9d177a57509c6b474c11e694d1
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri May 29 20:49:14 2020 +0000
+
+    cowsay should speak multiline
+
+commit 76094ccb06f023d50b808470bf94bdb73d391467
+Author: Dominik Hassler <hadfl@omniosce.org>
+Date:   Fri May 29 18:24:10 2020 +0000
+
+    ready for 0.7.0
+
 commit d36b3322ca6626376f48841ace7cc6eff627d844
 Author: Dominik Hassler <hadfl@omniosce.org>
 Date:   Fri May 29 17:20:08 2020 +0200
