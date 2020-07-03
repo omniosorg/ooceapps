@@ -1,0 +1,14 @@
+requires 'Crypt::Ed25519';
+requires 'Data::Processor';
+requires 'Email::MIME';
+requires 'Email::Sender';
+requires 'GeoIP2';
+requires 'IO::Socket::SSL';
+requires 'LaTeX::Encode';
+requires 'Mojo::SQLite';
+requires 'Mojolicious';
+requires 'Mozilla::CA';
+requires 'Sort::Versions';
+requires 'Regexp::IPv4';
+requires 'Regexp::IPv6';
+requires 'Acme::Cow';

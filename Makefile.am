@@ -2,24 +2,25 @@
 
 AUTOMAKE_OPTIONS =  foreign
 
-SUBDIRS = thirdparty lib etc
+SUBDIRS = etc lib thirdparty
 
 BIN = bin/$(SCRIPT_NAME)
 
-PERLTESTS := $(shell find t -name "*.t")
+export PATH := /usr/gnu/bin:$(PATH)
+
+PERLTESTS := $(shell test -d t && find t -name "*.t")
 
 THIRDPARTY_DIR := $(shell pwd)/thirdparty
 TEMPL := $(shell test -d templates && find templates -type f -name "*.ep")
 SHARE := $(shell test -d share && find share -type f | egrep '\.(txt|pdf|ttf)$$')
 
-EXTRA_DIST = VERSION COPYRIGHT README.md LICENSE CHANGES AUTHORS PERL_MODULES $(BIN) $(PERLTESTS) $(TEMPL) $(SHARE)
+EXTRA_DIST = VERSION COPYRIGHT README.md LICENSE CHANGES AUTHORS cpanfile $(BIN) $(PERLTESTS) $(TEMPL) $(SHARE)
 
 YEAR := $(shell date +%Y)
 DATE := $(shell date +%Y-%m-%d)
 
 datadir = $(prefix)
 nobase_data_DATA = $(PUB) $(TEMPL) $(SHARE)
-
 
 README.md COPYRIGHT : VERSION
 	$(PERL) -i -p -e 's/(#VERSION#|\d+\.\d+\.\d+(?:-\w+)?)/$(PACKAGE_VERSION)/g;s/(#YEAR#|20[1-4]\d)/$(YEAR)/g;s/(#DATE#|20[1-9]\d-[01]\d-[0-3]\d)/$(DATE)/g;' $@
@@ -36,7 +37,6 @@ install-exec-hook:
 	cd "$(DESTDIR)$(exec_prefix)" && $(PERL) -i -p -e 's{^#!.*perl.*}{#!$(PERL)};' $(BIN)
 	cd "$(DESTDIR)$(libdir)" && $(PERL) -i -p -e 's{^my .*# CONFFILE}{my \$$CONFFILE = "$(sysconfdir)/$(SCRIPT_NAME).conf"; # CONFFILE};' OOCEapps.pm
 	cd "$(DESTDIR)$(libdir)" && $(PERL) -i -p -e 's{^my .*# DATADIR}{my \$$DATADIR = "$(localstatedir)"; # DATADIR};' OOCEapps.pm
-	[ ! -d $(THIRDPARTY_DIR)/lib/perl5 ] || cp -fr $(THIRDPARTY_DIR)/lib/perl5/* $(DESTDIR)$(libdir)
 
 test:
 	$(PERL) "-MExtUtils::Command::MM" "-e" "test_harness(0, 'lib','thirdparty/lib/perl5')" $(PERLTESTS)
