@@ -3,7 +3,7 @@
 ooceapps
 ========
 
-[![Build Status](https://travis-ci.org/omniosorg/ooceapps.svg?branch=master)](https://travis-ci.org/omniosorg/ooceapps)
+[![Unit Tests](https://github.com/omniosorg/ooceapps/workflows/Unit%20Tests/badge.svg?branch=master&event=push)](https://github.com/omniosorg/ooceapps/actions?query=workflow%3A%22Unit+Tests%22)
 
 Version: 0.7.1
 
