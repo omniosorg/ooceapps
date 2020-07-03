@@ -14,7 +14,7 @@ my $getCow = sub {
     else {
         # default to cow
         $cow = 'cow';
-        $opts{username} = 'Mrs. Cowley';
+        $opts{username} = 'Mrs Cowley';
     }
 
     $c->model->$cow->say($text);
