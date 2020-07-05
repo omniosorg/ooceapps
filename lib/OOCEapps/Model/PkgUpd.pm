@@ -74,13 +74,16 @@ sub getPkgList {
     my %pkgs;
 
     for (split /[\r\n]+/, $tx->result->body) {
-    # | pkg | version | url [xurl] | notes
+        # | pkg | version | url [xurl] | notes
         my ($name, $version, $url, $xurl, $notes)
             = /^\s*\|
               \s*([^\s|]+)\s*\|             # pkg
               \s*(\d[^\s|]+)\s*\|           # version
               \s*([^\s|]+)\s*([^\s|]*)\s*   # url [xurl]
               (?:\|(.*))?/x or next;        # notes
+
+        # skip packages which are labelled 'github-latest'
+        next if $version =~ /^github-latest/;
 
         $pkgs{$name} = {
             version => $version,
