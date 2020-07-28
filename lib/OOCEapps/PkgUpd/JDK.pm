@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ m|^developer/java/openjdk|;
+    return $name =~ m|^runtime/java/openjdk|;
 }
 
 sub getVersions {
@@ -17,14 +17,14 @@ sub getVersions {
 
     $name = $self->extractName($name);
 
-    my $ver;
-    ($name, $ver) = $name =~ /^(\D+)(\d+)$/;
+    ($name, my $ver) = $name =~ /^(\D+)(\d+)$/;
 
     return [
         map { /jdk${ver}u(\d+)-b(\d+)/ ? "1.$ver.$1-$2" : () }
             $res->dom->find('a')->each
-    ];
+    ] if $ver < 10;
 
+    return [ map { /jdk-($ver\.0\.\d+\+\d+)/ } $res->dom->find('a')->each ];
 }
 
 1;
