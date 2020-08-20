@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::Postgresql;
+package OOCEapps::PkgUpd::Apache;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /postgresql/;
+    return $name =~ /apache/;
 }
 
 sub getVersions {
@@ -15,13 +15,9 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    ($name, my $ver) = $self->extractNameMajVer($name);
-    $ver *= 10.0 if $ver < 9.0;
+    $name =~ s/apache/httpd/;
 
-    return [
-        map { m!v($ver\.(?:\d+\.?)*)! }
-            $res->dom->find('a')->each
-    ];
+    return $self->SUPER::getVersions($name, $res);
 }
 
 1;
@@ -30,7 +26,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
