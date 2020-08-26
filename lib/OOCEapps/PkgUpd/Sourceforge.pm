@@ -1,10 +1,14 @@
 package OOCEapps::PkgUpd::Sourceforge;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
+my %TRANSFORMDIR = (
+    libid3tag   => 'mad',
+    freetype2   => 'freetype',
+    libmcrypt   => 'mcrypt',
+);
+
 my %TRANSFORM = (
-    'libid3tag' => 'mad',
-    'freetype2' => 'freetype',
-    'libmcrypt' => 'mcrypt',
+    freepascal  => 'Source',
 );
 
 # public methods
@@ -27,7 +31,8 @@ sub getVersions {
 
     $name = $self->extractName($name);
 
-    my $dirname = $TRANSFORM{$name} // $name;
+    my $dirname = $TRANSFORMDIR{$name} // $name;
+    $name = $TRANSFORM{$name} // $name;
 
     return [
         grep { !/(?:rc|release-?candidate|a(?:lpha)?|b(?:eta)?)\d+$/ }
@@ -44,7 +49,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

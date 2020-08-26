@@ -18,7 +18,7 @@ my $getPkgAvailVer = sub {
     push @data, [ qw(Package Version Notes) ];
     push @data, [ qw(:--- :--- :---) ];
 
-    $self->ua->max_redirects(8)->connect_timeout(16)->request_timeout(24);
+    $self->ua->max_redirects(8)->connect_timeout(12)->request_timeout(16);
 
     Mojo::Promise->all(
         map { $self->ua->get_p($pkgList->{$_}->{url})->catch(sub { }) } @pkgs
@@ -91,7 +91,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
