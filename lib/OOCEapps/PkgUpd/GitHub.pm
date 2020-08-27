@@ -38,7 +38,7 @@ sub getVersions {
     return [
         map { m#/releases/tag/(?:v|release-|stable-|R\.|$name-?\.?)?
             (\d{4}(?:-\d{2}){2}T(?:\d{2}-){2}\d{2}Z|[\d.]+\d+)
-            (?!-?(?:\.\d+|\.?rc\d+|dev|a(?:lpha)?|b(?:eta)?|pre))#ix
+            (?!-?(?:\.\d+|\.?rc\d*|dev|a(?:lpha)?|b(?:eta)?|pre))#ix
         } @versions
     ];
 }
