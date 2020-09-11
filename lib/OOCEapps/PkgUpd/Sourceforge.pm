@@ -5,10 +5,12 @@ my %TRANSFORMDIR = (
     libid3tag   => 'mad',
     freetype2   => 'freetype',
     libmcrypt   => 'mcrypt',
+    libgif      => 'giflib',
 );
 
 my %TRANSFORM = (
     freepascal  => 'Source',
+    libgif      => 'giflib',
 );
 
 # public methods

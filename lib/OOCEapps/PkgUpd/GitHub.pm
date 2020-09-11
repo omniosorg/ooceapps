@@ -9,6 +9,7 @@ my %TRANSFORM = (
     'minio-mc'      => 'RELEASE',
     'nagios-nrpe'   => 'nrpe',
     'nagios-nsca'   => 'nsca',
+    'libsasl2'      => 'cyrus-sasl',
 );
 
 # public methods
