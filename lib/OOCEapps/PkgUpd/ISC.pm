@@ -2,8 +2,7 @@ package OOCEapps::PkgUpd::ISC;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 my %VERMAP = (
-    bind    => qr/^9\.11\./,
-    default => qr/^\d\./
+    bind => qr/9\.11\./,
 );
 
 # public methods
@@ -12,7 +11,8 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ m|^https?://ftp\.isc\.org|;
+    return $url =~ m|^https?://ftp\.isc\.org|
+        || $url =~ m|https://downloads\.isc\.org/isc|;
 }
 
 sub getVersions {
@@ -22,17 +22,14 @@ sub getVersions {
 
     # remove isc- prefix
     $name =~ s/isc-//;
-    $name = $self->extractName($name);
-    my $mVer = $VERMAP{default};
-    for (keys %VERMAP) {
-        next unless /$name/;
-        $mVer = $VERMAP{$_};
-        last;
-    }
+    ($name, my $ver) = $self->extractNameMajVer($name);
+    my $mVer = $ver ne '.' ? qr/$ver/
+        : $VERMAP{$name} // qr/\d+\./;
+
     return [
-        grep { /$mVer/ && ! /(?:rc|b)\d+$/ }
-            map { $_ = $_->text; s|/$||; $_ // (); }
-            $res->dom->find('td.indexcolname a')->each
+        grep { !/(?:rc|b)\d+$/ }
+        map { $_->text =~ /^($mVer.*[^\/])/ }
+        $res->dom->find('td.indexcolname a')->each
     ];
 }
 
@@ -42,7 +39,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
