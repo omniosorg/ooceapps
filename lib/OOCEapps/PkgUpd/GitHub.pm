@@ -18,8 +18,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    # OpenJDK needs an extra parser
-    return $url =~ /github\.com/ && $name !~ m|^developer/java/openjdk|;
+    return $url =~ /github\.com/;
 }
 
 sub getVersions {
@@ -36,6 +35,9 @@ sub getVersions {
 
     my @versions = $res->dom->find('a')->each;
     s/_/./g for @versions;
+    # ICU uses hyphens instead of dots for tags
+    s/(\d+)-/$1./g for @versions;
+
     return [
         map { m#/releases/tag/(?:v|release-|stable-|R\.|$name-?\.?)?
             (\d{4}(?:-\d{2}){2}T(?:\d{2}-){2}\d{2}Z|[\d.]+\d+)
