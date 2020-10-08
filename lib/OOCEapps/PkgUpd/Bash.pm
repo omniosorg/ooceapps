@@ -7,7 +7,8 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /shell\/bash/;
+    # bash-completions are hosted on GitHub
+    return $name =~ /shell\/bash/ && $url !~ /github\.com/;
 }
 
 sub getVersions {
@@ -29,7 +30,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
