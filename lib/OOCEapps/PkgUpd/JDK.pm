@@ -19,12 +19,34 @@ sub getVersions {
 
     ($name, my $ver) = $name =~ /^(\D+)(\d+)$/;
 
-    return [
-        map { /jdk${ver}u(\d+)-b(\d+)/ ? "1.$ver.$1-$2" : () }
-            $res->dom->find('a')->each
-    ] if $ver < 10;
+    my @vers = $res->dom->find('a')->each;
+    my @gavers;
 
-    return [ map { /jdk-($ver\.0\.\d+\+\d+)/ } $res->dom->find('a')->each ];
+    if ($ver < 10) {
+        for (my $i = 0; $i < @vers; $i++) {
+            my ($upd) = $vers[$i] =~ /jdk${ver}u(\d+)-ga/
+                or next;
+
+            my ($bld) = $vers[++$i] =~ /jdk${ver}u${upd}-b(\d+)/
+                or next;
+
+            push @gavers, "1.$ver.$upd-$bld";
+        }
+
+        return \@gavers;
+    }
+
+    for (my $i = 0; $i < @vers; $i++) {
+        my ($upd) = $vers[$i] =~ /jdk-$ver\.0\.(\d+)-ga/
+            or next;
+
+        my ($vers) = $vers[++$i] =~ /jdk-($ver\.0\.$upd\+\d+)/
+            or next;
+
+        push @gavers, $vers;
+    }
+
+    return \@gavers;
 }
 
 1;
@@ -33,7 +55,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
