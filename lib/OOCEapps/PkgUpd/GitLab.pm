@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ m!^https://gitlab\.com/api/v4!;
+    return $url =~ m!/api/v4/!;
 }
 
 sub getVersions {
@@ -17,7 +17,7 @@ sub getVersions {
 
     $name = $self->extractName($name);
 
-    return [ map { $_->{tag_name} =~ /^v?([\d.]+)$/ } @{$res->json // []} ];
+    return [ map { $_->{name} =~ /^v?([\d.]+)$/ } @{$res->json // []} ];
 }
 
 1;
