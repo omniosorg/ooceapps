@@ -36,7 +36,9 @@ sub getVersions {
     my @versions = $res->dom->find('a')->each;
     s/_/./g for @versions;
     # ICU uses hyphens instead of dots for tags
-    s/(\d+)-/$1./g for @versions;
+    if ($name eq 'icu4c') {
+        s/(\d+)-/$1./g for @versions;
+    }
 
     return [
         map { m#/releases/tag/(?:v|release-|stable-|R\.|$name-?\.?)?
