@@ -1,5 +1,5 @@
-package OOCEapps::PkgUpd::base;
-use Mojo::Base -base;
+package OOCEapps::PkgUpd::SG3Utils;
+use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
 sub canParse {
@@ -7,28 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    # the subclass should implement a check if it can 'getVersions'
-    # for $name and/or $url
-    return 0;
-}
-
-sub extractName {
-    my $self = shift;
-    return (split /\//, shift)[-1];
-}
-
-sub extractNameMajVer {
-    my $self = shift;
-
-    my $name = $self->extractName(shift);
-
-    my $ver = '.';
-    $name =~ /^(\S+)-(\d+)$/ && do {
-        $name = $1;
-        $ver  = join '.', split //, $2, 2;
-    };
-
-	return ($name, $ver);
+    return $name =~ /sg3_utils$/;
 }
 
 sub getVersions {
@@ -36,16 +15,9 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    my $ver;
-    ($name, $ver) = $self->extractNameMajVer($name);
-
     return [
-        grep { /^$ver/ }
-        grep { !/alpha|beta|(?:rc|a|b)\w*\d+$/ }
-        map { m!(?:\b|/|lib)$name-((?:\d{8}-)?(?:\d{1,7}\.){1,3}[^-.]+|\d+)(?:-source)?
-            \.(?:tar\.(?:gz|xz|bz2|lz)|zip|tgz)!ix
-        } $res->dom->find('a')->each
-
+        grep { !/mgw/ }
+        @{$self->SUPER::getVersions($name, $res)}
     ];
 }
 
