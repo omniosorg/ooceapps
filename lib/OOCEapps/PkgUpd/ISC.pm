@@ -2,7 +2,7 @@ package OOCEapps::PkgUpd::ISC;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 my %VERMAP = (
-    bind => qr/9\.11\./,
+    bind => qr/9\.16\./,
 );
 
 # public methods
