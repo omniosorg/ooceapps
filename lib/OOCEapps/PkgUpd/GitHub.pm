@@ -2,14 +2,15 @@ package OOCEapps::PkgUpd::GitHub;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 my %TRANSFORM = (
-    'azure-agent'   => 'WALinuxAgent',
-    'libgd'         => 'gd',
-    'fuse'          => 'Version',
-    'minio'         => 'RELEASE',
-    'minio-mc'      => 'RELEASE',
-    'nagios-nrpe'   => 'nrpe',
-    'nagios-nsca'   => 'nsca',
-    'libsasl2'      => 'cyrus-sasl',
+    'openvpn-auth-ldap' => 'auth-ldap',
+    'azure-agent'       => 'WALinuxAgent',
+    'libgd'             => 'gd',
+    'fuse'              => 'Version',
+    'minio'             => 'RELEASE',
+    'minio-mc'          => 'RELEASE',
+    'nagios-nrpe'       => 'nrpe',
+    'nagios-nsca'       => 'nsca',
+    'libsasl2'          => 'cyrus-sasl',
 );
 
 # public methods
@@ -54,7 +55,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
