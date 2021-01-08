@@ -16,13 +16,13 @@ if ($#ARGV >= 0 && $ARGV[0] eq 'version') {
     exit 0;
 }
 
-Mojolicious::Commands->start_app('OOCEapps');
+Mojolicious::Commands->start_app('Fenix');
 
 __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
@@ -43,7 +43,7 @@ S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
 
 =head1 HISTORY
 
-2017-09-06 had Initial Version
+2021-01-08 had Initial Version
 
 =cut
 

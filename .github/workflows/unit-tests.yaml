@@ -80,6 +80,7 @@ jobs:
         make install
         cd $HOME/test-install
         ./bin/ooceapps version
+        ./bin/fenix version
 
     - name: Cache Prep
       run: |
