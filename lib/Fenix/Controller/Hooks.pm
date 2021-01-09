@@ -1,28 +1,24 @@
-#!/usr/bin/env perl
+package Fenix::Controller::Hooks;
+use Mojo::Base 'Mojolicious::Controller', -signatures;
 
-use FindBin;
-use lib qw(); # PERL5LIB
-use lib "$FindBin::RealBin/../lib"; use lib "$FindBin::RealBin/../thirdparty/lib/perl5"; # LIBDIR
-use strict;
-use warnings;
+has irc => sub($self) { $self->app->irc };
 
-use File::Basename qw(basename);
-use Mojolicious::Commands;
-
-my $VERSION = '0.dev'; # VERSION
-
-if ($#ARGV >= 0 && $ARGV[0] eq 'version') {
-    print basename($0) . " $VERSION\n";
-    exit 0;
+sub default($c) {
+    $c->render(text => "Hello, I am fenix.\n");
 }
 
-Mojolicious::Commands->start_app('OOCEapps');
+sub fenix($c) {
+    return $c->render(text => "Done.\n") if !$c->param('msg');
+    $c->irc->write($c->param('msg'), sub { $c->render(text => "Done.\n") });
+}
+
+1;
 
 __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
@@ -39,11 +35,10 @@ this program. If not, see L<http://www.gnu.org/licenses/>.
 
 =head1 AUTHOR
 
-S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
+S<Dominik Hassler E<lt>hadfl@omnios.orgE<gt>>
 
 =head1 HISTORY
 
-2017-09-06 had Initial Version
+2021-01-08 had Initial Version
 
 =cut
-

@@ -1,0 +1,19 @@
+{
+    "nick"      : "fenix",
+    "server"    : "irc.freenode.org:6667",
+    "tls"       : "on",
+    "user"      : "<user>",
+    "pass"      : "<password>",
+    "CHANS" : [
+        {
+            "name"        : "#omnios",
+            "log"         : "on",
+            "interactive" : "on"
+        },
+        {
+            "name"        : "#illumos",
+            "log"         : "on",
+            "interactive" : "off"
+        }
+    ]
+}

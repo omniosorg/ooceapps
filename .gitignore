@@ -19,5 +19,6 @@ thirdparty/*
 !thirdparty/Makefile.am
 !thirdparty/cpanfile-*.snapshot
 etc
+!etc/fenix.conf.dist
 !etc/ooceapps.conf.dist
 !etc/Makefile.am

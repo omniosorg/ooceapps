@@ -6,6 +6,7 @@ requires 'GeoIP2';
 requires 'IO::Socket::SSL';
 requires 'LaTeX::Encode';
 requires 'Mojo::SQLite';
+requires 'Mojo::IRC';
 requires 'Mojolicious';
 requires 'Mozilla::CA';
 requires 'Sort::Versions';
