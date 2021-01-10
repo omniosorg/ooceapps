@@ -57,7 +57,7 @@ has schema  => sub {
                 name        => {
                     example     => '#omnios',
                     description => 'channel name',
-                    validator   => $sv->regexp(qr/^#\w+$/, 'expected a pound sign prefixed string'),
+                    validator   => $sv->regexp(qr/^#[\w-]+$/, 'expected a pound sign prefixed string'),
                 },
                 log         => {
                     optional    => 1,
