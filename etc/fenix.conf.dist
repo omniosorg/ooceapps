@@ -4,6 +4,7 @@
     "tls"       : "on",
     "user"      : "<user>",
     "pass"      : "<password>",
+    "mute"      : "120",
     "CHANS" : [
         {
             "name"        : "#omnios",

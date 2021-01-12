@@ -1,23 +1,18 @@
-package Fenix::Controller::Hooks;
-use Mojo::Base 'Mojolicious::Controller', -signatures;
+package Fenix::Model::Handler::Hi;
+use Mojo::Base 'Fenix::Model::Handler::base', -signatures;
 
-has irc => sub($self) { $self->app->irc };
+use Time::Piece;
 
-#private methods
-my $remote_addr = sub($c) {
-    return $c->req->headers->header('X-Real-IP')
-        || $c->req->headers->header('X-Forwarded-For')
-        || $c->tx->remote_address;
-};
+# default handler, lowest priority.
+#if we get mentioned but don't know what to do we
+# are at least polite and say 'Hi'.
+has priority => 9999;
 
-sub default($c) {
-    $c->render(text => "Hello, I am fenix.\n");
-}
+sub process($self, $chan, $from, $msg) {
+    return [] if $self->utils->muted(\$self->mutemap->{user}, $from);
 
-sub fenix($c) {
-    return $c->render(text => 'Forbidden', status => 403) if $c->$remote_addr ne '127.0.0.1';
-    return $c->render(text => "Done.\n") if !$c->param('msg');
-    $c->irc->write($c->param('msg'), sub { $c->render(text => "Done.\n") });
+    # little friday is special
+    return [ gmtime->day_of_week == 4 ? "Happy little Friday $from!" : "Hi $from" ];
 }
 
 1;

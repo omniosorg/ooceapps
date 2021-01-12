@@ -5,8 +5,10 @@ use Data::Processor;
 use Mojo::JSON qw(decode_json);
 use Mojo::File;
 use Mojo::Home;
+use IRC::Utils qw(is_valid_nick_name is_valid_chan_name);
 
 use Fenix::Model::IRC;
+use Fenix::Utils;
 use OOCEapps::Utils;
 
 # constants
@@ -15,17 +17,17 @@ my $DATADIR  = Mojo::Home->new->rel_file('../var')->to_string; # DATADIR
 
 # attributes
 has datadir => $DATADIR . '/' . lc __PACKAGE__;
-has utils   => sub { OOCEapps::Utils->new };
-
-has schema  => sub {
-    my $sv = shift->utils;
+has sv      => sub { OOCEapps::Utils->new };
+has utils   => sub($self) { Fenix::Utils->new(muteInt => $self->config->{mute}) };
+has schema  => sub($self) {
+    my $sv = $self->sv;
 
     return {
         nick    => {
             description => 'nick',
             default     => 'fenix',
             example     => 'fenix',
-            validator   => $sv->regexp(qr/^\w+$/, 'expected a string'),
+            validator   => sub($nick, @) { is_valid_nick_name($nick) ? undef : "Invalid nick: $nick" },
         },
         user    => {
             optional    => 1,
@@ -50,6 +52,12 @@ has schema  => sub {
             default     => 'on',
             validator   => $sv->elemOf(qw(on off)),
         },
+        mute     => {
+            description => "stop fenix for 'mute' seconds to answer the same question",
+            example     => '120',
+            default     => '120',
+            validator   => $sv->regexp(qr/^\d+/, 'expected a positive integer'),
+        },
         CHANS   => {
             array       => 1,
             optional    => 1,
@@ -57,7 +65,7 @@ has schema  => sub {
                 name        => {
                     example     => '#omnios',
                     description => 'channel name',
-                    validator   => $sv->regexp(qr/^#[\w-]+$/, 'expected a pound sign prefixed string'),
+                    validator   => sub($chan, @) { is_valid_chan_name($chan) ? undef : "Invalid chan: $chan" },
                 },
                 log         => {
                     optional    => 1,
@@ -90,7 +98,8 @@ has config => sub {
 has irc => sub($self) {
     Fenix::Model::IRC->new(
         config  => $self->config,
-        datadir => $self->datadir
+        datadir => $self->datadir,
+        utils   => $self->utils,
     )
 };
 

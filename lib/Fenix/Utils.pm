@@ -1,23 +1,36 @@
-package Fenix::Controller::Hooks;
-use Mojo::Base 'Mojolicious::Controller', -signatures;
+package Fenix::Utils;
+use Mojo::Base -base, -signatures;
 
-has irc => sub($self) { $self->app->irc };
+use Mojo::Loader qw(find_modules load_class);
+use IRC::Utils qw(parse_user);
+use Time::Piece;
 
-#private methods
-my $remote_addr = sub($c) {
-    return $c->req->headers->header('X-Real-IP')
-        || $c->req->headers->header('X-Forwarded-For')
-        || $c->tx->remote_address;
-};
+# attributes
+has muteInt => 120; # default mute interval
 
-sub default($c) {
-    $c->render(text => "Hello, I am fenix.\n");
+# public methods
+sub loadModules($self, $modprefix, %args) {
+    my %modules;
+    for my $module (grep { !/base$/ } find_modules $modprefix) {
+        next if load_class $module;
+
+        my $name = lc ((split /::/, $module)[-1]);
+        $modules{$name} = $module->new(%args);
+    }
+    return \%modules;
 }
 
-sub fenix($c) {
-    return $c->render(text => 'Forbidden', status => 403) if $c->$remote_addr ne '127.0.0.1';
-    return $c->render(text => "Done.\n") if !$c->param('msg');
-    $c->irc->write($c->param('msg'), sub { $c->render(text => "Done.\n") });
+sub from($self, $prefix) {
+    return parse_user($prefix);
+}
+
+sub muted($self, $parentRef, $key) {
+    return 1 if exists $$parentRef->{$key};
+
+    $$parentRef->{$key} = undef;
+    Mojo::IOLoop->timer($self->muteInt => sub { delete $$parentRef->{$key} });
+
+    return 0;
 }
 
 1;
