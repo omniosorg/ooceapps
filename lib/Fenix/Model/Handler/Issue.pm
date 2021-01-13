@@ -1,23 +1,30 @@
-package Fenix::Controller::Hooks;
-use Mojo::Base 'Mojolicious::Controller', -signatures;
+package Fenix::Model::Handler::Issue;
+use Mojo::Base 'Fenix::Model::Handler::base', -signatures;
 
-has irc => sub($self) { $self->app->irc };
+# constants
+my $MODPREFIX = __PACKAGE__;
 
-#private methods
-my $remote_addr = sub($c) {
-    return $c->req->headers->header('X-Real-IP')
-        || $c->req->headers->header('X-Forwarded-For')
-        || $c->tx->remote_address;
+# attributes
+has priority => 10;
+has handler  => sub($self) {
+    return $self->utils->loadModules(
+        $MODPREFIX,
+        config  => $self->config,
+        datadir => $self->datadir,
+        chans   => $self->chans,
+        utils   => $self->utils,
+        mutemap => $self->mutemap,
+    );
 };
+has handlers => sub($self) { [ sort keys %{$self->handler} ] };
 
-sub default($c) {
-    $c->render(text => "Hello, I am fenix.\n");
-}
+sub process($self, $chan, $from, $msg) {
+    do {
+        my $reply = $self->handler->{$_}->process($chan, $from, $msg);
+        return $reply if @$reply;
+    } for @{$self->handlers};
 
-sub fenix($c) {
-    return $c->render(text => 'Forbidden', status => 403) if $c->$remote_addr ne '127.0.0.1';
-    return $c->render(text => "Done.\n") if !$c->param('msg');
-    $c->irc->write($c->param('msg'), sub { $c->render(text => "Done.\n") });
+    return [];
 }
 
 1;

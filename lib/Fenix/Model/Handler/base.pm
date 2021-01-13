@@ -1,23 +1,18 @@
-package Fenix::Controller::Hooks;
-use Mojo::Base 'Mojolicious::Controller', -signatures;
+package Fenix::Model::Handler::base;
+use Mojo::Base -base, -signatures;
 
-has irc => sub($self) { $self->app->irc };
+use Fenix::Utils;
 
-#private methods
-my $remote_addr = sub($c) {
-    return $c->req->headers->header('X-Real-IP')
-        || $c->req->headers->header('X-Forwarded-For')
-        || $c->tx->remote_address;
-};
+# attributes
+has config   => sub { {} };
+has datadir  => sub { Mojo::Exception->throw("ERROR: datadir must be specified on instantiation.\n") };
+has chans    => sub { {} };
+has utils    => sub { Fenix::Utils->new };
+has mutemap  => sub { {} };
+has priority => sub { Mojo::Exception->throw("ERROR: priority is a virtual attribute. Needs to be defined in derived class.\n") };
 
-sub default($c) {
-    $c->render(text => "Hello, I am fenix.\n");
-}
-
-sub fenix($c) {
-    return $c->render(text => 'Forbidden', status => 403) if $c->$remote_addr ne '127.0.0.1';
-    return $c->render(text => "Done.\n") if !$c->param('msg');
-    $c->irc->write($c->param('msg'), sub { $c->render(text => "Done.\n") });
+sub process($self, $chan, $from, $msg) {
+    return [];
 }
 
 1;
