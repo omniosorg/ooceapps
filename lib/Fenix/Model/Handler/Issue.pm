@@ -6,6 +6,7 @@ my $MODPREFIX = __PACKAGE__;
 
 # attributes
 has priority => 10;
+has generic  => 0;
 has handler  => sub($self) {
     return $self->utils->loadModules(
         $MODPREFIX,
@@ -16,7 +17,15 @@ has handler  => sub($self) {
         mutemap => $self->mutemap,
     );
 };
-has handlers => sub($self) { [ sort keys %{$self->handler} ] };
+has handlers => sub($self) {
+    return [
+        sort {
+            $self->handler->{$a}->priority <=> $self->handler->{$b}->priority
+            || $a cmp $b
+        } keys %{$self->handler}
+    ]
+};
+
 
 sub process($self, $chan, $from, $msg) {
     do {

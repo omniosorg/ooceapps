@@ -79,6 +79,12 @@ has schema  => sub($self) {
                     default     => 'off',
                     validator   => $sv->elemOf(qw(on off)),
                 },
+                generic     => {
+                    optional    => 1,
+                    description => 'generic handlers',
+                    default     => 'off',
+                    validator   => $sv->elemOf(qw(on off)),
+                },
             },
         },
     },

@@ -10,6 +10,7 @@ has chans    => sub { {} };
 has utils    => sub { Fenix::Utils->new };
 has mutemap  => sub { {} };
 has priority => sub { Mojo::Exception->throw("ERROR: priority is a virtual attribute. Needs to be defined in derived class.\n") };
+has generic  => 1;
 
 sub process($self, $chan, $from, $msg) {
     return [];

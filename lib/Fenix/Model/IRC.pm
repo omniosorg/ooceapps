@@ -21,10 +21,8 @@ has mutemap => sub { {} };
 has chans   => sub($self) {
     return {
         map {
-            $_->{name} => {
-                log         => $_->{log}         eq 'on' ? 1 : 0,
-                interactive => $_->{interactive} eq 'on' ? 1 : 0,
-            }
+            my $chan = $_;
+            $chan->{name} => { map { $_ => $chan->{$_} eq 'on' } qw(log interactive generic) }
         } @{$self->config->{CHANS}}
     }
 };
@@ -95,6 +93,9 @@ my $sendMsg = sub($self, $to, $msg) {
 
 my $process = sub($self, $chan, $from, $text) {
     for my $hd (@{$self->handlers}) {
+        next if !eq_irc($chan, $from) && $self->handler->{$hd}->generic
+            && !$self->chans->{$chan}->{generic};
+
         my $reply = $self->handler->{$hd}->process($chan, $from, $text);
 
         next if !@$reply;
@@ -133,7 +134,7 @@ sub start($self) {
         # in case the nick has changed.
         my $cfgNick = $self->config->{nick};
         my $nickRE  = eq_irc($nick, $cfgNick) ? qr/$nick/ : qr/$nick|$cfgNick/;
-        return if $text !~ /(?:^|\@)(?:$nickRE)(?![a-z\d_\-\[\]\\^{}|`])/i
+        return if $text !~ /(?:^|[^a-z\d_\-\[\]\\^{}|`])$nickRE(?:[^a-z\d_\-\[\]\\^{}|`]|$)/i
             || !$self->chans->{$chan}->{interactive};
 
         $self->$process($chan, $from, $text);
