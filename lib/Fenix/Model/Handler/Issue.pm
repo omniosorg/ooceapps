@@ -28,10 +28,13 @@ has handlers => sub($self) {
 
 
 sub process($self, $chan, $from, $msg) {
-    do {
-        my $reply = $self->handler->{$_}->process($chan, $from, $msg);
-        return $reply if @$reply;
-    } for @{$self->handlers};
+    for my $hd (@{$self->handlers}) {
+        if (my $issue = $self->handler->{$hd}->issue($msg)) {
+            return [] if $self->utils->muted(\$self->mutemap->{issue}->{$chan}, $issue);
+
+            return $self->handler->{$hd}->process($chan, $from, $issue);
+        }
+    }
 
     return [];
 }

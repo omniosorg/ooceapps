@@ -48,12 +48,7 @@ sub getIssue($self, $issue) {
     ];
 }
 
-sub process($self, $chan, $from, $msg) {
-    my $issue = $self->issue($msg);
-
-    return [] if !defined $issue
-        || $self->utils->muted(\$self->mutemap->{issue}->{$chan}, $issue);
-
+sub process($self, $chan, $from, $issue) {
     return $self->getIssue($issue);
 }
 
