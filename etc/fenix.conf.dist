@@ -9,7 +9,8 @@
         {
             "name"        : "#omnios",
             "log"         : "on",
-            "interactive" : "on"
+            "interactive" : "on",
+            "generic"     : "on"
         },
         {
             "name"        : "#illumos",

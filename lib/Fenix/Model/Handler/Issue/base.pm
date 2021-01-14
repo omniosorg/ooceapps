@@ -8,13 +8,14 @@ use Mojo::URL;
 use Fenix::Utils;
 
 # attributes
-has config  => sub { {} };
-has datadir => sub { Mojo::Exception->throw("ERROR: datadir must be specified on instantiation.\n") };
-has chans   => sub { {} };
-has baseurl => sub { Mojo::Exception->throw("ERROR: baseurl is a virtual attribute. Needs to be defined in derived class.\n") };
-has utils   => sub { Fenix::Utils->new };
-has mutemap => sub { {} };
-has ua      => sub { Mojo::UserAgent->new };
+has config   => sub { {} };
+has datadir  => sub { Mojo::Exception->throw("ERROR: datadir must be specified on instantiation.\n") };
+has chans    => sub { {} };
+has baseurl  => sub { Mojo::Exception->throw("ERROR: baseurl is a virtual attribute. Needs to be defined in derived class.\n") };
+has priority => sub { Mojo::Exception->throw("ERROR: priority is a virtual attribute. Needs to be defined in derived class.\n") };
+has utils    => sub { Fenix::Utils->new };
+has mutemap  => sub { {} };
+has ua       => sub { Mojo::UserAgent->new };
 
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler

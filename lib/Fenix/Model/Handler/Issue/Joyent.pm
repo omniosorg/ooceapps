@@ -5,7 +5,8 @@ use Mojo::Exception;
 use Mojo::URL;
 
 # attributes
-has baseurl => sub { Mojo::URL->new('https://smartos.org') };
+has priority => 5;
+has baseurl  => sub { Mojo::URL->new('https://smartos.org') };
 
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler

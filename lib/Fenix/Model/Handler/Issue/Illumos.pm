@@ -9,7 +9,8 @@ my $GERRITID  = 12;
 my $GERRITURL = Mojo::URL->new('https://code.illumos.org');
 
 # attributes
-has baseurl => sub { Mojo::URL->new('https://www.illumos.org') };
+has priority => 10;
+has baseurl  => sub { Mojo::URL->new('https://www.illumos.org') };
 
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler
