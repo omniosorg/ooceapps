@@ -1,45 +1,43 @@
-package Fenix::Model::Handler::Issue::Illumos;
+package Fenix::Model::Handler::Issue::IPD;
 use Mojo::Base 'Fenix::Model::Handler::Issue::base', -signatures;
 
 use Mojo::URL;
 
 # constants
-my $GERRITID  = 12;
-my $GERRITURL = Mojo::URL->new('https://code.illumos.org');
+my $GITHUB = Mojo::URL->new('https://github.com');
 
 # attributes
-has priority => 10;
-has baseurl  => sub { Mojo::URL->new('https://www.illumos.org') };
+has priority => 4;
+has baseurl  => sub { Mojo::URL->new('https://raw.githubusercontent.com') };
 
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler
 # return either a valid issue or undef.
 sub issue($self, $msg) {
-    return undef if $msg !~ /\b(?:illumos|issue)\b/i;
-    return ($msg =~ /\b(\d{3,})\b/)[0];
+    return ($msg =~ /\bIPD[-\s]*(\d+)\b/i)[0];
 }
 
 sub issueURL($self, $issue) {
-    return Mojo::URL->new("/issues/$issue.json")->base($self->baseurl)->to_abs;
+    return Mojo::URL->new("/illumos/ipd/master/README.md")->base($self->baseurl)->to_abs;
 }
 
 sub processIssue($self, $issue, $res) {
-    my $data = $res->json->{issue};
+    for (split /[\r\n]+/, $res->body) {
+        my ($status, $desc, $url)
+            = /^\s*\|\s*([^\s|]+)\s*\|\s*\[\s*IPD\s+$issue\s+([^\]]+)\]\(([^\)]+)/ or next;
 
-    my $url = Mojo::URL->new("/issues/$issue")->base($self->baseurl)->to_abs;
-    for my $cf (@{$data->{custom_fields}}) {
-        my $cr = $cf->{value};
-        next if $cf->{id} != $GERRITID || !$cr;
-
-        $url .= ' / ' . Mojo::URL->new("/c/illumos-gate/+/$cr")->base($GERRITURL)->to_abs;
+        $url =~ s!^\.?/!!;
+        return {
+            id          => "IPD $issue",
+            subject     => $desc,
+            url         => Mojo::URL->new("/illumos/ipd/tree/master/$url")->base($GITHUB)->to_abs,
+            author      => '',
+            status      => $status,
+            assigned_to => '',
+        };
     }
 
-    return {
-        id       => uc ($data->{tracker}->{name}) . ' ' . $data->{id},
-        subject  => $data->{subject},
-        url      => $url,
-        map { $_ => $data->{$_}->{name} } qw(author status assigned_to),
-    };
+    return {};
 }
 
 1;

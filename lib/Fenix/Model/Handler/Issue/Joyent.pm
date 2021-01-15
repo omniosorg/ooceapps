@@ -1,7 +1,6 @@
 package Fenix::Model::Handler::Issue::Joyent;
 use Mojo::Base 'Fenix::Model::Handler::Issue::base', -signatures;
 
-use Mojo::Exception;
 use Mojo::URL;
 
 # attributes
@@ -12,7 +11,7 @@ has baseurl  => sub { Mojo::URL->new('https://smartos.org') };
 # It parses the message and checks whether it is the correct handler
 # return either a valid issue or undef.
 sub issue($self, $msg) {
-    return ($msg =~ /([A-Z]+-\d+)/)[0];
+    return ($msg =~ /\b([A-Z]+-\d+)\b/)[0];
 }
 
 sub issueURL($self, $issue) {
