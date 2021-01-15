@@ -1,20 +1,18 @@
-package Fenix::Model::Handler::base;
-use Mojo::Base -base, -signatures;
+package Fenix::Model::Handler::Help;
+use Mojo::Base 'Fenix::Model::Handler::base', -signatures;
 
-use Fenix::Utils;
-
-# attributes
-has config   => sub { {} };
-has datadir  => sub { Mojo::Exception->throw("ERROR: datadir must be specified on instantiation.\n") };
-has chans    => sub { {} };
-has utils    => sub { Fenix::Utils->new };
-has mutemap  => sub { {} };
-has priority => sub { Mojo::Exception->throw("ERROR: priority is a virtual attribute. Needs to be defined in derived class.\n") };
-has generic  => 1;
-has dm       => 0;
+has priority => 100;
+has generic  => 0;
+has dm       => 1;
 
 sub process($self, $chan, $from, $msg) {
-    return [];
+    return [] if $msg !~ /\bhelp\b/i;
+
+    return [ split /\n/, <<"END" ];
+Hi $from, I am glad you asked!
+But currently I doubt that I can help you with anything.
+END
+
 }
 
 1;
