@@ -37,7 +37,7 @@ sub processIssue($self, $issue, $res) {
         };
     }
 
-    return {};
+    return "IPD '$issue' not found...";
 }
 
 1;

@@ -40,7 +40,8 @@ sub getIssue($self, $issue) {
     return [ "issue '$issue' not found..." ] if !$res->is_success;
 
     my $data = $self->processIssue($issue, $res);
-    return [ "issue '$issue' not found..." ] if !%$data;
+    return [ $data ] if !ref $data; # error string returned by the handler
+    return [] if !%$data;
 
     return [
         "$data->{id}: $data->{subject} ($data->{status})",
