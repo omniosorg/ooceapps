@@ -100,8 +100,10 @@ my $process = sub($self, $chan, $from, $text) {
 
         next if !@$reply;
 
-        $self->$sendMsg($chan, $_) for @$reply;
-        return;
+        $self->$sendMsg($self->handler->{$hd}->dm ? $from : $chan, $_)
+            for @$reply;
+
+        last;
     }
 };
 
