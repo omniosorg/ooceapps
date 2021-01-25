@@ -60,12 +60,15 @@ $connect = sub($self) {
 my $log = sub($self, $msg) {
     my $chan = $msg->{params}->[0];
 
-    return if !($msg->{event} eq 'privmsg'
-        || eq_irc($chan, $self->nick) || $self->chans->{$chan}->{log});
+    # logic to detect public chans taken from Parse::IRC
+    return if $chan =~ /^(?:\x23|\x26)/ && !$self->chans->{$chan}->{log};
 
     my $time   = gmtime;
     my $day    = $time->ymd;
     $msg->{ts} = $time->epoch;
+
+    # delete 'event' since that information is covered in 'command'
+    delete $msg->{event};
 
     my $logdir = eq_irc($chan, $self->nick) ? $self->utils->from($msg->{prefix}) : $chan;
 
@@ -78,19 +81,6 @@ my $log = sub($self, $msg) {
     close $fh;
 };
 
-my $sendMsg = sub($self, $to, $msg) {
-    $self->write(PRIVMSG => $to => ":$msg" => sub($irc, $err) {
-        return warn $err if $err;
-
-        # log own messages
-        my $nick = $self->nick;
-        $self->$log({
-            event => 'privmsg',
-            %{$self->parser->parse(":$nick PRIVMSG $to :$msg")},
-        });
-    });
-};
-
 my $process = sub($self, $chan, $from, $text) {
     for my $hd (@{$self->handlers}) {
         next if !eq_irc($chan, $from) && $self->handler->{$hd}->generic
@@ -100,7 +90,7 @@ my $process = sub($self, $chan, $from, $text) {
 
         next if !@$reply;
 
-        $self->$sendMsg($self->handler->{$hd}->dm ? $from : $chan, $_)
+        $self->sendMsg($self->handler->{$hd}->dm ? $from : $chan, $_)
             for @$reply;
 
         last;
@@ -119,6 +109,16 @@ sub new($self, %args) {
 }
 
 # public methods
+sub sendMsg($self, $to, $msg) {
+    $self->write(PRIVMSG => $to => ":$msg" => sub($irc, $err) {
+        return warn $err if $err;
+
+        # log own messages
+        my $nick = $self->nick;
+        $self->$log($self->parser->parse(":$nick PRIVMSG $to :$msg"));
+    });
+}
+
 sub start($self) {
     # logging
     $self->on(message => sub($irc, $msg) { $self->$log($msg) });

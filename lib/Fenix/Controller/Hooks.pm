@@ -17,7 +17,15 @@ sub default($c) {
 sub fenix($c) {
     return $c->render(text => 'Forbidden', status => 403) if $c->$remote_addr ne '127.0.0.1';
     return $c->render(text => "Done.\n") if !$c->param('msg');
-    $c->irc->write($c->param('msg'), sub { $c->render(text => "Done.\n") });
+
+    my $msg = $c->irc->parser->parse($c->param('msg'))
+        or return $c->render(text => "Failed to parse message.\n");
+
+    return $c->irc->write($c->param('msg'), sub { $c->render(text => "Done.\n") })
+        if $msg->{command} ne 'PRIVMSG';
+
+    $c->irc->sendMsg($msg->{params}->[0], $msg->{params}->[1]);
+    $c->render(text => "Done.\n");
 }
 
 1;
