@@ -61,7 +61,9 @@ my $log = sub($self, $msg) {
     my $chan = $msg->{params}->[0];
 
     # logic to detect public chans taken from Parse::IRC
-    return if $chan =~ /^(?:\x23|\x26)/ && !$self->chans->{$chan}->{log};
+    my $ischan = $chan =~ /^[#&]/;
+    return if ($ischan && !$self->chans->{$chan}->{log})
+        || (!$ischan && $msg->{command} ne 'PRIVMSG');
 
     my $time   = gmtime;
     my $day    = $time->ymd;
