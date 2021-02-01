@@ -31,7 +31,7 @@ sub processIssue($self, $issue, $res) {
         my $cr = $cf->{value};
         next if $cf->{id} != $GERRITID || !$cr;
 
-        $url .= ' / ' . Mojo::URL->new("/c/illumos-gate/+/$cr")->base($GERRITURL)->to_abs;
+        $url .= ' | ' . Mojo::URL->new("/c/illumos-gate/+/$cr")->base($GERRITURL)->to_abs;
     }
 
     return {

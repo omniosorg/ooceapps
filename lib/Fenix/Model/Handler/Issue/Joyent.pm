@@ -26,7 +26,7 @@ sub processIssue($self, $issue, $res) {
         my ($commit) = $comment->{body} =~ m!(https://github\.com(?:/[^/]+){2}/commit/[[:xdigit:]]+)!
             or next;
 
-        $url .= " / $commit";
+        $url .= " | $commit";
         last;
     }
 
