@@ -15,8 +15,12 @@ has baseurl  => sub { Mojo::URL->new('https://www.illumos.org') };
 # It parses the message and checks whether it is the correct handler
 # return either a valid issue or undef.
 sub issue($self, $msg) {
-    return undef if $msg !~ /\b(?:illumos|issue)\b/i;
-    return ($msg =~ /\b(\d{3,})\b/)[0];
+    for ($msg) {
+        /\b(?:illumos|issue)\b/i && return ($msg =~ /\b(\d{3,})\b/)[0];
+        /(?:^|\s)#(\d+)\b/ && return $1;
+    }
+
+    return undef;
 }
 
 sub issueURL($self, $issue) {
