@@ -32,7 +32,7 @@ sub processIssue($self, $issue, $res) {
     return {};
 }
 
-sub getIssue($self, $issue) {
+sub process($self, $issue) {
     my $url = $self->issueURL($issue);
     my $res = $self->ua->get($url)->result;
 
@@ -47,10 +47,6 @@ sub getIssue($self, $issue) {
         "$data->{id}: $data->{subject} ($data->{status})",
         "↳ $data->{url}",
     ];
-}
-
-sub process($self, $chan, $from, $issue) {
-    return $self->getIssue($issue);
 }
 
 1;
