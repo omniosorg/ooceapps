@@ -137,7 +137,7 @@ sub start($self) {
 
         # in case the nick has changed.
         my $cfgNick = $self->config->{nick};
-        my $nickRE  = eq_irc($nick, $cfgNick) ? qr/$nick/ : qr/$nick|$cfgNick/;
+        my $nickRE  = eq_irc($nick, $cfgNick) ? qr/$nick/i : qr/$nick|$cfgNick/i;
         return if $text !~ /(?:^|[^a-z\d_\-\[\]\\^{}|`])$nickRE(?:[^a-z\d_\-\[\]\\^{}|`]|$)/i
             || !$self->chans->{$chan}->{interactive};
 
