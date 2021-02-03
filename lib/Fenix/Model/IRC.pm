@@ -6,7 +6,7 @@ use Time::Piece;
 use Mojo::Exception;
 use Mojo::File;
 use Mojo::JSON qw(encode_json);
-use IRC::Utils qw(eq_irc);
+use IRC::Utils qw(eq_irc is_valid_chan_name);
 
 use Fenix::Utils;
 
@@ -60,8 +60,7 @@ $connect = sub($self) {
 my $log = sub($self, $msg) {
     my $chan = $msg->{params}->[0];
 
-    # logic to detect public chans taken from Parse::IRC
-    my $ischan = $chan =~ /^[#&]/;
+    my $ischan = is_valid_chan_name($chan);
     return if ($ischan && !$self->chans->{$chan}->{log})
         || (!$ischan && $msg->{command} ne 'PRIVMSG');
 
