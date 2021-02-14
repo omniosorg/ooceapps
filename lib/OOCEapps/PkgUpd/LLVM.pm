@@ -19,7 +19,7 @@ sub getVersions {
     $ver *= 10.0 if $ver < 8.0;
     $name =~ s/clang/cfe/ if $ver < 9.0;
 
-    return [ map { /$name-($ver\.[\d.]+)\./ } $res->dom->find('a')->each ];
+    return [ map { /(?:$name|llvmorg)-($ver\.[\d.]+\d)/ } $res->dom->find('a')->each ];
 }
 
 1;
@@ -28,7 +28,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
