@@ -6,7 +6,7 @@ Upon your request, we have cancelled your OmniOSce subscription: <%= $stripeData
 
 Thank you for supporting OmniOSce since <%= strftime('%Y-%m-%d', localtime($stripeData->{data}{object}{start})) %>. If at a later stage you would like to become a Patron again, just create a new subscription on
 
-    https://www.omniosce.org/patron
+    https://www.omnios.org/patron
 
 Regards
 The OmniOSce Team
@@ -14,4 +14,4 @@ The OmniOSce Team
 -- 
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
-patrons@omniosce.org
+patrons@omnios.org

@@ -17,12 +17,12 @@ has schema => sub {
         },
         email_from => {
             description => 'email sender address',
-            example     => 'patrons@omniosce.org',
+            example     => 'patrons@omnios.org',
             validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
         },
         email_bcc => {
             description => 'email bcc address',
-            example     => 'patrons@omniosce.org',
+            example     => 'patrons@omnios.org',
             validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
         },
         key_path => {
@@ -37,7 +37,7 @@ has schema => sub {
         },
         create_url => {
             description => 'url prefix for invoice creation requests',
-            example     => 'https://apps.omniosce.org/invoice/create',
+            example     => 'https://apps.omnios.org/invoice/create',
             validator   => $sv->regexp(qr/^.*$/, 'expected a string'),
         },
     }
@@ -138,7 +138,7 @@ this program. If not, see L<http://www.gnu.org/licenses/>.
 
 =head1 AUTHOR
 
-S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
+S<Dominik Hassler E<lt>hadfl@omnios.orgE<gt>>
 S<Tobias Oetiker E<lt>tobi@oetiker.chE<gt>>
 
 =head1 HISTORY

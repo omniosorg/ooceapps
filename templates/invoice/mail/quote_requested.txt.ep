@@ -2,7 +2,7 @@ Thank you for your interest in an OmniOS Support Package and for completing the 
 
 <%== $url %>
 
-This message has been automatically generated as a result of your email address being entered into the quote request form at https://omniosce.org/invoice - the originator's details were:
+This message has been automatically generated as a result of your email address being entered into the quote request form at https://omnios.org/invoice - the originator's details were:
 
 Request origin: <%== $remote_addr %>
 % if ($ref) {
@@ -28,4 +28,4 @@ The OmniOSce Team
 --
 OmniOS Community Edition Association
 Aarweg 17, 4600 Olten, Switzerland
-patrons@omniosce.org
+patrons@omnios.org

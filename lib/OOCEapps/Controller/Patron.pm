@@ -130,7 +130,7 @@ sub cancelSubscription {
         if (ref $@ eq 'ARRAY'){
             $c->log->error($@->[0]);
             return $c->render(text => 'Sorry there was an error canceling your subscription.'
-                . ' Please get in touch with patron@omniosce.org');
+                . ' Please get in touch with patrons@omnios.org');
         }
         else {
             die $@;
@@ -162,7 +162,7 @@ this program. If not, see L<http://www.gnu.org/licenses/>.
 
 =head1 AUTHOR
 
-S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
+S<Dominik Hassler E<lt>hadfl@omnios.orgE<gt>>
 S<Tobias Oetiker E<lt>tobi@oetiker.chE<gt>>
 
 =head1 HISTORY
