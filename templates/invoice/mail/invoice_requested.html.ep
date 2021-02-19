@@ -15,7 +15,7 @@ has been generated and can be retrieved by visiting the following link
 <p><a href="<%= $url %>">Invoice Download Link</a></p>
 
 <p>This message has been automatically generated as a result of your email
-address being entered into the <a href="https://omniosce.org/invoice">invoice request
+address being entered into the <a href="https://omnios.org/invoice">invoice request
 form</a> on the OmniOS website.</p>
 
 <p>The originator's details were:</p>
@@ -41,7 +41,7 @@ The OmniOSce Team</p>
 <address>
 OmniOS Community Edition Association<br/>
 Aarweg 17, 4600 Olten, Switzerland<br/>
-patrons@omniosce.org</address>
+patrons@omnios.org</address>
 
 </body>
 </html>

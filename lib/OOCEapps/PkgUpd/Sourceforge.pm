@@ -2,15 +2,17 @@ package OOCEapps::PkgUpd::Sourceforge;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 my %TRANSFORMDIR = (
-    libid3tag   => 'mad',
-    freetype2   => 'freetype',
-    libmcrypt   => 'mcrypt',
-    libgif      => 'giflib',
+    'exuberant-ctags'   => 'ctags',
+    freetype2           => 'freetype',
+    libgif              => 'giflib',
+    libid3tag           => 'mad',
+    libmcrypt           => 'mcrypt',
 );
 
 my %TRANSFORM = (
-    freepascal  => 'Source',
-    libgif      => 'giflib',
+    'exuberant-ctags'   => 'ctags',
+    freepascal          => 'Source',
+    libgif              => 'giflib',
 );
 
 # public methods
@@ -51,7 +53,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
@@ -68,7 +70,7 @@ this program. If not, see L<http://www.gnu.org/licenses/>.
 
 =head1 AUTHOR
 
-S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
+S<Dominik Hassler E<lt>hadfl@omnios.orgE<gt>>
 
 =head1 HISTORY
 

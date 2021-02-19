@@ -46,7 +46,7 @@ this program. If not, see L<http://www.gnu.org/licenses/>.
 
 =head1 AUTHOR
 
-S<Andy Fiddaman E<lt>andy@omniosce.orgE<gt>>
+S<Andy Fiddaman E<lt>andy@omnios.orgE<gt>>
 
 =head1 HISTORY
 

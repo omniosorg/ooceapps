@@ -18,15 +18,15 @@ has schema  => sub {
         },
         'cancelUrl' => {
             description => 'url prefix for cancelation requests',
-            example     => 'https://apps.omniosce.org/patron/cancel',
+            example     => 'https://apps.omnios.org/patron/cancel',
         },
         'emailFrom' => {
             description => 'email sender address',
-            example     => 'patrons@omniosce.org',
+            example     => 'patrons@omnios.org',
         },
         'emailBcc' => {
             description => 'email bcc address',
-            example     => 'patrons@omniosce.org',
+            example     => 'patrons@omnios.org',
         },
         'subCurrencies' => {
             description => 'list of currencies',
@@ -266,7 +266,7 @@ this program. If not, see L<http://www.gnu.org/licenses/>.
 
 =head1 AUTHOR
 
-S<Dominik Hassler E<lt>hadfl@omniosce.orgE<gt>>
+S<Dominik Hassler E<lt>hadfl@omnios.orgE<gt>>
 S<Tobias Oetiker E<lt>tobi@oetiker.chE<gt>>
 
 =head1 HISTORY
