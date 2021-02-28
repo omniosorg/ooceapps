@@ -62,13 +62,13 @@ sub register {
     my $r = $self->app->routes;
 
     $r->options('/' . $self->name . '/request')
-        ->to(namespace => $self->controller, action => 'access');
+        ->to(controller => $self->controller, action => 'access');
 
     $r->post('/' . $self->name . '/request')
-        ->to(namespace => $self->controller, action => 'requestInvoice');
+        ->to(controller => $self->controller, action => 'requestInvoice');
 
     $r->get('/' . $self->name . '/create/:req_hash')
-        ->to(namespace => $self->controller, action => 'createInvoice');
+        ->to(controller => $self->controller, action => 'createInvoice');
 
     $self->sqlite
         ->auto_migrate(1)
@@ -121,7 +121,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

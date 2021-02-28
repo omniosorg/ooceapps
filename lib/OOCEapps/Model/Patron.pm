@@ -80,19 +80,19 @@ sub register {
     my $r = $self->app->routes;
 
     $r->options('/' . $self->name.'/subscribe')
-        ->to(namespace => $self->controller, action => 'access');
+        ->to(controller => $self->controller, action => 'access');
 
     $r->post('/' . $self->name.'/subscribe')
-        ->to(namespace => $self->controller, action => 'subscribe');
+        ->to(controller => $self->controller, action => 'subscribe');
 
     $r->get('/' . $self->name.'/cancel/:subKey')
-        ->to(namespace => $self->controller, action => 'cancelSubscriptionForm');
+        ->to(controller => $self->controller, action => 'cancelSubscriptionForm');
 
     $r->post('/' . $self->name.'/cancel/:subKey')
-        ->to(namespace => $self->controller, action => 'cancelSubscription');
+        ->to(controller => $self->controller, action => 'cancelSubscription');
 
     $r->post('/' . $self->name.'/webhook')
-        ->to(namespace => $self->controller, action => 'webhook');
+        ->to(controller => $self->controller, action => 'webhook');
 
     my $file = $self->config->{keyPath};
     $file = $file =~ m|^/| ? Mojo::File->new($file)
@@ -249,7 +249,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
