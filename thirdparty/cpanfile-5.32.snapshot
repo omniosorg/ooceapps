@@ -104,17 +104,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Storable 0
       perl 5.008001
-  Clone-PP-1.08
-    pathname: N/NE/NEILB/Clone-PP-1.08.tar.gz
-    provides:
-      Clone::PP 1.08
-    requirements:
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      perl 5.006
-      strict 0
-      vars 0
-      warnings 0
   Cpanel-JSON-XS-4.25
     pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.25.tar.gz
     provides:
@@ -291,28 +280,45 @@ DISTRIBUTIONS
       Sub::Install 0.921
       strict 0
       warnings 0
-  Data-Printer-0.40
-    pathname: G/GA/GARU/Data-Printer-0.40.tar.gz
+  Data-Printer-1.000001
+    pathname: G/GA/GARU/Data-Printer-1.000001.tar.gz
     provides:
       DDP undef
-      Data::Printer 0.40
+      Data::Printer 1.000001
+      Data::Printer::Common undef
+      Data::Printer::Config undef
       Data::Printer::Filter undef
+      Data::Printer::Filter::ARRAY undef
+      Data::Printer::Filter::CODE undef
+      Data::Printer::Filter::ContentType undef
       Data::Printer::Filter::DB undef
       Data::Printer::Filter::DateTime undef
       Data::Printer::Filter::Digest undef
+      Data::Printer::Filter::FORMAT undef
+      Data::Printer::Filter::GLOB undef
+      Data::Printer::Filter::GenericClass undef
+      Data::Printer::Filter::HASH undef
+      Data::Printer::Filter::REF undef
+      Data::Printer::Filter::Regexp undef
+      Data::Printer::Filter::SCALAR undef
+      Data::Printer::Filter::VSTRING undef
+      Data::Printer::Filter::Web undef
+      Data::Printer::Object undef
+      Data::Printer::Profile undef
+      Data::Printer::Profile::Dumper undef
+      Data::Printer::Profile::JSON undef
+      Data::Printer::Theme undef
+      Data::Printer::Theme::Classic undef
+      Data::Printer::Theme::Material undef
+      Data::Printer::Theme::Monokai undef
+      Data::Printer::Theme::Solarized undef
     requirements:
-      Carp 0
-      Clone::PP 0
       ExtUtils::MakeMaker 0
       Fcntl 0
-      File::HomeDir 0.91
       File::Spec 0
       File::Temp 0
-      Package::Stash 0.3
       Scalar::Util 0
-      Sort::Naturally 0
-      Term::ANSIColor 3
-      Test::More 0.88
+      Test::More 0
       version 0.77
   Data-Processor-1.0.6
     pathname: M/MB/MBP/Data-Processor-1.0.6.tar.gz
@@ -1094,30 +1100,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  File-HomeDir-1.006
-    pathname: R/RE/REHSACK/File-HomeDir-1.006.tar.gz
-    provides:
-      File::HomeDir 1.006
-      File::HomeDir::Darwin 1.006
-      File::HomeDir::Darwin::Carbon 1.006
-      File::HomeDir::Darwin::Cocoa 1.006
-      File::HomeDir::Driver 1.006
-      File::HomeDir::FreeDesktop 1.006
-      File::HomeDir::MacOS9 1.006
-      File::HomeDir::Test 1.006
-      File::HomeDir::Unix 1.006
-      File::HomeDir::Windows 1.006
-    requirements:
-      Carp 0
-      Cwd 3.12
-      ExtUtils::MakeMaker 0
-      File::Basename 0
-      File::Path 2.01
-      File::Spec 3.12
-      File::Temp 0.19
-      File::Which 0.05
-      POSIX 0
-      perl 5.008003
   File-Listing-6.14
     pathname: P/PL/PLICEASE/File-Listing-6.14.tar.gz
     provides:
@@ -1160,13 +1142,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  File-Which-1.23
-    pathname: P/PL/PLICEASE/File-Which-1.23.tar.gz
-    provides:
-      File::Which 1.23
-    requirements:
-      ExtUtils::MakeMaker 0
-      perl 5.006
   GeoIP2-2.006002
     pathname: M/MA/MAXMIND/GeoIP2-2.006002.tar.gz
     provides:
@@ -1307,19 +1282,19 @@ DISTRIBUTIONS
       Time::Zone 0
       perl 5.006002
       strict 0
-  HTTP-Message-6.27
-    pathname: O/OA/OALDERS/HTTP-Message-6.27.tar.gz
+  HTTP-Message-6.28
+    pathname: O/OA/OALDERS/HTTP-Message-6.28.tar.gz
     provides:
-      HTTP::Config 6.27
-      HTTP::Headers 6.27
-      HTTP::Headers::Auth 6.27
-      HTTP::Headers::ETag 6.27
-      HTTP::Headers::Util 6.27
-      HTTP::Message 6.27
-      HTTP::Request 6.27
-      HTTP::Request::Common 6.27
-      HTTP::Response 6.27
-      HTTP::Status 6.27
+      HTTP::Config 6.28
+      HTTP::Headers 6.28
+      HTTP::Headers::Auth 6.28
+      HTTP::Headers::ETag 6.28
+      HTTP::Headers::Util 6.28
+      HTTP::Message 6.28
+      HTTP::Request 6.28
+      HTTP::Request::Common 6.28
+      HTTP::Response 6.28
+      HTTP::Status 6.28
     requirements:
       Carp 0
       Compress::Raw::Zlib 0
@@ -1371,17 +1346,17 @@ DISTRIBUTIONS
       Exporter 5.57
       ExtUtils::MakeMaker 0
       perl 5.008
-  IO-Socket-SSL-2.069
-    pathname: S/SU/SULLR/IO-Socket-SSL-2.069.tar.gz
+  IO-Socket-SSL-2.070
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.070.tar.gz
     provides:
-      IO::Socket::SSL 2.069
+      IO::Socket::SSL 2.070
       IO::Socket::SSL::Intercept 2.056
-      IO::Socket::SSL::OCSP_Cache 2.069
-      IO::Socket::SSL::OCSP_Resolver 2.069
+      IO::Socket::SSL::OCSP_Cache 2.070
+      IO::Socket::SSL::OCSP_Resolver 2.070
       IO::Socket::SSL::PublicSuffix undef
-      IO::Socket::SSL::SSL_Context 2.069
-      IO::Socket::SSL::SSL_HANDLE 2.069
-      IO::Socket::SSL::Session_Cache 2.069
+      IO::Socket::SSL::SSL_Context 2.070
+      IO::Socket::SSL::SSL_HANDLE 2.070
+      IO::Socket::SSL::Session_Cache 2.070
       IO::Socket::SSL::Utils 2.014
     requirements:
       ExtUtils::MakeMaker 0
@@ -1688,28 +1663,28 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Mojo-IRC-0.45
-    pathname: J/JH/JHTHORSEN/Mojo-IRC-0.45.tar.gz
+  Mojo-IRC-0.46
+    pathname: D/DB/DBOOK/Mojo-IRC-0.46.tar.gz
     provides:
-      Mojo::IRC 0.45
+      Mojo::IRC 0.46
       Mojo::IRC::UA undef
       Test::Mojo::IRC undef
     requirements:
       ExtUtils::MakeMaker 0
       IRC::Utils 0.12
       List::Util 1.33
-      Mojolicious 7.18
+      Mojolicious 7.54
       Parse::IRC 1.20
       Unicode::UTF8 0.59
-  Mojo-SQLite-3.004
-    pathname: D/DB/DBOOK/Mojo-SQLite-3.004.tar.gz
+  Mojo-SQLite-3.005
+    pathname: D/DB/DBOOK/Mojo-SQLite-3.005.tar.gz
     provides:
-      Mojo::SQLite 3.004
-      Mojo::SQLite::Database 3.004
-      Mojo::SQLite::Migrations 3.004
-      Mojo::SQLite::PubSub 3.004
-      Mojo::SQLite::Results 3.004
-      Mojo::SQLite::Transaction 3.004
+      Mojo::SQLite 3.005
+      Mojo::SQLite::Database 3.005
+      Mojo::SQLite::Migrations 3.005
+      Mojo::SQLite::PubSub 3.005
+      Mojo::SQLite::Results 3.005
+      Mojo::SQLite::Transaction 3.005
     requirements:
       Carp 0
       DBD::SQLite 1.64
@@ -1724,8 +1699,8 @@ DISTRIBUTIONS
       URI::db 0.15
       URI::file 4.21
       perl 5.010001
-  Mojolicious-8.72
-    pathname: S/SR/SRI/Mojolicious-8.72.tar.gz
+  Mojolicious-9.01
+    pathname: S/SR/SRI/Mojolicious-9.01.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -1754,7 +1729,6 @@ DISTRIBUTIONS
       Mojo::Home undef
       Mojo::IOLoop undef
       Mojo::IOLoop::Client undef
-      Mojo::IOLoop::Delay undef
       Mojo::IOLoop::Server undef
       Mojo::IOLoop::Stream undef
       Mojo::IOLoop::Subprocess undef
@@ -1794,7 +1768,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 8.72
+      Mojolicious 9.01
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -2127,13 +2101,6 @@ DISTRIBUTIONS
       Test::Deep 0.101
       Text::Balanced 2.00
       perl 5.006
-  Sort-Naturally-1.03
-    pathname: B/BI/BINGOS/Sort-Naturally-1.03.tar.gz
-    provides:
-      Sort::Naturally 1.03
-    requirements:
-      ExtUtils::MakeMaker 0
-      perl 5
   Sort-Versions-1.62
     pathname: N/NE/NEILB/Sort-Versions-1.62.tar.gz
     provides:
