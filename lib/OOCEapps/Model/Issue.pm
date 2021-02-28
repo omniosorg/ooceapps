@@ -1,15 +1,10 @@
 package OOCEapps::Model::Issue;
 use Mojo::Base 'OOCEapps::Model::base';
 
-use POSIX qw(SIGTERM);
-use File::stat;
-use OOCEapps::Utils;
-
-# constants
-my $MODULES = join '::', grep { !/^Model$/ } split /::/, __PACKAGE__;
+use Fenix::Model::Handler::Issue;
 
 # attributes
-has schema  => sub {
+has schema => sub {
     my $sv = shift->utils;
 
     return {
@@ -22,63 +17,7 @@ has schema  => sub {
     }
 };
 
-has issueModules => sub { OOCEapps::Utils::loadModules($MODULES) };
-
-has dbrefint => 3600;
-
-my $parseIssues = sub {
-    my $self = shift;
-
-    my $db = {};
-    $db = { %$db, %{$_->parseIssues} } for @{$self->issueModules};
-
-    $self->utils->saveDB($self->config->{issueDB}, $db);
-};
-
-my $refreshDB;
-$refreshDB = sub {
-    my $self = shift;
-
-    # set next refresh in 1h + a maximum random 5 minutes
-    Mojo::IOLoop->timer($self->dbrefint + int (rand (300)) => sub { $self->$refreshDB });
-
-    # only run refresh in one worker process
-    return if -f $self->config->{issueDB}
-        && time - stat ($self->config->{issueDB})->mtime < $self->dbrefint;
-    utime undef, undef, $self->config->{issueDB};
-
-    my $proc = Mojo::IOLoop->subprocess(
-        sub {
-            my $subprocess = shift;
-            $self->$parseIssues;
-            return undef;
-        },
-        sub {
-            my ($subprocess, $err, $result) = @_;
-            $self->config->{pid} = 0;
-        }
-    );
-
-    $self->config->{pid} = $proc->pid;
-};
-
-sub register {
-    my $self = shift;
-    my $app  = shift;
-
-    $self->SUPER::register($app);
-
-    $self->config->{issueDB} = $self->datadir . '/' . $self->name . '.db';
-    $self->config->{pid}     = 0;
-
-    $self->$refreshDB;
-}
-
-sub DESTROY {
-    my $self = shift;
-
-    kill SIGTERM, $self->config->{pid} if $self->config->{pid};
-}
+has issue => sub { Fenix::Model::Handler::Issue->new(datadir => shift->datadir) };
 
 1;
 
@@ -86,7 +25,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
