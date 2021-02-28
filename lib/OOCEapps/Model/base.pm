@@ -6,13 +6,14 @@ use OOCEapps::Mattermost;
 use OOCEapps::Utils;
 
 # attributes
-has app     => sub { {} };
-has ua      => sub { shift->app->ua->new };
-has module  => sub { ref shift };
-has name    => sub { lc ((split /::/, shift->module)[-1]) };
-has config  => sub { my $self = shift; $self->app->config->{MODULES}->{$self->name} };
-has log     => sub { shift->app->log };
-has datadir => sub {
+has app        => sub { {} };
+has ua         => sub { shift->app->ua->new };
+has module     => sub { ref shift };
+has controller => sub { (split /::/, shift->module)[-1] };
+has name       => sub { lc shift->controller };
+has config     => sub { my $self = shift; $self->app->config->{MODULES}->{$self->name} };
+has log        => sub { shift->app->log };
+has datadir    => sub {
     my $self = shift;
     my $dir = $self->app->datadir . '/' . $self->name;
     # create module datadir if it does not exist
@@ -21,11 +22,6 @@ has datadir => sub {
     return $dir;
 };
 
-has controller => sub {
-    my $controller = shift->module;
-    $controller =~ s/Model/Controller/;
-    return $controller;
-};
 
 has utils => sub { OOCEapps::Utils->new };
 
@@ -39,7 +35,7 @@ sub register {
     # override it in subclass if necessary
     # my $controller = $self->module =~ s/Model/Controller/r;
     $self->app->routes->post('/' . $self->name)
-        ->to(namespace => $self->controller, action => 'process');
+        ->to(controller => $self->controller, action => 'process');
 }
 
 1;
@@ -48,7 +44,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
