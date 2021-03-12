@@ -1,12 +1,5 @@
-package OOCEapps::PkgUpd::VersionLock;
+package OOCEapps::PkgUpd::Dav1d;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
-
-my %VERLOCKMAP = (
-    'ooce/database/bdb'     => '5.3.28',
-    'ooce/multimedia/x264'  => '20210124',
-    'ooce/system/top'       => '3.8',
-    'system/network/lldp'   => '0.4alpha',
-);
 
 # public methods
 sub canParse {
@@ -14,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return exists $VERLOCKMAP{$name};
+    return $name =~ /dav1d$/;
 }
 
 sub getVersions {
@@ -22,7 +15,7 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    return [ $VERLOCKMAP{$name} ];
+    return [ map { m!([\d.]+)/! } $res->dom->find('a')->each ];
 }
 
 1;
@@ -31,7 +24,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
