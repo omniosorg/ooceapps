@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" href="/style.css" type="text/css" media="all"/>
+  <title><%= $man %> - multiple man pages found</title>
+</head>
+<body>
+<table class="head">
+  <tr>
+    <td class="head-ltitle"><%= $man %></td>
+    <td class="head-vol">Multiple matches found</td>
+    <td class="head-rtitle"><%= $man %></td>
+  </tr>
+</table>
+
+Multiple possible matches were found for <b class="Sy"><%= $man %></b>:
+
+<div class="manual-text">
+
+% for my $a (@$alternates) {
+<p class="volume"><%= $a->{vol} %></p>
+<div class="Bd-indent">
+  <a class="Xr" href="/man<%= $a->{sect} %>/<%= $man %>"><%= $man %>(<%= $a->{sect} %>)</a>
+    <%= $a->{sum} %>
+</div>
+% }
+
+</div>  <!-- manual-text -->
+
+<table class="foot">
+  <tr>
+    <td class="foot-date">OmniOS</td>
+    <td class="foot-os">OmniOS</td>
+  </tr>
+</table>
+</body>
+</html>
