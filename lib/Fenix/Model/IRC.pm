@@ -6,7 +6,7 @@ use Time::Piece;
 use Mojo::Exception;
 use Mojo::File;
 use Mojo::JSON qw(encode_json);
-use IRC::Utils qw(eq_irc is_valid_chan_name);
+use IRC::Utils qw(eq_irc is_valid_chan_name is_valid_nick_name);
 
 use Fenix::Utils;
 
@@ -130,6 +130,9 @@ sub start($self) {
         my $chan = $msg->{params}->[0];
         my $text = $msg->{params}->[1];
         my $from = $self->utils->from($msg->{prefix});
+
+        # don't reply to messages from ZNC et al.
+        return if !is_valid_nick_name($from);
 
         # handle DMs
         return $self->$process($from, $from, $text) if eq_irc($nick, $chan);
