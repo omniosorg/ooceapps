@@ -7,11 +7,15 @@ use Mojo::File;
 sub process {
     my $c = shift;
 
-    my $man  = lc ($c->stash('man') || '');
-    my $sect = lc ($c->stash('sect') || '');
+    my $man  = lc ($c->stash('man') // '');
+    my $sect = lc ($c->stash('sect') // '');
 
-    ($man, my $sec) = split /\./, $man, 2;
-    $sect =~ s/^man// if $sect;
+    $man  =~ s/\.html$//;
+    $sect =~ s/^man//;
+
+    ($man, my $sec) = $man =~ /^(.+?)(?:\.(\d[^.]*))?$/
+        if !exists $c->model->index->{$man};
+
     $sect ||= $sec;
 
     return $c->reply->not_found if !exists $c->model->index->{$man}
@@ -26,6 +30,13 @@ sub process {
         my $alt = [];
         for my $s (@sect) {
             my $f = Mojo::File->new($c->model->config->{mandir}, $c->model->index->{$man}->{$s});
+
+            # skip symlinks
+            next if -l $f;
+
+            # set the current section in case we end up
+            # with just one non-symlinked section
+            $sect = $s;
 
             if (-r $f) {
                 $html->parse($f->slurp);
@@ -45,8 +56,10 @@ sub process {
             };
         }
 
-        $c->stash(alternates => $alt);
-        return $c->render(template => 'man/multiSection', format => 'html');
+        if (@$alt > 1) {
+            $c->stash(alternates => $alt);
+            return $c->render(template => 'man/multiSection', format => 'html');
+        }
     }
 
     $sect ||= $sect[0];

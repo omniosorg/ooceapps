@@ -23,7 +23,7 @@ has index   => sub {
 
     my %index;
     for my $file ($mandir->list_tree({ max_depth => 2 })->each) {
-        my ($man, $sect) = $file =~ m!/([^./]+)\.([^./]+)\.html$!
+        my ($man, $sect) = $file =~ m!/([^/]+)\.(\d[^.]*)\.html$!
             or next;
 
         $index{lc $man}->{lc $sect} = $file->to_rel($mandir);
