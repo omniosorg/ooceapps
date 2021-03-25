@@ -280,11 +280,11 @@ DISTRIBUTIONS
       Sub::Install 0.921
       strict 0
       warnings 0
-  Data-Printer-1.000001
-    pathname: G/GA/GARU/Data-Printer-1.000001.tar.gz
+  Data-Printer-1.000004
+    pathname: G/GA/GARU/Data-Printer-1.000004.tar.gz
     provides:
       DDP undef
-      Data::Printer 1.000001
+      Data::Printer 1.000004
       Data::Printer::Common undef
       Data::Printer::Config undef
       Data::Printer::Filter undef
@@ -1210,16 +1210,16 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  HTML-Parser-3.75
-    pathname: C/CA/CAPOEIRAB/HTML-Parser-3.75.tar.gz
+  HTML-Parser-3.76
+    pathname: O/OA/OALDERS/HTML-Parser-3.76.tar.gz
     provides:
-      HTML::Entities 3.75
-      HTML::Filter 3.75
-      HTML::HeadParser 3.75
-      HTML::LinkExtor 3.75
-      HTML::Parser 3.75
-      HTML::PullParser 3.75
-      HTML::TokeParser 3.75
+      HTML::Entities 3.76
+      HTML::Filter 3.76
+      HTML::HeadParser 3.76
+      HTML::LinkExtor 3.76
+      HTML::Parser 3.76
+      HTML::PullParser 3.76
+      HTML::TokeParser 3.76
     requirements:
       Carp 0
       Exporter 0
@@ -1231,7 +1231,6 @@ DISTRIBUTIONS
       URI::URL 0
       XSLoader 0
       strict 0
-      vars 0
   HTML-Tagset-3.20
     pathname: P/PE/PETDANCE/HTML-Tagset-3.20.tar.gz
     provides:
@@ -1253,24 +1252,6 @@ DISTRIBUTIONS
       locale 0
       perl 5.008001
       strict 0
-  HTTP-Daemon-6.12
-    pathname: O/OA/OALDERS/HTTP-Daemon-6.12.tar.gz
-    provides:
-      HTTP::Daemon 6.12
-    requirements:
-      Carp 0
-      ExtUtils::MakeMaker 0
-      HTTP::Date 6
-      HTTP::Request 6
-      HTTP::Response 6
-      HTTP::Status 6
-      IO::Socket::IP 0.25
-      LWP::MediaTypes 6
-      Module::Build::Tiny 0.034
-      Socket 0
-      perl 5.006
-      strict 0
-      warnings 0
   HTTP-Date-6.05
     pathname: O/OA/OALDERS/HTTP-Date-6.05.tar.gz
     provides:
@@ -1282,19 +1263,19 @@ DISTRIBUTIONS
       Time::Zone 0
       perl 5.006002
       strict 0
-  HTTP-Message-6.28
-    pathname: O/OA/OALDERS/HTTP-Message-6.28.tar.gz
+  HTTP-Message-6.29
+    pathname: O/OA/OALDERS/HTTP-Message-6.29.tar.gz
     provides:
-      HTTP::Config 6.28
-      HTTP::Headers 6.28
-      HTTP::Headers::Auth 6.28
-      HTTP::Headers::ETag 6.28
-      HTTP::Headers::Util 6.28
-      HTTP::Message 6.28
-      HTTP::Request 6.28
-      HTTP::Request::Common 6.28
-      HTTP::Response 6.28
-      HTTP::Status 6.28
+      HTTP::Config 6.29
+      HTTP::Headers 6.29
+      HTTP::Headers::Auth 6.29
+      HTTP::Headers::ETag 6.29
+      HTTP::Headers::Util 6.29
+      HTTP::Message 6.29
+      HTTP::Request 6.29
+      HTTP::Request::Common 6.29
+      HTTP::Response 6.29
+      HTTP::Status 6.29
     requirements:
       Carp 0
       Compress::Raw::Zlib 0
@@ -1699,8 +1680,8 @@ DISTRIBUTIONS
       URI::db 0.15
       URI::file 4.21
       perl 5.010001
-  Mojolicious-9.01
-    pathname: S/SR/SRI/Mojolicious-9.01.tar.gz
+  Mojolicious-9.14
+    pathname: S/SR/SRI/Mojolicious-9.14.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -1768,7 +1749,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.01
+      Mojolicious 9.14
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -1818,30 +1799,29 @@ DISTRIBUTIONS
       IO::Socket::IP 0.37
       Sub::Util 1.41
       perl 5.016
-  Moo-2.004004
-    pathname: H/HA/HAARG/Moo-2.004004.tar.gz
+  Moo-2.005003
+    pathname: H/HA/HAARG/Moo-2.005003.tar.gz
     provides:
       Method::Generate::Accessor undef
       Method::Generate::BuildAll undef
       Method::Generate::Constructor undef
       Method::Generate::DemolishAll undef
-      Moo 2.004004
+      Moo 2.005003
       Moo::HandleMoose undef
       Moo::HandleMoose::FakeConstructor undef
       Moo::HandleMoose::FakeMetaClass undef
       Moo::HandleMoose::_TypeMap undef
       Moo::Object undef
-      Moo::Role 2.004004
+      Moo::Role 2.005003
       Moo::_Utils undef
-      Moo::_mro undef
-      Moo::_strictures undef
       Moo::sification undef
       oo undef
     requirements:
+      Carp 0
       Class::Method::Modifiers 1.10
-      Exporter 5.57
+      Exporter 0
       ExtUtils::MakeMaker 0
-      Role::Tiny 2.001004
+      Role::Tiny 2.002003
       Scalar::Util 1.00
       Sub::Defer 2.006006
       Sub::Quote 2.006006
@@ -1877,13 +1857,13 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test 0
       perl 5.006
-  Net-HTTP-6.20
-    pathname: O/OA/OALDERS/Net-HTTP-6.20.tar.gz
+  Net-HTTP-6.21
+    pathname: O/OA/OALDERS/Net-HTTP-6.21.tar.gz
     provides:
-      Net::HTTP 6.20
-      Net::HTTP::Methods 6.20
-      Net::HTTP::NB 6.20
-      Net::HTTPS 6.20
+      Net::HTTP 6.21
+      Net::HTTP::Methods 6.21
+      Net::HTTP::NB 6.21
+      Net::HTTPS 6.21
     requirements:
       Carp 0
       Compress::Raw::Zlib 0
@@ -2392,52 +2372,53 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  URI-5.07
-    pathname: O/OA/OALDERS/URI-5.07.tar.gz
+  URI-5.09
+    pathname: O/OA/OALDERS/URI-5.09.tar.gz
     provides:
-      URI 5.07
-      URI::Escape 5.07
-      URI::Heuristic 5.07
-      URI::IRI 5.07
-      URI::QueryParam 5.07
-      URI::Split 5.07
-      URI::URL 5.07
-      URI::WithBase 5.07
-      URI::data 5.07
-      URI::file 5.07
-      URI::file::Base 5.07
-      URI::file::FAT 5.07
-      URI::file::Mac 5.07
-      URI::file::OS2 5.07
-      URI::file::QNX 5.07
-      URI::file::Unix 5.07
-      URI::file::Win32 5.07
-      URI::ftp 5.07
-      URI::gopher 5.07
-      URI::http 5.07
-      URI::https 5.07
-      URI::ldap 5.07
-      URI::ldapi 5.07
-      URI::ldaps 5.07
-      URI::mailto 5.07
-      URI::mms 5.07
-      URI::news 5.07
-      URI::nntp 5.07
-      URI::pop 5.07
-      URI::rlogin 5.07
-      URI::rsync 5.07
-      URI::rtsp 5.07
-      URI::rtspu 5.07
-      URI::sftp 5.07
-      URI::sip 5.07
-      URI::sips 5.07
-      URI::snews 5.07
-      URI::ssh 5.07
-      URI::telnet 5.07
-      URI::tn3270 5.07
-      URI::urn 5.07
-      URI::urn::isbn 5.07
-      URI::urn::oid 5.07
+      URI 5.09
+      URI::Escape 5.09
+      URI::Heuristic 5.09
+      URI::IRI 5.09
+      URI::QueryParam 5.09
+      URI::Split 5.09
+      URI::URL 5.09
+      URI::WithBase 5.09
+      URI::data 5.09
+      URI::file 5.09
+      URI::file::Base 5.09
+      URI::file::FAT 5.09
+      URI::file::Mac 5.09
+      URI::file::OS2 5.09
+      URI::file::QNX 5.09
+      URI::file::Unix 5.09
+      URI::file::Win32 5.09
+      URI::ftp 5.09
+      URI::gopher 5.09
+      URI::http 5.09
+      URI::https 5.09
+      URI::ldap 5.09
+      URI::ldapi 5.09
+      URI::ldaps 5.09
+      URI::mailto 5.09
+      URI::mms 5.09
+      URI::news 5.09
+      URI::nntp 5.09
+      URI::nntps 5.09
+      URI::pop 5.09
+      URI::rlogin 5.09
+      URI::rsync 5.09
+      URI::rtsp 5.09
+      URI::rtspu 5.09
+      URI::sftp 5.09
+      URI::sip 5.09
+      URI::sips 5.09
+      URI::snews 5.09
+      URI::ssh 5.09
+      URI::telnet 5.09
+      URI::tn3270 5.09
+      URI::urn 5.09
+      URI::urn::isbn 5.09
+      URI::urn::oid 5.09
     requirements:
       Carp 0
       Cwd 0
@@ -2598,32 +2579,32 @@ DISTRIBUTIONS
       XSLoader 0
       lib 0
       perl 5.008001
-  libwww-perl-6.52
-    pathname: O/OA/OALDERS/libwww-perl-6.52.tar.gz
+  libwww-perl-6.53
+    pathname: O/OA/OALDERS/libwww-perl-6.53.tar.gz
     provides:
-      LWP 6.52
-      LWP::Authen::Basic 6.52
-      LWP::Authen::Digest 6.52
-      LWP::Authen::Ntlm 6.52
-      LWP::ConnCache 6.52
-      LWP::Debug 6.52
-      LWP::Debug::TraceHTTP 6.52
-      LWP::DebugFile 6.52
-      LWP::MemberMixin 6.52
-      LWP::Protocol 6.52
-      LWP::Protocol::cpan 6.52
-      LWP::Protocol::data 6.52
-      LWP::Protocol::file 6.52
-      LWP::Protocol::ftp 6.52
-      LWP::Protocol::gopher 6.52
-      LWP::Protocol::http 6.52
-      LWP::Protocol::loopback 6.52
-      LWP::Protocol::mailto 6.52
-      LWP::Protocol::nntp 6.52
-      LWP::Protocol::nogo 6.52
-      LWP::RobotUA 6.52
-      LWP::Simple 6.52
-      LWP::UserAgent 6.52
+      LWP 6.53
+      LWP::Authen::Basic 6.53
+      LWP::Authen::Digest 6.53
+      LWP::Authen::Ntlm 6.53
+      LWP::ConnCache 6.53
+      LWP::Debug 6.53
+      LWP::Debug::TraceHTTP 6.53
+      LWP::DebugFile 6.53
+      LWP::MemberMixin 6.53
+      LWP::Protocol 6.53
+      LWP::Protocol::cpan 6.53
+      LWP::Protocol::data 6.53
+      LWP::Protocol::file 6.53
+      LWP::Protocol::ftp 6.53
+      LWP::Protocol::gopher 6.53
+      LWP::Protocol::http 6.53
+      LWP::Protocol::loopback 6.53
+      LWP::Protocol::mailto 6.53
+      LWP::Protocol::nntp 6.53
+      LWP::Protocol::nogo 6.53
+      LWP::RobotUA 6.53
+      LWP::Simple 6.53
+      LWP::UserAgent 6.53
       libwww::perl undef
     requirements:
       CPAN::Meta::Requirements 2.120620
@@ -2637,7 +2618,6 @@ DISTRIBUTIONS
       HTML::Entities 0
       HTML::HeadParser 0
       HTTP::Cookies 6
-      HTTP::Daemon 6
       HTTP::Date 6
       HTTP::Negotiate 6
       HTTP::Request 6
