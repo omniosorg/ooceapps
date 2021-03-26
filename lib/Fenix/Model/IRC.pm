@@ -82,12 +82,12 @@ my $log = sub($self, $msg) {
     close $fh;
 };
 
-my $process = sub($self, $chan, $from, $text) {
+my $process = sub($self, $chan, $from, $text, $mentioned = 0) {
     for my $hd (@{$self->handlers}) {
         next if !eq_irc($chan, $from) && $self->handler->{$hd}->generic
             && !$self->chans->{$chan}->{generic};
 
-        my $reply = $self->handler->{$hd}->process($chan, $from, $text);
+        my $reply = $self->handler->{$hd}->process($chan, $from, $text, $mentioned);
 
         next if !@$reply;
 
@@ -137,13 +137,14 @@ sub start($self) {
         # handle DMs
         return $self->$process($from, $from, $text) if eq_irc($nick, $chan);
 
+        return if !$self->chans->{$chan}->{interactive};
+
         # in case the nick has changed.
         my $cfgNick = $self->config->{nick};
         my $nickRE  = eq_irc($nick, $cfgNick) ? qr/$nick/i : qr/$nick|$cfgNick/i;
-        return if $text !~ /(?:^|[^a-z\d_\-\[\]\\^{}|`])$nickRE(?:[^a-z\d_\-\[\]\\^{}|`]|$)/i
-            || !$self->chans->{$chan}->{interactive};
+        my $mention = $text =~ /(?:^|[^a-z\d_\-\[\]\\^{}|`])$nickRE(?:[^a-z\d_\-\[\]\\^{}|`]|$)/i;
 
-        $self->$process($chan, $from, $text);
+        $self->$process($chan, $from, $text, $mention);
 
         # register the user to the mutemap (will be used by generic handlers)
         $self->utils->muted(\$self->mutemap->{user}, $from);

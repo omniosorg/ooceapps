@@ -32,7 +32,7 @@ sub processIssue($self, $issue, $res) {
     return {};
 }
 
-sub process($self, $issue) {
+sub process($self, $issue, $opts = {}) {
     my $url = $self->issueURL($issue);
     my $res = $self->ua->get($url)->result;
 
@@ -45,7 +45,12 @@ sub process($self, $issue) {
 
     return [
         "$data->{id}: $data->{subject} ($data->{status})",
-        "↳ $data->{url}",
+        '↳ ' . join (' | ', @{$data->{url}}),
+    ] if !$opts->{url};
+
+    return [
+        "→ $data->{id}: $data->{subject} ($data->{status})"
+            . (@{$data->{url}} > 1 ? " | $data->{url}->[1]" : ''),
     ];
 }
 

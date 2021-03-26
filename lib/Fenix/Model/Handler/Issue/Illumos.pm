@@ -15,7 +15,10 @@ has baseurl  => sub { Mojo::URL->new('https://www.illumos.org') };
 # It parses the message and checks whether it is the correct handler
 # return either a valid issue or undef.
 sub issue($self, $msg) {
+    my $baseurl = $self->baseurl->to_string;
+    my $urlre   = qr!\b$baseurl/issues/(\d+)(?:\s|$)!;
     for ($msg) {
+        /$urlre/ && return ($1, { url => 1 });
         /\b(?:illumos|issue)\b/i && return ($msg =~ /\b(\d{3,})\b/)[0];
         /(?:^|\s)#(\d+)\b/ && return $1;
     }
@@ -30,12 +33,12 @@ sub issueURL($self, $issue) {
 sub processIssue($self, $issue, $res) {
     my $data = $res->json->{issue};
 
-    my $url = Mojo::URL->new("/issues/$issue")->base($self->baseurl)->to_abs;
+    my $url = [ Mojo::URL->new("/issues/$issue")->base($self->baseurl)->to_abs ];
     for my $cf (@{$data->{custom_fields}}) {
         my $cr = $cf->{value};
         next if $cf->{id} != $GERRITID || !$cr;
 
-        $url .= ' | ' . Mojo::URL->new("/c/illumos-gate/+/$cr")->base($GERRITURL)->to_abs;
+        push @$url, Mojo::URL->new("/c/illumos-gate/+/$cr")->base($GERRITURL)->to_abs;
     }
 
     return {
