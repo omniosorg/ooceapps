@@ -1,51 +1,51 @@
-package Fenix::Model::Handler::Issue::Illumos;
+package Fenix::Model::Handler::Issue::Gerrit;
 use Mojo::Base 'Fenix::Model::Handler::Issue::base', -signatures;
 
+use Mojo::JSON qw(decode_json);
 use Mojo::URL;
 
 # constants
-my $GERRITID  = 12;
-my $GERRITURL = Mojo::URL->new('https://code.illumos.org');
+my $ILLUMOSURL = Mojo::URL->new('https://www.illumos.org');
 
 # attributes
-has priority => 10;
-has baseurl  => sub { Mojo::URL->new('https://www.illumos.org') };
+has priority => 8;
+has baseurl  => sub { Mojo::URL->new('https://code.illumos.org') };
 
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler
 # return either a valid issue or undef.
 sub issue($self, $msg) {
     my $baseurl = $self->baseurl->to_string;
-    my $urlre   = qr!\b$baseurl/issues/(\d+)(?:\s|$)!;
+    my $urlre   = qr!\b$baseurl/c/illumos-gate/\+/(\d+)(?:\s|$)!;
     for ($msg) {
         /$urlre/ && return ($1, { url => 1 });
-        /(?:^|\s)(?:illumos|issue)\b/i && return ($msg =~ /\b(\d{3,})\b/)[0];
-        /(?:^|\s)#(\d+)\b/ && return $1;
+        /\bcode\b/i && return ($msg =~ /\b(\d{2,})\b/)[0];
     }
 
     return undef;
 }
 
 sub issueURL($self, $issue) {
-    return Mojo::URL->new("/issues/$issue.json")->base($self->baseurl)->to_abs;
+    return Mojo::URL->new("/changes/$issue/detail")->base($self->baseurl)->to_abs;
 }
 
 sub processIssue($self, $issue, $res) {
-    my $data = $res->json->{issue};
+    my $body = $res->body;
+    $body =~ s/^\)\]\}'//;
+    my $data = decode_json $body;
 
-    my $url = [ Mojo::URL->new("/issues/$issue")->base($self->baseurl)->to_abs ];
-    for my $cf (@{$data->{custom_fields}}) {
-        my $cr = $cf->{value};
-        next if $cf->{id} != $GERRITID || !$cr;
+    my $url = [ Mojo::URL->new("/c/illumos-gate/+/$issue")->base($self->baseurl)->to_abs ];
 
-        push @$url, Mojo::URL->new("/c/illumos-gate/+/$cr")->base($GERRITURL)->to_abs;
-    }
+    $data->{subject} =~ /^(\d+)/
+        && push @$url, Mojo::URL->new("/issues/$1")->base($ILLUMOSURL)->to_abs;
 
+    $data->{subject} =~ s/\s+(?:Reviewed|Portions\s+contributed)\s+by.+$//i;
     return {
-        id       => uc ($data->{tracker}->{name}) . ' ' . $data->{id},
+        id       => "CODE REVIEW $issue",
         subject  => $data->{subject},
         url      => $url,
-        map { $_ => $data->{$_}->{name} } qw(author status assigned_to),
+        status   => $data->{status},
+        map { $_ => $data->{owner}->{name} } qw(author assigned_to),
     };
 }
 
