@@ -14,7 +14,14 @@ has baseurl  => sub { Mojo::URL->new('https://raw.githubusercontent.com') };
 # It parses the message and checks whether it is the correct handler
 # return either a valid issue or undef.
 sub issue($self, $msg) {
-    return ($msg =~ /\bIPD[-\s]*(\d+)\b/i)[0];
+    my $baseurl = $GITHUB->to_string;
+    my $urlre   = qr!\b$baseurl/illumos/ipd/\S+/ipd/0+(\d+)/README\.md(?:\s|$)!i;
+    for ($msg) {
+        /$urlre/ && return ($1, { url => 1 });
+        /\bIPD[-\s]*(\d+)\b/i && return $1;
+    }
+
+    return undef;
 }
 
 sub issueURL($self, $issue) {
@@ -30,7 +37,7 @@ sub processIssue($self, $issue, $res) {
         return {
             id          => "IPD $issue",
             subject     => $desc,
-            url         => Mojo::URL->new("/illumos/ipd/tree/master/$url")->base($GITHUB)->to_abs,
+            url         => [ Mojo::URL->new("/illumos/ipd/tree/master/$url")->base($GITHUB)->to_abs ],
             author      => '',
             status      => $status,
             assigned_to => '',

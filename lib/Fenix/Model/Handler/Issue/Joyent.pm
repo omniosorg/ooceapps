@@ -21,12 +21,12 @@ sub issueURL($self, $issue) {
 sub processIssue($self, $issue, $res) {
     my $data = $res->json->{issue};
 
-    my $url = Mojo::URL->new("/bugview/$issue")->base($self->baseurl)->to_abs;
+    my $url = [ Mojo::URL->new("/bugview/$issue")->base($self->baseurl)->to_abs ];
     for my $comment (@{$data->{fields}->{comment}->{comments}}) {
         my ($commit) = $comment->{body} =~ m!(https://github\.com(?:/[^/]+){2}/commit/[[:xdigit:]]+)!
             or next;
 
-        $url .= " | $commit";
+        push @$url, $commit;
         last;
     }
 

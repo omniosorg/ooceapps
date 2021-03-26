@@ -8,8 +8,8 @@ use Time::Piece;
 # are at least polite and say 'Hi'.
 has priority => 9999;
 
-sub process($self, $chan, $from, $msg) {
-    return [] if $self->utils->muted(\$self->mutemap->{user}, $from);
+sub process($self, $chan, $from, $msg, $mentioned = 0) {
+    return [] if !$mentioned || $self->utils->muted(\$self->mutemap->{user}, $from);
 
     # little friday is special
     return [ gmtime->day_of_week == 4 ? "Happy little Friday $from!" : "Hi $from" ];

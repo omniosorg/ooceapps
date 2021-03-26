@@ -27,12 +27,16 @@ has handlers => sub($self) {
 };
 
 
-sub process($self, $chan, $from, $msg) {
+sub process($self, $chan, $from, $msg, $mentioned = 0) {
     for my $hd (@{$self->handlers}) {
-        if (my $issue = $self->handler->{$hd}->issue($msg)) {
-            return [] if $self->utils->muted(\$self->mutemap->{issue}->{$chan}, $issue);
+        my ($issue, $opts) = $self->handler->{$hd}->issue($msg);
 
-            return $self->handler->{$hd}->process($issue);
+        if ($issue) {
+            $opts //= {};
+            return [] if (!$opts->{url} && !$mentioned)
+                || $self->utils->muted(\$self->mutemap->{issue}->{$chan}, $issue);
+
+            return $self->handler->{$hd}->process($issue, $opts);
         }
     }
 

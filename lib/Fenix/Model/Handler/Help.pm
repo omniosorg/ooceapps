@@ -5,8 +5,8 @@ has priority => 100;
 has generic  => 0;
 has dm       => 1;
 
-sub process($self, $chan, $from, $msg) {
-    return [] if $msg !~ /\bhelp\b/i;
+sub process($self, $chan, $from, $msg, $mentioned = 0) {
+    return [] if !$mentioned || $msg !~ /\bhelp\b/i;
 
     return [ split /\n/, <<"END" ];
 Hi $from, I am glad you asked!

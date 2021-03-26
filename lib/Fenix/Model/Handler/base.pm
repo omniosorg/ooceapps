@@ -13,7 +13,7 @@ has priority => sub { Mojo::Exception->throw("ERROR: priority is a virtual attri
 has generic  => 1;
 has dm       => 0;
 
-sub process($self, $chan, $from, $msg) {
+sub process($self, $chan, $from, $msg, $mentioned = 0) {
     return [];
 }
 
