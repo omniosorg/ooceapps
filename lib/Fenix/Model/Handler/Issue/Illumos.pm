@@ -16,7 +16,7 @@ has baseurl  => sub { Mojo::URL->new('https://www.illumos.org') };
 # return either a valid issue or undef.
 sub issue($self, $msg) {
     my $baseurl = $self->baseurl->to_string;
-    my $urlre   = qr!\b$baseurl/issues/(\d+)(?:\s|$)!;
+    my $urlre   = qr!\b$baseurl/issues/(\d+)\b!;
     for ($msg) {
         /$urlre/ && return ($1, { url => 1 });
         /(?:^|\s)(?:illumos|issue)\b/i && return ($msg =~ /\b(\d{3,})\b/)[0];
