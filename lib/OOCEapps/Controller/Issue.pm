@@ -12,7 +12,7 @@ sub process {
     #default to illumos if just a number is provided
     $p = "illumos $p" if $p =~ /^\d+$/;
 
-    my $issue = $c->model->issue->process(qw(ooceapps ooceapps), $p);
+    my $issue = $c->model->issue->process(qw(ooceapps ooceapps), $p, 1);
     $c->render(json => OOCEapps::Mattermost->text(@$issue ? join ("\n", @$issue)
         : "no issue found using search string '$p'"));
 }

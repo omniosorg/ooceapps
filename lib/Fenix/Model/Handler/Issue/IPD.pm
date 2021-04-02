@@ -15,7 +15,7 @@ has baseurl  => sub { Mojo::URL->new('https://raw.githubusercontent.com') };
 # return either a valid issue or undef.
 sub issue($self, $msg) {
     my $baseurl = $GITHUB->to_string;
-    my $urlre   = qr!\b$baseurl/illumos/ipd/\S+/ipd/0+(\d+)/README\.md(?:\s|$)!i;
+    my $urlre   = qr!\b$baseurl/illumos/ipd/\S+/ipd/0+(\d+)/README\.md\b!i;
     for ($msg) {
         /$urlre/ && return ($1, { url => 1 });
         /\bIPD[-\s]*(\d+)\b/i && return $1;
