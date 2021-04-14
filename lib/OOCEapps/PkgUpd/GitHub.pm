@@ -11,6 +11,9 @@ my %TRANSFORM = (
     'nagios-nrpe'       => 'nrpe',
     'nagios-nsca'       => 'nsca',
     'libsasl2'          => 'cyrus-sasl',
+    'clang'             => 'llvmorg',
+    'compiler-rt'       => 'llvmorg',
+    'llvm'              => 'llvmorg',
 );
 
 # public methods
@@ -32,7 +35,10 @@ sub getVersions {
     # jsonrpclib and meson are Python packages - remove the version suffix
     $name =~ s/-\d{2}$// if $name =~ /^(?:jsonrpclib|meson)/;
 
+    ($name, my $ver) = $self->extractNameMajVer($name);
     $name = $TRANSFORM{$name} if exists $TRANSFORM{$name};
+
+    $ver *= 10.0 if $name eq 'llvmorg';
 
     my @versions = $res->dom->find('a')->each;
     s/_/./g for @versions;
@@ -42,6 +48,7 @@ sub getVersions {
     }
 
     return [
+        grep { /^$ver/ }
         map { m#/releases/tag/(?:v|release-|stable-|R\.|$name-?\.?)?
             (\d{4}(?:-\d{2}){2}T(?:\d{2}-){2}\d{2}Z|[\d.]+(?:op)?\d+)
             (?!-?(?:\.\d+|\.?(?:rc\d*|dev|a(?:lpha)?|b(?:eta)?|pre)))#ix
