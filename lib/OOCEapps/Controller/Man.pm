@@ -31,8 +31,8 @@ sub process {
         for my $s (@sect) {
             my $f = Mojo::File->new($c->model->config->{mandir}, $c->model->index->{$man}->{$s});
 
-            # skip symlinks
-            next if -l $f;
+            # skip symlinks from a section we already added
+            next if -l $f && grep { $_->{sect} eq $s } @$alt;
 
             # set the current section in case we end up
             # with just one non-symlinked section
