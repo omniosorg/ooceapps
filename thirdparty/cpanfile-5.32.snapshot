@@ -104,10 +104,10 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Storable 0
       perl 5.008001
-  Cpanel-JSON-XS-4.25
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.25.tar.gz
+  Cpanel-JSON-XS-4.26
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.26.tar.gz
     provides:
-      Cpanel::JSON::XS 4.25
+      Cpanel::JSON::XS 4.26
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -334,10 +334,10 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008005
-  Data-Validate-IP-0.27
-    pathname: D/DR/DROLSKY/Data-Validate-IP-0.27.tar.gz
+  Data-Validate-IP-0.30
+    pathname: D/DR/DROLSKY/Data-Validate-IP-0.30.tar.gz
     provides:
-      Data::Validate::IP 0.27
+      Data::Validate::IP 0.30
     requirements:
       Exporter 0
       ExtUtils::MakeMaker 0
@@ -1401,15 +1401,15 @@ DISTRIBUTIONS
       Pod::Usage 0
       Readonly 0
       Test::More 0
-  List-AllUtils-0.18
-    pathname: D/DR/DROLSKY/List-AllUtils-0.18.tar.gz
+  List-AllUtils-0.19
+    pathname: D/DR/DROLSKY/List-AllUtils-0.19.tar.gz
     provides:
-      List::AllUtils 0.18
+      List::AllUtils 0.19
     requirements:
       Exporter 0
       ExtUtils::MakeMaker 0
-      List::SomeUtils 0.56
-      List::Util 1.45
+      List::SomeUtils 0.58
+      List::Util 1.56
       List::UtilsBy 0.11
       base 0
       strict 0
@@ -1447,12 +1447,12 @@ DISTRIBUTIONS
     requirements:
       Exporter 5.57
       Module::Build 0.4004
-  MIME-Types-2.18
-    pathname: M/MA/MARKOV/MIME-Types-2.18.tar.gz
+  MIME-Types-2.20
+    pathname: M/MA/MARKOV/MIME-Types-2.20.tar.gz
     provides:
-      MIME::Type 2.18
-      MIME::Types 2.18
-      MojoX::MIME::Types 2.18
+      MIME::Type 2.20
+      MIME::Types 2.20
+      MojoX::MIME::Types 2.20
     requirements:
       ExtUtils::MakeMaker 0
       File::Basename 0
@@ -1680,8 +1680,8 @@ DISTRIBUTIONS
       URI::db 0.15
       URI::file 4.21
       perl 5.010001
-  Mojolicious-9.14
-    pathname: S/SR/SRI/Mojolicious-9.14.tar.gz
+  Mojolicious-9.17
+    pathname: S/SR/SRI/Mojolicious-9.17.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -1749,7 +1749,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.14
+      Mojolicious 9.17
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -1799,20 +1799,20 @@ DISTRIBUTIONS
       IO::Socket::IP 0.37
       Sub::Util 1.41
       perl 5.016
-  Moo-2.005003
-    pathname: H/HA/HAARG/Moo-2.005003.tar.gz
+  Moo-2.005004
+    pathname: H/HA/HAARG/Moo-2.005004.tar.gz
     provides:
       Method::Generate::Accessor undef
       Method::Generate::BuildAll undef
       Method::Generate::Constructor undef
       Method::Generate::DemolishAll undef
-      Moo 2.005003
+      Moo 2.005004
       Moo::HandleMoose undef
       Moo::HandleMoose::FakeConstructor undef
       Moo::HandleMoose::FakeMetaClass undef
       Moo::HandleMoose::_TypeMap undef
       Moo::Object undef
-      Moo::Role 2.005003
+      Moo::Role 2.005004
       Moo::_Utils undef
       Moo::sification undef
       oo undef
@@ -2080,6 +2080,16 @@ DISTRIBUTIONS
       Test::Builder::Module 0.84
       Test::Deep 0.101
       Text::Balanced 2.00
+      perl 5.006
+  Scalar-List-Utils-1.56
+    pathname: P/PE/PEVANS/Scalar-List-Utils-1.56.tar.gz
+    provides:
+      List::Util 1.56
+      List::Util::XS 1.56
+      Scalar::Util 1.56
+      Sub::Util 1.56
+    requirements:
+      ExtUtils::MakeMaker 0
       perl 5.006
   Sort-Versions-1.62
     pathname: N/NE/NEILB/Sort-Versions-1.62.tar.gz
@@ -2623,7 +2633,7 @@ DISTRIBUTIONS
       HTTP::Request 6
       HTTP::Request::Common 6
       HTTP::Response 6
-      HTTP::Status 6.18
+      HTTP::Status 6.07
       IO::Select 0
       IO::Socket 0
       LWP::MediaTypes 6
