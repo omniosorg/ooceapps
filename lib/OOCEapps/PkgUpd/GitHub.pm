@@ -32,8 +32,8 @@ sub getVersions {
 
     $name = $self->extractName($name);
 
-    # jsonrpclib and meson are Python packages - remove the version suffix
-    $name =~ s/-\d{2}$// if $name =~ /^(?:jsonrpclib|meson)/;
+    # jsonrpclib, meson and orjson are Python packages - remove the version suffix
+    $name =~ s/-\d{2}$// if $name =~ /^(?:jsonrpclib|meson|orjson)/;
 
     ($name, my $ver) = $self->extractNameMajVer($name);
     $name = $TRANSFORM{$name} if exists $TRANSFORM{$name};

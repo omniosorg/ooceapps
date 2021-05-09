@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /^library\/security\/openssl/;
+    return $name =~ m!^library/security/openssl!;
 }
 
 sub getVersions {
@@ -16,9 +16,8 @@ sub getVersions {
     my $res  = shift;
 
     # get version prefix
-    my $ver;
-    ($name, $ver) = split /-/, $name, 2;
-    $name = $self->extractName($name);
+    ($name, my $ver) = $self->extractNameMajVer($name);
+
     return [
         map { /$name-($ver\.[^-.]+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ }
             $res->dom->find('a')->each
@@ -32,7 +31,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

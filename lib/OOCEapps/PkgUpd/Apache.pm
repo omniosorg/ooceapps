@@ -16,6 +16,7 @@ sub getVersions {
     my $res  = shift;
 
     $name =~ s/apache/httpd/;
+    $name =~ s/fcgid$/mod_fcgid/;
 
     return $self->SUPER::getVersions($name, $res);
 }
@@ -26,7 +27,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
