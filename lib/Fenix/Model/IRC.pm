@@ -58,6 +58,20 @@ $connect = sub($self) {
 };
 
 my $log = sub($self, $msg) {
+    if ($msg->{command} =~ /^(RPL_)?TOPIC$/) {
+        shift @{$msg->{params}} if $1; # for RPL_TOPIC the first param is the own nick
+
+        my $chan = $msg->{params}->[0];
+        return if !is_valid_chan_name($chan) || !$self->chans->{$chan}->{log};
+
+        my $logf = Mojo::File->new($self->datadir, $chan, '__currtopic');
+        $logf->dirname->make_path;
+
+        $logf->spurt($msg->{params}->[1]);
+
+        return;
+    }
+
     my $chan = $msg->{params}->[0];
 
     my $ischan = is_valid_chan_name($chan);
@@ -99,10 +113,10 @@ my $process = sub($self, $chan, $from, $text, $mentioned = 0) {
 };
 
 # constructor
-sub new($self, %args) {
+sub new($class, %args) {
     my $config = $args{config};
 
-    return $self->SUPER::new(
+    return $class->SUPER::new(
         %args,
         tls => $config->{tls} eq 'on' ? {} : undef,
         map { $_ => $config->{$_} } grep { $config->{$_} } qw(nick user pass server)
