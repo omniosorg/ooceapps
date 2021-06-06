@@ -10,7 +10,11 @@ sub process($self, $chan, $from, $msg, $mentioned = 0) {
 
     return [ split /\n/, <<"END" ];
 Hi $from, I am glad you asked!
-But currently I doubt that I can help you with anything.
+To get my attention, just mention my name in a message to the channel.
+I can look up Redmine issues with 'illumos <issue>', 'issue <issue>' or '#<issue>'
+For Joyent/SmartOS issues, use the issue type and number together, e.g. OS-1234
+I can also find IPDs - 'IPD123', 'IPD-123' or 'IPD 123'
+Also, if you post a link to a Redmine issue or Gerrit review, I'll fill in some more details.
 END
 
 }
