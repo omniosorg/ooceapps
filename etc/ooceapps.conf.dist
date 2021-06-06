@@ -34,6 +34,13 @@
             "subIntervals"   : [ "week", "month", "year" ],
             "subDescription" : "OmniOSce Patron"
         },
+        "man"    : {
+            "mandir" : "/webpage/man"
+        },
+        "log"    : {
+            "logdir"   : "/var/opt/ooce/ooceapps/fenix",
+            "channels" : [ "#omnios", "#illumos" ]
+        },
         "pss"    : {
             "timeout" : "60"
         }
