@@ -386,15 +386,15 @@ DISTRIBUTIONS
       strict 0
       warnings 0
       warnings::register 0
-  DateTime-Locale-1.31
-    pathname: D/DR/DROLSKY/DateTime-Locale-1.31.tar.gz
+  DateTime-Locale-1.32
+    pathname: D/DR/DROLSKY/DateTime-Locale-1.32.tar.gz
     provides:
-      DateTime::Locale 1.31
-      DateTime::Locale::Base 1.31
-      DateTime::Locale::Catalog 1.31
-      DateTime::Locale::Data 1.31
-      DateTime::Locale::FromData 1.31
-      DateTime::Locale::Util 1.31
+      DateTime::Locale 1.32
+      DateTime::Locale::Base 1.32
+      DateTime::Locale::Catalog 1.32
+      DateTime::Locale::Data 1.32
+      DateTime::Locale::FromData 1.32
+      DateTime::Locale::Util 1.32
     requirements:
       Carp 0
       Dist::CheckConflicts 0.02
@@ -1036,12 +1036,13 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
-  Exception-Class-1.44
-    pathname: D/DR/DROLSKY/Exception-Class-1.44.tar.gz
+  Exception-Class-1.45
+    pathname: D/DR/DROLSKY/Exception-Class-1.45.tar.gz
     provides:
-      Exception::Class 1.44
-      Exception::Class::Base 1.44
+      Exception::Class 1.45
+      Exception::Class::Base 1.45
     requirements:
+      Carp 0
       Class::Data::Inheritable 0.02
       Devel::StackTrace 2.00
       ExtUtils::MakeMaker 0
@@ -1060,13 +1061,13 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.30
       strict 0
       warnings 0
-  ExtUtils-Depends-0.8000
-    pathname: X/XA/XAOC/ExtUtils-Depends-0.8000.tar.gz
+  ExtUtils-Depends-0.8001
+    pathname: X/XA/XAOC/ExtUtils-Depends-0.8001.tar.gz
     provides:
-      ExtUtils::Depends 0.8000
+      ExtUtils::Depends 0.8001
     requirements:
       Data::Dumper 0
-      ExtUtils::MakeMaker 0
+      ExtUtils::MakeMaker 7.44
       File::Spec 0
       IO::File 0
       perl 5.006
@@ -1263,19 +1264,19 @@ DISTRIBUTIONS
       Time::Zone 0
       perl 5.006002
       strict 0
-  HTTP-Message-6.29
-    pathname: O/OA/OALDERS/HTTP-Message-6.29.tar.gz
+  HTTP-Message-6.32
+    pathname: O/OA/OALDERS/HTTP-Message-6.32.tar.gz
     provides:
-      HTTP::Config 6.29
-      HTTP::Headers 6.29
-      HTTP::Headers::Auth 6.29
-      HTTP::Headers::ETag 6.29
-      HTTP::Headers::Util 6.29
-      HTTP::Message 6.29
-      HTTP::Request 6.29
-      HTTP::Request::Common 6.29
-      HTTP::Response 6.29
-      HTTP::Status 6.29
+      HTTP::Config 6.32
+      HTTP::Headers 6.32
+      HTTP::Headers::Auth 6.32
+      HTTP::Headers::ETag 6.32
+      HTTP::Headers::Util 6.32
+      HTTP::Message 6.32
+      HTTP::Request 6.32
+      HTTP::Request::Common 6.32
+      HTTP::Response 6.32
+      HTTP::Status 6.32
     requirements:
       Carp 0
       Compress::Raw::Zlib 0
@@ -1283,6 +1284,7 @@ DISTRIBUTIONS
       Encode::Locale 1
       Exporter 5.57
       ExtUtils::MakeMaker 0
+      File::Spec 0
       HTTP::Date 6
       IO::Compress::Bzip2 2.021
       IO::Compress::Deflate 0
@@ -1327,17 +1329,17 @@ DISTRIBUTIONS
       Exporter 5.57
       ExtUtils::MakeMaker 0
       perl 5.008
-  IO-Socket-SSL-2.070
-    pathname: S/SU/SULLR/IO-Socket-SSL-2.070.tar.gz
+  IO-Socket-SSL-2.071
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.071.tar.gz
     provides:
-      IO::Socket::SSL 2.070
+      IO::Socket::SSL 2.071
       IO::Socket::SSL::Intercept 2.056
-      IO::Socket::SSL::OCSP_Cache 2.070
-      IO::Socket::SSL::OCSP_Resolver 2.070
+      IO::Socket::SSL::OCSP_Cache 2.071
+      IO::Socket::SSL::OCSP_Resolver 2.071
       IO::Socket::SSL::PublicSuffix undef
-      IO::Socket::SSL::SSL_Context 2.070
-      IO::Socket::SSL::SSL_HANDLE 2.070
-      IO::Socket::SSL::Session_Cache 2.070
+      IO::Socket::SSL::SSL_Context 2.071
+      IO::Socket::SSL::SSL_HANDLE 2.071
+      IO::Socket::SSL::Session_Cache 2.071
       IO::Socket::SSL::Utils 2.014
     requirements:
       ExtUtils::MakeMaker 0
@@ -1447,12 +1449,12 @@ DISTRIBUTIONS
     requirements:
       Exporter 5.57
       Module::Build 0.4004
-  MIME-Types-2.20
-    pathname: M/MA/MARKOV/MIME-Types-2.20.tar.gz
+  MIME-Types-2.21
+    pathname: M/MA/MARKOV/MIME-Types-2.21.tar.gz
     provides:
-      MIME::Type 2.20
-      MIME::Types 2.20
-      MojoX::MIME::Types 2.20
+      MIME::Type 2.21
+      MIME::Types 2.21
+      MojoX::MIME::Types 2.21
     requirements:
       ExtUtils::MakeMaker 0
       File::Basename 0
@@ -1632,7 +1634,7 @@ DISTRIBUTIONS
       File::Spec 3.00
       File::Spec::Functions 0
       if 0
-      perl 5.00503
+      perl 5.005030
       strict 0
   Module-Runtime-0.016
     pathname: Z/ZE/ZEFRAM/Module-Runtime-0.016.tar.gz
@@ -1680,8 +1682,8 @@ DISTRIBUTIONS
       URI::db 0.15
       URI::file 4.21
       perl 5.010001
-  Mojolicious-9.17
-    pathname: S/SR/SRI/Mojolicious-9.17.tar.gz
+  Mojolicious-9.19
+    pathname: S/SR/SRI/Mojolicious-9.19.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -1749,7 +1751,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.17
+      Mojolicious 9.19
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -2589,32 +2591,32 @@ DISTRIBUTIONS
       XSLoader 0
       lib 0
       perl 5.008001
-  libwww-perl-6.53
-    pathname: O/OA/OALDERS/libwww-perl-6.53.tar.gz
+  libwww-perl-6.54
+    pathname: O/OA/OALDERS/libwww-perl-6.54.tar.gz
     provides:
-      LWP 6.53
-      LWP::Authen::Basic 6.53
-      LWP::Authen::Digest 6.53
-      LWP::Authen::Ntlm 6.53
-      LWP::ConnCache 6.53
-      LWP::Debug 6.53
-      LWP::Debug::TraceHTTP 6.53
-      LWP::DebugFile 6.53
-      LWP::MemberMixin 6.53
-      LWP::Protocol 6.53
-      LWP::Protocol::cpan 6.53
-      LWP::Protocol::data 6.53
-      LWP::Protocol::file 6.53
-      LWP::Protocol::ftp 6.53
-      LWP::Protocol::gopher 6.53
-      LWP::Protocol::http 6.53
-      LWP::Protocol::loopback 6.53
-      LWP::Protocol::mailto 6.53
-      LWP::Protocol::nntp 6.53
-      LWP::Protocol::nogo 6.53
-      LWP::RobotUA 6.53
-      LWP::Simple 6.53
-      LWP::UserAgent 6.53
+      LWP 6.54
+      LWP::Authen::Basic 6.54
+      LWP::Authen::Digest 6.54
+      LWP::Authen::Ntlm 6.54
+      LWP::ConnCache 6.54
+      LWP::Debug 6.54
+      LWP::Debug::TraceHTTP 6.54
+      LWP::DebugFile 6.54
+      LWP::MemberMixin 6.54
+      LWP::Protocol 6.54
+      LWP::Protocol::cpan 6.54
+      LWP::Protocol::data 6.54
+      LWP::Protocol::file 6.54
+      LWP::Protocol::ftp 6.54
+      LWP::Protocol::gopher 6.54
+      LWP::Protocol::http 6.54
+      LWP::Protocol::loopback 6.54
+      LWP::Protocol::mailto 6.54
+      LWP::Protocol::nntp 6.54
+      LWP::Protocol::nogo 6.54
+      LWP::RobotUA 6.54
+      LWP::Simple 6.54
+      LWP::UserAgent 6.54
       libwww::perl undef
     requirements:
       CPAN::Meta::Requirements 2.120620
@@ -2633,7 +2635,7 @@ DISTRIBUTIONS
       HTTP::Request 6
       HTTP::Request::Common 6
       HTTP::Response 6
-      HTTP::Status 6.07
+      HTTP::Status 6.18
       IO::Select 0
       IO::Socket 0
       LWP::MediaTypes 6
