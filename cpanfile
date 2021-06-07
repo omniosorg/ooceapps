@@ -1,6 +1,7 @@
 requires 'Acme::Cow';
 requires 'Crypt::Ed25519';
 requires 'Data::Processor';
+requires 'Email::Address', '>= 1.910';
 requires 'Email::MIME';
 requires 'Email::Sender';
 requires 'GeoIP2';
