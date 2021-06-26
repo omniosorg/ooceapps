@@ -875,6 +875,12 @@ DISTRIBUTIONS
       perl 5.006000
       strict 0
       warnings 0
+  Email-AddressParser-0.04
+    pathname: A/AW/AWKAY/Email-AddressParser-0.04.tar.gz
+    provides:
+      Email::AddressParser 0.04
+    requirements:
+      ExtUtils::MakeMaker 0
   Email-Date-Format-1.005
     pathname: R/RJ/RJBS/Email-Date-Format-1.005.tar.gz
     provides:
@@ -1014,6 +1020,16 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
+  Email-Valid-1.202
+    pathname: R/RJ/RJBS/Email-Valid-1.202.tar.gz
+    provides:
+      Email::Valid 1.202
+    requirements:
+      ExtUtils::MakeMaker 0
+      Mail::Address 0
+      Scalar::Util 0
+      Test::More 0
+      perl 5.006
   Encode-Locale-1.05
     pathname: G/GA/GAAS/Encode-Locale-1.05.tar.gz
     provides:
@@ -1468,6 +1484,39 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006
+  MailTools-2.21
+    pathname: M/MA/MARKOV/MailTools-2.21.tar.gz
+    provides:
+      Mail::Address 2.21
+      Mail::Cap 2.21
+      Mail::Field 2.21
+      Mail::Field::AddrList 2.21
+      Mail::Field::Date 2.21
+      Mail::Field::Generic 2.21
+      Mail::Filter 2.21
+      Mail::Header 2.21
+      Mail::Internet 2.21
+      Mail::Mailer 2.21
+      Mail::Mailer::qmail 2.21
+      Mail::Mailer::rfc822 2.21
+      Mail::Mailer::sendmail 2.21
+      Mail::Mailer::smtp 2.21
+      Mail::Mailer::smtp::pipe 2.21
+      Mail::Mailer::smtps 2.21
+      Mail::Mailer::smtps::pipe 2.21
+      Mail::Mailer::testfile 2.21
+      Mail::Mailer::testfile::pipe 2.21
+      Mail::Send 2.21
+      Mail::Util 2.21
+      MailTools 2.21
+    requirements:
+      Date::Format 0
+      Date::Parse 0
+      ExtUtils::MakeMaker 0
+      IO::Handle 0
+      Net::Domain 1.05
+      Net::SMTP 1.03
+      Test::More 0
   MaxMind-DB-Common-0.040001
     pathname: M/MA/MAXMIND/MaxMind-DB-Common-0.040001.tar.gz
     provides:
@@ -1859,6 +1908,14 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test 0
       perl 5.006
+  Net-Domain-TLD-1.75
+    pathname: A/AL/ALEXP/Net-Domain-TLD-1.75.tar.gz
+    provides:
+      Net::Domain::TLD 1.75
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Storable 0
   Net-HTTP-6.21
     pathname: O/OA/OALDERS/Net-HTTP-6.21.tar.gz
     provides:
