@@ -2,6 +2,7 @@ package OOCEapps::Controller::Log;
 use Mojo::Base 'OOCEapps::Controller::base';
 
 use Email::Address;
+use Email::Valid;
 use IRC::Utils qw(parse_user);
 use Mojo::File;
 use Mojo::JSON qw(decode_json);
@@ -10,6 +11,9 @@ use Mojo::JSON qw(decode_json);
 my $not_found_json = sub {
     return shift->render(json => [], status => 404);
 };
+
+# attributes
+has emailvalid => sub { Email::Valid->new(-tldcheck => 1) };
 
 # public methods
 sub getlog {
@@ -47,6 +51,9 @@ sub getlog {
 
             for my $addr (Email::Address->parse($msg)) {
                 my $oaddr = $addr->address;
+
+                next if !$c->emailvalid->address($oaddr);
+
                 my $naddr = $addr->user . '@...';
 
                 $msg =~ s/\Q$oaddr\E/$naddr/g;
