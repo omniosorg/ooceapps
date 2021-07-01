@@ -1014,6 +1014,16 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
+  Email-Valid-1.202
+    pathname: R/RJ/RJBS/Email-Valid-1.202.tar.gz
+    provides:
+      Email::Valid 1.202
+    requirements:
+      ExtUtils::MakeMaker 0
+      Mail::Address 0
+      Scalar::Util 0
+      Test::More 0
+      perl 5.006
   Encode-Locale-1.05
     pathname: G/GA/GAAS/Encode-Locale-1.05.tar.gz
     provides:
@@ -1466,6 +1476,39 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006
+  MailTools-2.21
+    pathname: M/MA/MARKOV/MailTools-2.21.tar.gz
+    provides:
+      Mail::Address 2.21
+      Mail::Cap 2.21
+      Mail::Field 2.21
+      Mail::Field::AddrList 2.21
+      Mail::Field::Date 2.21
+      Mail::Field::Generic 2.21
+      Mail::Filter 2.21
+      Mail::Header 2.21
+      Mail::Internet 2.21
+      Mail::Mailer 2.21
+      Mail::Mailer::qmail 2.21
+      Mail::Mailer::rfc822 2.21
+      Mail::Mailer::sendmail 2.21
+      Mail::Mailer::smtp 2.21
+      Mail::Mailer::smtp::pipe 2.21
+      Mail::Mailer::smtps 2.21
+      Mail::Mailer::smtps::pipe 2.21
+      Mail::Mailer::testfile 2.21
+      Mail::Mailer::testfile::pipe 2.21
+      Mail::Send 2.21
+      Mail::Util 2.21
+      MailTools 2.21
+    requirements:
+      Date::Format 0
+      Date::Parse 0
+      ExtUtils::MakeMaker 0
+      IO::Handle 0
+      Net::Domain 1.05
+      Net::SMTP 1.03
+      Test::More 0
   MaxMind-DB-Common-0.040001
     pathname: M/MA/MAXMIND/MaxMind-DB-Common-0.040001.tar.gz
     provides:
@@ -1657,15 +1700,15 @@ DISTRIBUTIONS
       Mojolicious 7.54
       Parse::IRC 1.20
       Unicode::UTF8 0.59
-  Mojo-SQLite-3.005
-    pathname: D/DB/DBOOK/Mojo-SQLite-3.005.tar.gz
+  Mojo-SQLite-3.006
+    pathname: D/DB/DBOOK/Mojo-SQLite-3.006.tar.gz
     provides:
-      Mojo::SQLite 3.005
-      Mojo::SQLite::Database 3.005
-      Mojo::SQLite::Migrations 3.005
-      Mojo::SQLite::PubSub 3.005
-      Mojo::SQLite::Results 3.005
-      Mojo::SQLite::Transaction 3.005
+      Mojo::SQLite 3.006
+      Mojo::SQLite::Database 3.006
+      Mojo::SQLite::Migrations 3.006
+      Mojo::SQLite::PubSub 3.006
+      Mojo::SQLite::Results 3.006
+      Mojo::SQLite::Transaction 3.006
     requirements:
       Carp 0
       DBD::SQLite 1.64
@@ -1674,7 +1717,7 @@ DISTRIBUTIONS
       File::Temp 0
       Module::Build::Tiny 0.034
       Mojolicious 8.03
-      SQL::Abstract 1.81
+      SQL::Abstract::Pg 1.0
       Scalar::Util 0
       URI 1.69
       URI::db 0.15
@@ -1772,7 +1815,6 @@ DISTRIBUTIONS
       Mojolicious::Lite undef
       Mojolicious::Plugin undef
       Mojolicious::Plugin::Config undef
-      Mojolicious::Plugin::Config::Sandbox undef
       Mojolicious::Plugin::DefaultHelpers undef
       Mojolicious::Plugin::EPLRenderer undef
       Mojolicious::Plugin::EPRenderer undef
@@ -1857,6 +1899,14 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test 0
       perl 5.006
+  Net-Domain-TLD-1.75
+    pathname: A/AL/ALEXP/Net-Domain-TLD-1.75.tar.gz
+    provides:
+      Net::Domain::TLD 1.75
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Storable 0
   Net-HTTP-6.21
     pathname: O/OA/OALDERS/Net-HTTP-6.21.tar.gz
     provides:
@@ -2081,6 +2131,14 @@ DISTRIBUTIONS
       Test::Deep 0.101
       Text::Balanced 2.00
       perl 5.006
+  SQL-Abstract-Pg-1.0
+    pathname: S/SR/SRI/SQL-Abstract-Pg-1.0.tar.gz
+    provides:
+      SQL::Abstract::Pg 1.0
+    requirements:
+      ExtUtils::MakeMaker 0
+      SQL::Abstract 2.0
+      perl 5.016
   Scalar-List-Utils-1.56
     pathname: P/PE/PEVANS/Scalar-List-Utils-1.56.tar.gz
     provides:
@@ -2633,7 +2691,7 @@ DISTRIBUTIONS
       HTTP::Request 6
       HTTP::Request::Common 6
       HTTP::Response 6
-      HTTP::Status 6.07
+      HTTP::Status 6.18
       IO::Select 0
       IO::Socket 0
       LWP::MediaTypes 6
