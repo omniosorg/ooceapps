@@ -6,12 +6,20 @@ use Time::Piece;
 use Mojo::Exception;
 use Mojo::File;
 use Mojo::JSON qw(encode_json);
+use Mojo::SQLite;
 use IRC::Utils qw(eq_irc is_valid_chan_name is_valid_nick_name);
 
 use Fenix::Utils;
 
 # constants
 my $MODPREFIX = join '::', (split /::/, __PACKAGE__)[0 .. 1], 'Handler';
+
+# private static methods
+my $stripChanPrefix = sub($chan) {
+    $chan =~ s/^#//;
+
+    return $chan;
+};
 
 # attributes
 has config  => sub { {} };
@@ -44,6 +52,16 @@ has handlers => sub($self) {
         } keys %{$self->handler}
     ]
 };
+has sqlite   => sub($self) {
+    my $sql = Mojo::SQLite->new->from_filename(
+        Mojo::File->new($self->datadir, 'irclog.db'));
+
+    $sql->on(connection => sub ($sql, $dbh) {
+        $dbh->do('PRAGMA foreign_keys = ON;');
+    });
+
+    return $sql;
+};
 
 # private methods
 my $connect;
@@ -58,10 +76,11 @@ $connect = sub($self) {
 };
 
 my $log = sub($self, $msg) {
+    my $chan = $msg->{params}->[0];
+
     if ($msg->{command} =~ /^(RPL_)?TOPIC$/) {
         shift @{$msg->{params}} if $1; # for RPL_TOPIC the first param is the own nick
 
-        my $chan = $msg->{params}->[0];
         return if !is_valid_chan_name($chan) || !$self->chans->{$chan}->{log};
 
         my $logf = Mojo::File->new($self->datadir, $chan, '__currtopic');
@@ -69,23 +88,28 @@ my $log = sub($self, $msg) {
 
         $logf->spurt($msg->{params}->[1]);
 
+        $chan = $stripChanPrefix->($chan);
+
+        $self->sqlite->db->update('channel', { topic => $msg->{params}->[1] },
+            { channel => $chan });
+
         return;
     }
 
-    my $chan = $msg->{params}->[0];
-
     my $ischan = is_valid_chan_name($chan);
+
     return if ($ischan && !$self->chans->{$chan}->{log})
         || (!$ischan && $msg->{command} ne 'PRIVMSG');
 
     my $time   = gmtime;
     my $day    = $time->ymd;
     $msg->{ts} = $time->epoch;
+    my $nick   = $self->utils->from($msg->{prefix});
 
     # delete 'event' since that information is covered in 'command'
     delete $msg->{event};
 
-    my $logdir = eq_irc($chan, $self->nick) ? $self->utils->from($msg->{prefix}) : $chan;
+    my $logdir = eq_irc($chan, $self->nick) ? $nick : $chan;
 
     my $logf = Mojo::File->new($self->datadir, $logdir, "$day.json");
     $logf->dirname->make_path;
@@ -94,6 +118,18 @@ my $log = sub($self, $msg) {
         or Mojo::Exception->throw("ERROR: cannot open file '$logf': $!\n");
     say $fh encode_json($msg);
     close $fh;
+
+    # only log channel messages to SQLite
+    return if !$ischan;
+
+    $chan = $stripChanPrefix->($chan);
+
+    $self->sqlite->db->insert('log', {
+        channel => $chan,
+        nick    => $nick,
+        message => $msg->{params}->[1],
+        map { $_ => $msg->{$_} } qw(ts command)
+    });
 };
 
 my $process = sub($self, $chan, $from, $text, $mentioned = 0) {
@@ -135,6 +171,12 @@ sub sendMsg($self, $to, $msg) {
 }
 
 sub start($self) {
+    # SQLite table migration
+    $self->sqlite->auto_migrate(1)->migrations->from_data(__PACKAGE__, 'irclog.sql');
+
+    $self->sqlite->db->insert('channel_list', { channel => $stripChanPrefix->($_) })
+        for grep { $self->chans->{$_}->{log} } keys %{$self->chans};
+
     # logging
     $self->on(message => sub($irc, $msg) { $self->$log($msg) });
 
@@ -149,7 +191,7 @@ sub start($self) {
         return if !is_valid_nick_name($from);
 
         # handle DMs
-        return $self->$process($from, $from, $text) if eq_irc($nick, $chan);
+        return $self->$process($from, $from, $text, 1) if eq_irc($nick, $chan);
 
         return if !$self->chans->{$chan}->{interactive};
 
@@ -180,6 +222,88 @@ sub start($self) {
 }
 
 1;
+
+__DATA__
+
+@@ irclog.sql
+
+-- 1 up
+
+CREATE TABLE channel (
+     channel_id INTEGER PRIMARY KEY AUTOINCREMENT,
+     channel TEXT UNIQUE NOT NULL,
+     topic TEXT
+);
+
+CREATE TABLE command (
+     command_id INTEGER PRIMARY KEY AUTOINCREMENT,
+     command TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE nick (
+     nick_id INTEGER PRIMARY KEY AUTOINCREMENT,
+     nick TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE message (
+     message_id INTEGER PRIMARY KEY AUTOINCREMENT,
+     ts DATETIME NOT NULL,
+     command_id INTEGER NOT NULL REFERENCES command(command_id),
+     channel_id INTEGER NOT NULL REFERENCES channel(channel_id),
+     nick_id INTEGER NOT NULL REFERENCES nick(nick_id),
+     message TEXT
+);
+
+CREATE INDEX idx_message_1 ON message (ts, channel_id, nick_id);
+
+CREATE VIEW log (
+    message_id, ts, command, channel, nick, message
+)
+AS SELECT message_id, ts, command, channel, nick, message
+FROM message
+JOIN command USING(command_id)
+JOIN channel USING(channel_id)
+JOIN nick USING(nick_id);
+
+CREATE TRIGGER log_insert
+INSTEAD OF INSERT ON log
+BEGIN
+    INSERT INTO nick(nick)
+    SELECT NEW.nick
+    WHERE NOT EXISTS(SELECT nick_id FROM nick WHERE nick = NEW.nick);
+
+    INSERT INTO message(ts, command_id, channel_id, nick_id, message)
+        SELECT NEW.ts, command_id, channel_id, nick_id, NEW.message
+        FROM nick, command, channel
+        WHERE nick.nick = NEW.nick
+        AND command.command = NEW.command
+        AND channel.channel = NEW.channel;
+END;
+
+CREATE VIRTUAL TABLE fts_message USING fts5 (
+     message_id UNINDEXED,
+     message
+);
+
+CREATE TRIGGER fts_message_ai AFTER INSERT ON message
+WHEN NEW.command_id = 1
+BEGIN
+    INSERT INTO fts_message(message_id, message)
+    VALUES(NEW.message_id, NEW.message);
+END;
+
+CREATE VIEW channel_list(channel) as SELECT channel FROM channel;
+CREATE TRIGGER channel_insert
+INSTEAD OF INSERT ON channel_list
+BEGIN
+    INSERT INTO channel(channel)
+    SELECT NEW.channel
+    WHERE NOT EXISTS(
+        SELECT channel_id FROM channel WHERE channel = NEW.channel
+    );
+END;
+
+INSERT INTO command(command) VALUES ('PRIVMSG'), ('JOIN'), ('PART');
 
 __END__
 
