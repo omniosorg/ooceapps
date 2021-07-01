@@ -149,7 +149,7 @@ sub start($self) {
         return if !is_valid_nick_name($from);
 
         # handle DMs
-        return $self->$process($from, $from, $text) if eq_irc($nick, $chan);
+        return $self->$process($from, $from, $text, 1) if eq_irc($nick, $chan);
 
         return if !$self->chans->{$chan}->{interactive};
 
