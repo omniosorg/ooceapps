@@ -269,12 +269,12 @@ DISTRIBUTIONS
       strict 0
       utf8 0
       warnings 0
-  Data-OptList-0.110
-    pathname: R/RJ/RJBS/Data-OptList-0.110.tar.gz
+  Data-OptList-0.112
+    pathname: R/RJ/RJBS/Data-OptList-0.112.tar.gz
     provides:
-      Data::OptList 0.110
+      Data::OptList 0.112
     requirements:
-      ExtUtils::MakeMaker 0
+      ExtUtils::MakeMaker 6.78
       List::Util 0
       Params::Util 0
       Sub::Install 0.921
@@ -832,20 +832,20 @@ DISTRIBUTIONS
       base 0
       strict 0
       warnings 0
-  Email-Abstract-3.008
-    pathname: R/RJ/RJBS/Email-Abstract-3.008.tar.gz
+  Email-Abstract-3.009
+    pathname: R/RJ/RJBS/Email-Abstract-3.009.tar.gz
     provides:
-      Email::Abstract 3.008
-      Email::Abstract::EmailMIME 3.008
-      Email::Abstract::EmailSimple 3.008
-      Email::Abstract::MIMEEntity 3.008
-      Email::Abstract::MailInternet 3.008
-      Email::Abstract::MailMessage 3.008
-      Email::Abstract::Plugin 3.008
+      Email::Abstract 3.009
+      Email::Abstract::EmailMIME 3.009
+      Email::Abstract::EmailSimple 3.009
+      Email::Abstract::MIMEEntity 3.009
+      Email::Abstract::MailInternet 3.009
+      Email::Abstract::MailMessage 3.009
+      Email::Abstract::Plugin 3.009
     requirements:
       Carp 0
       Email::Simple 1.998
-      ExtUtils::MakeMaker 0
+      ExtUtils::MakeMaker 6.78
       MRO::Compat 0
       Module::Pluggable 1.5
       Scalar::Util 0
@@ -875,12 +875,6 @@ DISTRIBUTIONS
       perl 5.006000
       strict 0
       warnings 0
-  Email-AddressParser-0.04
-    pathname: A/AW/AWKAY/Email-AddressParser-0.04.tar.gz
-    provides:
-      Email::AddressParser 0.04
-    requirements:
-      ExtUtils::MakeMaker 0
   Email-Date-Format-1.005
     pathname: R/RJ/RJBS/Email-Date-Format-1.005.tar.gz
     provides:
@@ -952,39 +946,39 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
-  Email-Sender-1.300035
-    pathname: R/RJ/RJBS/Email-Sender-1.300035.tar.gz
+  Email-Sender-1.500
+    pathname: R/RJ/RJBS/Email-Sender-1.500.tar.gz
     provides:
-      Email::Sender 1.300035
-      Email::Sender::Failure 1.300035
-      Email::Sender::Failure::Multi 1.300035
-      Email::Sender::Failure::Permanent 1.300035
-      Email::Sender::Failure::Temporary 1.300035
-      Email::Sender::Manual 1.300035
-      Email::Sender::Manual::QuickStart 1.300035
-      Email::Sender::Role::CommonSending 1.300035
-      Email::Sender::Role::HasMessage 1.300035
-      Email::Sender::Simple 1.300035
-      Email::Sender::Success 1.300035
-      Email::Sender::Success::Partial 1.300035
-      Email::Sender::Transport 1.300035
-      Email::Sender::Transport::DevNull 1.300035
-      Email::Sender::Transport::Failable 1.300035
-      Email::Sender::Transport::Maildir 1.300035
-      Email::Sender::Transport::Mbox 1.300035
-      Email::Sender::Transport::Print 1.300035
-      Email::Sender::Transport::SMTP 1.300035
-      Email::Sender::Transport::SMTP::Persistent 1.300035
-      Email::Sender::Transport::Sendmail 1.300035
-      Email::Sender::Transport::Test 1.300035
-      Email::Sender::Transport::Wrapper 1.300035
-      Email::Sender::Util 1.300035
+      Email::Sender 1.500
+      Email::Sender::Failure 1.500
+      Email::Sender::Failure::Multi 1.500
+      Email::Sender::Failure::Permanent 1.500
+      Email::Sender::Failure::Temporary 1.500
+      Email::Sender::Manual 1.500
+      Email::Sender::Manual::QuickStart 1.500
+      Email::Sender::Role::CommonSending 1.500
+      Email::Sender::Role::HasMessage 1.500
+      Email::Sender::Simple 1.500
+      Email::Sender::Success 1.500
+      Email::Sender::Success::Partial 1.500
+      Email::Sender::Transport 1.500
+      Email::Sender::Transport::DevNull 1.500
+      Email::Sender::Transport::Failable 1.500
+      Email::Sender::Transport::Maildir 1.500
+      Email::Sender::Transport::Mbox 1.500
+      Email::Sender::Transport::Print 1.500
+      Email::Sender::Transport::SMTP 1.500
+      Email::Sender::Transport::SMTP::Persistent 1.500
+      Email::Sender::Transport::Sendmail 1.500
+      Email::Sender::Transport::Test 1.500
+      Email::Sender::Transport::Wrapper 1.500
+      Email::Sender::Util 1.500
     requirements:
       Carp 0
       Email::Abstract 3.006
       Email::Address 0
       Email::Simple 1.998
-      ExtUtils::MakeMaker 0
+      ExtUtils::MakeMaker 6.78
       Fcntl 0
       File::Basename 0
       File::Path 2.06
@@ -1004,6 +998,7 @@ DISTRIBUTIONS
       Sys::Hostname 0
       Throwable::Error 0.200003
       Try::Tiny 0
+      perl 5.012
       strict 0
       utf8 0
       warnings 0
@@ -1280,19 +1275,19 @@ DISTRIBUTIONS
       Time::Zone 0
       perl 5.006002
       strict 0
-  HTTP-Message-6.32
-    pathname: O/OA/OALDERS/HTTP-Message-6.32.tar.gz
+  HTTP-Message-6.33
+    pathname: O/OA/OALDERS/HTTP-Message-6.33.tar.gz
     provides:
-      HTTP::Config 6.32
-      HTTP::Headers 6.32
-      HTTP::Headers::Auth 6.32
-      HTTP::Headers::ETag 6.32
-      HTTP::Headers::Util 6.32
-      HTTP::Message 6.32
-      HTTP::Request 6.32
-      HTTP::Request::Common 6.32
-      HTTP::Response 6.32
-      HTTP::Status 6.32
+      HTTP::Config 6.33
+      HTTP::Headers 6.33
+      HTTP::Headers::Auth 6.33
+      HTTP::Headers::ETag 6.33
+      HTTP::Headers::Util 6.33
+      HTTP::Message 6.33
+      HTTP::Request 6.33
+      HTTP::Request::Common 6.33
+      HTTP::Response 6.33
+      HTTP::Status 6.33
     requirements:
       Carp 0
       Compress::Raw::Zlib 0
@@ -2238,17 +2233,18 @@ DISTRIBUTIONS
       strict 0
       version 0.83
       warnings 0
-  Sub-Exporter-0.987
-    pathname: R/RJ/RJBS/Sub-Exporter-0.987.tar.gz
+  Sub-Exporter-0.988
+    pathname: R/RJ/RJBS/Sub-Exporter-0.988.tar.gz
     provides:
-      Sub::Exporter 0.987
-      Sub::Exporter::Util 0.987
+      Sub::Exporter 0.988
+      Sub::Exporter::Util 0.988
     requirements:
       Carp 0
       Data::OptList 0.100
-      ExtUtils::MakeMaker 6.30
+      ExtUtils::MakeMaker 6.78
       Params::Util 0.14
       Sub::Install 0.92
+      perl 5.008000
       strict 0
       warnings 0
   Sub-Exporter-Progressive-0.001013
@@ -2376,16 +2372,16 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008
-  Throwable-0.200013
-    pathname: R/RJ/RJBS/Throwable-0.200013.tar.gz
+  Throwable-1.000
+    pathname: R/RJ/RJBS/Throwable-1.000.tar.gz
     provides:
-      StackTrace::Auto 0.200013
-      Throwable 0.200013
-      Throwable::Error 0.200013
+      StackTrace::Auto 1.000
+      Throwable 1.000
+      Throwable::Error 1.000
     requirements:
       Carp 0
       Devel::StackTrace 1.32
-      ExtUtils::MakeMaker 0
+      ExtUtils::MakeMaker 6.78
       Module::Runtime 0.002
       Moo 1.000001
       Moo::Role 0
@@ -2656,32 +2652,32 @@ DISTRIBUTIONS
       XSLoader 0
       lib 0
       perl 5.008001
-  libwww-perl-6.54
-    pathname: O/OA/OALDERS/libwww-perl-6.54.tar.gz
+  libwww-perl-6.55
+    pathname: O/OA/OALDERS/libwww-perl-6.55.tar.gz
     provides:
-      LWP 6.54
-      LWP::Authen::Basic 6.54
-      LWP::Authen::Digest 6.54
-      LWP::Authen::Ntlm 6.54
-      LWP::ConnCache 6.54
-      LWP::Debug 6.54
-      LWP::Debug::TraceHTTP 6.54
-      LWP::DebugFile 6.54
-      LWP::MemberMixin 6.54
-      LWP::Protocol 6.54
-      LWP::Protocol::cpan 6.54
-      LWP::Protocol::data 6.54
-      LWP::Protocol::file 6.54
-      LWP::Protocol::ftp 6.54
-      LWP::Protocol::gopher 6.54
-      LWP::Protocol::http 6.54
-      LWP::Protocol::loopback 6.54
-      LWP::Protocol::mailto 6.54
-      LWP::Protocol::nntp 6.54
-      LWP::Protocol::nogo 6.54
-      LWP::RobotUA 6.54
-      LWP::Simple 6.54
-      LWP::UserAgent 6.54
+      LWP 6.55
+      LWP::Authen::Basic 6.55
+      LWP::Authen::Digest 6.55
+      LWP::Authen::Ntlm 6.55
+      LWP::ConnCache 6.55
+      LWP::Debug 6.55
+      LWP::Debug::TraceHTTP 6.55
+      LWP::DebugFile 6.55
+      LWP::MemberMixin 6.55
+      LWP::Protocol 6.55
+      LWP::Protocol::cpan 6.55
+      LWP::Protocol::data 6.55
+      LWP::Protocol::file 6.55
+      LWP::Protocol::ftp 6.55
+      LWP::Protocol::gopher 6.55
+      LWP::Protocol::http 6.55
+      LWP::Protocol::loopback 6.55
+      LWP::Protocol::mailto 6.55
+      LWP::Protocol::nntp 6.55
+      LWP::Protocol::nogo 6.55
+      LWP::RobotUA 6.55
+      LWP::Simple 6.55
+      LWP::UserAgent 6.55
       libwww::perl undef
     requirements:
       CPAN::Meta::Requirements 2.120620
