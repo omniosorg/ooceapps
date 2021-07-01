@@ -76,11 +76,10 @@ $connect = sub($self) {
 };
 
 my $log = sub($self, $msg) {
-    my $chan = $msg->{params}->[0];
-
     if ($msg->{command} =~ /^(RPL_)?TOPIC$/) {
         shift @{$msg->{params}} if $1; # for RPL_TOPIC the first param is the own nick
 
+        my $chan = $msg->{params}->[0];
         return if !is_valid_chan_name($chan) || !$self->chans->{$chan}->{log};
 
         my $logf = Mojo::File->new($self->datadir, $chan, '__currtopic');
@@ -96,6 +95,7 @@ my $log = sub($self, $msg) {
         return;
     }
 
+    my $chan   = $msg->{params}->[0];
     my $ischan = is_valid_chan_name($chan);
 
     return if ($ischan && !$self->chans->{$chan}->{log})
