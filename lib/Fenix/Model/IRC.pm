@@ -30,7 +30,7 @@ has chans   => sub($self) {
     return {
         map {
             my $chan = $_;
-            $chan->{name} => { map { $_ => $chan->{$_} eq 'on' } qw(log interactive generic) }
+            $chan->{name} => { map { $_ => $chan->{$_} eq 'on' } qw(log public interactive generic) }
         } @{$self->config->{CHANS}}
     }
 };
@@ -174,8 +174,16 @@ sub start($self) {
     # SQLite table migration
     $self->sqlite->auto_migrate(1)->migrations->from_data(__PACKAGE__, 'irclog.sql');
 
-    $self->sqlite->db->insert('channel_list', { channel => $stripChanPrefix->($_) })
-        for grep { $self->chans->{$_}->{log} } keys %{$self->chans};
+    for my $chan (keys %{$self->chans}) {
+        next if !$self->chans->{$chan}->{log};
+
+        my $schan = $stripChanPrefix->($chan);
+
+        $self->sqlite->db->insert('channel_list', { channel => $schan });
+
+        $self->sqlite->db->update('channel', { public => $self->chans->{$chan}->{public} ? 1 : 0 },
+            { channel => $schan });
+    }
 
     # logging
     $self->on(message => sub($irc, $msg) { $self->$log($msg) });
@@ -232,6 +240,7 @@ __DATA__
 CREATE TABLE channel (
      channel_id INTEGER PRIMARY KEY AUTOINCREMENT,
      channel TEXT UNIQUE NOT NULL,
+     public INTEGER NOT NULL DEFAULT 0,
      topic TEXT
 );
 

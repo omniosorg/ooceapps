@@ -73,6 +73,12 @@ has schema  => sub($self) {
                     default     => 'on',
                     validator   => $sv->elemOf(qw(on off)),
                 },
+                public      => {
+                    optional    => 1,
+                    description => 'make channel log public',
+                    default     => 'off',
+                    validator   => $sv->elemOf(qw(on off)),
+                },
                 interactive => {
                     optional    => 1,
                     description => 'interactive bot',
