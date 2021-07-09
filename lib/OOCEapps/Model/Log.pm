@@ -2,63 +2,71 @@ package OOCEapps::Model::Log;
 use Mojo::Base 'OOCEapps::Model::base';
 
 use Mojo::File;
+use Mojo::SQLite;
+use Time::Seconds qw(ONE_DAY);
 
 # attributes
-has schema  => sub {
+has schema => sub {
     my $sv = shift->utils;
 
     return {
-        logdir   => {
-            description => 'path to log files',
-            example     => '/var/opt/ooce/ooceapps/fenix',
-            validator   => $sv->dir('cannot access directory'),
+        dbpath      => {
+            description => 'path to SQLite log database',
+            example     => '/var/opt/ooce/ooceapps/fenix/irclog.db',
+            validator   => $sv->file('<', 'cannot open database'),
         },
-        channels => {
-            array       => 1,
-            description => 'channels to expose to the log page',
-            example     => '#omnios',
-            validator   => sub {
-                my $chan = shift;
-                my $dir  = shift->{logdir};
-
-                return $sv->dir('cannot access directory')->(Mojo::File->new($dir, $chan));
-            },
+        max_records => {
+            description => 'maximum number of records to return',
+            default     => 5000,
+            example     => '1234',
+            validator   => $sv->regexp(qr/^\d+$/, 'expected a numeric input'),
         },
-    }
+    };
 };
-
-has chanmap   => sub { return { map { $_ => undef } @{shift->config->{channels}} } };
-has filtermap => sub { return { map { $_ => undef } qw(JOIN PART PRIVMSG) } };
-has index     => sub {
+has index  => sub {
     my $self = shift;
 
     return {
         map {
             my $chan = $_;
-            my $d    = Mojo::File->new($self->config->{logdir}, $chan);
-            my $logs = $d->list->grep(qr/\d{4}(?:-\d\d){2}\.json$/)->sort;
-            my $tf   = Mojo::File->new($self->config->{logdir}, $chan, '__currtopic');
-
-            $chan =~ s/^#//;
-            $chan => {
-                begin => $logs->first->basename('.json'),
-                topic => -r $tf ? $tf->slurp : 'n/a',
-            }
-        } @{$self->config->{channels}}
+            $chan->{channel} => { map { $_ => $chan->{$_} } qw(begin topic) }
+        }
+        @{$self->sqlite->db->select(
+            [ 'channel', [ 'message', channel_id => 'channel_id' ] ],
+            [ 'channel', 'topic', \'MIN(ts) AS begin' ],
+            { public   => { '<>', 0 } },
+            { group_by => [ qw(channel topic) ] }
+        )->hashes->to_array}
     };
 };
+has sqlite => sub {
+    my $self = shift;
+
+    my $sql = Mojo::SQLite->new->from_filename($self->config->{dbpath});
+
+    $sql->on(connection => sub {
+        my ($sql, $dbh) = @_;
+
+        $dbh->do("PRAGMA $_ = ON;") for qw(foreign_keys query_only);
+    });
+
+    return $sql;
+};
+
 
 # public methods
 sub register {
     my $self = shift;
 
-    # build index on startup
-    $self->index;
+    my $r = $self->app->routes;
 
-    $self->app->routes->get('/' . $self->name . '/api/channel')
-        ->to(controller => $self->controller, action => 'channel');
-    $self->app->routes->get('/' . $self->name . '/api/:chan/:date')
-        ->to(controller => $self->controller, action => 'getlog');
+    # APIv1
+    my $apiv1 = $r->any('/' . $self->name . '/api/v1')
+        ->to(controller => $self->controller);
+    $apiv1->get('/channel')->to(action => 'channel');
+    $apiv1->get('/channel/:chan/:start_ts/:delta_ts' => [ start_ts => qr/\d+/, delta_ts => qr/\d+/ ])
+        ->to(action => 'chanlog', delta_ts => ONE_DAY);
+    $apiv1->get('/search')->to(action => 'searchlog');
 }
 
 1;

@@ -1,8 +1,6 @@
 package OOCEapps::Controller::Log;
 use Mojo::Base 'OOCEapps::Controller::base';
 
-use Email::Address;
-use Email::Valid;
 use IRC::Utils qw(parse_user);
 use Mojo::File;
 use Mojo::JSON qw(decode_json);
@@ -16,58 +14,73 @@ my $not_found_json = sub {
 has emailvalid => sub { Email::Valid->new(-tldcheck => 1) };
 
 # public methods
-sub getlog {
+sub chanlog {
     my $c = shift;
 
-    my $chan = $c->stash('chan');
-    my $date = $c->stash('date');
+    my $chan  = $c->stash('chan');
+    my $start = $c->stash('start_ts');
+    my $end   = $start + $c->stash('delta_ts');
 
-    return $c->$not_found_json if !$chan || !$date;
+    return $c->$not_found_json if !exists $c->model->index->{$chan};
 
-    $chan = "#$chan";
-    return $c->$not_found_json if !exists $c->model->chanmap->{$chan};
+    $c->render_later;
 
-    my $logf = Mojo::File->new($c->config->{logdir}, $chan, "$date.json");
-
-    return $c->$not_found_json if !-r $logf;
-
-    open my $fh, '<', $logf or return $c->$not_found_json;
-
-    my @log;
-    while (<$fh>) {
-        my $data = decode_json($_) or next;
-
-        next if !exists $c->model->filtermap->{$data->{command}};
-
-        my $nick = parse_user($data->{prefix}); # scalar context
-        my %entry = (
-            command => $data->{command},
-            nick    => $nick,
-            ts      => $data->{ts},
-        );
-
-        if ($data->{command} eq 'PRIVMSG') {
-            my $msg = $data->{params}->[1] // '';
-
-            for my $addr (Email::Address->parse($msg)) {
-                my $oaddr = $addr->address;
-
-                next if !$c->emailvalid->address($oaddr);
-
-                my $naddr = $addr->user . '@...';
-
-                $msg =~ s/\Q$oaddr\E/$naddr/g;
-            }
-
-            $entry{message} = $msg;
+    $c->model->sqlite->db->select_p(
+        'log',
+        [ qw(nick ts command message message_id) ],
+        { 'channel' => $chan, 'ts' => { '-between' => [ $start, $end ] } },
+        {
+            order_by => [ qw(ts message_id) ],
+            limit    => $c->model->config->{max_records}
         }
+    )->then(sub {
+        $c->render(json => shift->hashes->to_array);
+    })->catch(sub {
+        $c->$not_found_json;
+    })->wait;
+}
 
-        push @log, \%entry;
-    }
+sub searchlog {
+    my $c = shift;
 
-    close $fh;
+    my %params = map { $_ => $c->param($_) } qw(q channel nick limit page);
 
-    $c->render(json => \@log);
+    return $c->$not_found_json if !$params{q};
+    return $c->$not_found_json if $params{channel} && !exists $c->model->index->{$params{channel}};
+    $params{$_} && $params{$_} !~ /^\d+$/ && return $c->$not_found_json for qw(limit page);
+
+    $params{page} ||= 1;
+    $params{limit} = $c->model->config->{max_records}
+        if !$params{limit} || $params{limit} > $c->model->config->{max_records};
+
+    my $offset = ($params{page} - 1) * $params{limit};
+
+    my %where = (
+        fts_message => { 'match', $params{q} },
+        public      => { '<>', 0 },
+        map { $_ => $params{$_} } grep { $params{$_} } qw(channel nick)
+    );
+
+    $c->render_later;
+
+    $c->model->sqlite->db->select_p(
+        [ 'log', [ 'fts_message', message_id => 'message_id' ] ],
+        [
+            qw(ts command channel nick),
+            \qq{HIGHLIGHT(fts_message, 1, '\x{1f409}\x{1f404}\x{1f409}', '\x{1f404}\x{1f409}\x{1f404}') AS message},
+            qw(log.message_id rank)
+        ],
+        \%where,
+        {
+            order_by => [ qw(rank ts log.message_id) ],
+            limit    => $params{limit},
+            offset   => $offset
+        }
+    )->then(sub {
+        $c->render(json => shift->hashes->grep(sub { exists $c->model->index->{$_->{channel}} })->to_array);
+    })->catch(sub {
+        $c->$not_found_json;
+    })->wait;
 }
 
 sub channel {

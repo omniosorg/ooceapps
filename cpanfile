@@ -9,7 +9,7 @@ requires 'GeoIP2';
 requires 'IO::Socket::SSL';
 requires 'LaTeX::Encode';
 requires 'Mojo::IRC';
-requires 'Mojo::SQLite';
+requires 'Mojo::SQLite', '>= 3.006';
 requires 'Mojolicious';
 requires 'Mozilla::CA';
 requires 'Net::Domain::TLD';
