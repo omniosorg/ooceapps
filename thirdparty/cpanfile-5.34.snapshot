@@ -946,33 +946,33 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
-  Email-Sender-1.500
-    pathname: R/RJ/RJBS/Email-Sender-1.500.tar.gz
+  Email-Sender-2.500
+    pathname: R/RJ/RJBS/Email-Sender-2.500.tar.gz
     provides:
-      Email::Sender 1.500
-      Email::Sender::Failure 1.500
-      Email::Sender::Failure::Multi 1.500
-      Email::Sender::Failure::Permanent 1.500
-      Email::Sender::Failure::Temporary 1.500
-      Email::Sender::Manual 1.500
-      Email::Sender::Manual::QuickStart 1.500
-      Email::Sender::Role::CommonSending 1.500
-      Email::Sender::Role::HasMessage 1.500
-      Email::Sender::Simple 1.500
-      Email::Sender::Success 1.500
-      Email::Sender::Success::Partial 1.500
-      Email::Sender::Transport 1.500
-      Email::Sender::Transport::DevNull 1.500
-      Email::Sender::Transport::Failable 1.500
-      Email::Sender::Transport::Maildir 1.500
-      Email::Sender::Transport::Mbox 1.500
-      Email::Sender::Transport::Print 1.500
-      Email::Sender::Transport::SMTP 1.500
-      Email::Sender::Transport::SMTP::Persistent 1.500
-      Email::Sender::Transport::Sendmail 1.500
-      Email::Sender::Transport::Test 1.500
-      Email::Sender::Transport::Wrapper 1.500
-      Email::Sender::Util 1.500
+      Email::Sender 2.500
+      Email::Sender::Failure 2.500
+      Email::Sender::Failure::Multi 2.500
+      Email::Sender::Failure::Permanent 2.500
+      Email::Sender::Failure::Temporary 2.500
+      Email::Sender::Manual 2.500
+      Email::Sender::Manual::QuickStart 2.500
+      Email::Sender::Role::CommonSending 2.500
+      Email::Sender::Role::HasMessage 2.500
+      Email::Sender::Simple 2.500
+      Email::Sender::Success 2.500
+      Email::Sender::Success::Partial 2.500
+      Email::Sender::Transport 2.500
+      Email::Sender::Transport::DevNull 2.500
+      Email::Sender::Transport::Failable 2.500
+      Email::Sender::Transport::Maildir 2.500
+      Email::Sender::Transport::Mbox 2.500
+      Email::Sender::Transport::Print 2.500
+      Email::Sender::Transport::SMTP 2.500
+      Email::Sender::Transport::SMTP::Persistent 2.500
+      Email::Sender::Transport::Sendmail 2.500
+      Email::Sender::Transport::Test 2.500
+      Email::Sender::Transport::Wrapper 2.500
+      Email::Sender::Util 2.500
     requirements:
       Carp 0
       Email::Abstract 3.006
