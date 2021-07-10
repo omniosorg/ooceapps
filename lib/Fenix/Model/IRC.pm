@@ -124,6 +124,9 @@ my $log = sub($self, $msg) {
 
     $chan = $stripChanPrefix->($chan);
 
+    $msg->{params}->[1] = $self->utils->spoofEmail($msg->{params}->[1])
+        if $msg->{command} eq 'PRIVMSG';
+
     $self->sqlite->db->insert('log', {
         channel => $chan,
         nick    => $nick,
@@ -251,7 +254,7 @@ CREATE TABLE command (
 
 CREATE TABLE nick (
      nick_id INTEGER PRIMARY KEY AUTOINCREMENT,
-     nick TEXT UNIQUE NOT NULL
+     nick TEXT UNIQUE NOT NULL COLLATE NOCASE
 );
 
 CREATE TABLE message (
@@ -266,9 +269,9 @@ CREATE TABLE message (
 CREATE INDEX idx_message_1 ON message (ts, channel_id, nick_id);
 
 CREATE VIEW log (
-    message_id, ts, command, channel, nick, message
+    message_id, ts, command, channel, public, nick, message
 )
-AS SELECT message_id, ts, command, channel, nick, message
+AS SELECT message_id, ts, command, channel, public, nick, message
 FROM message
 JOIN command USING(command_id)
 JOIN channel USING(channel_id)
