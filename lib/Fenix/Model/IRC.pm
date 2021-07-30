@@ -21,6 +21,12 @@ my $stripChanPrefix = sub($chan) {
     return $chan;
 };
 
+my $stripOpPrefix = sub($nick) {
+    $nick =~ s/^[@+]//;
+
+    return $nick;
+};
+
 # attributes
 has config  => sub { {} };
 has datadir => sub { Mojo::Exception->throw("ERROR: datadir must be specified on instantiation.\n") };
@@ -34,6 +40,7 @@ has chans   => sub($self) {
         } @{$self->config->{CHANS}}
     }
 };
+has users   => sub { {} };
 has handler => sub($self) {
     return $self->utils->loadModules(
         $MODPREFIX,
@@ -66,6 +73,9 @@ has sqlite   => sub($self) {
 # private methods
 my $connect;
 $connect = sub($self) {
+    # reset online users on connect
+    $self->users({});
+
     $self->connect(sub($irc, $err) {
         if ($err) {
             Mojo::IOLoop->timer(10 => sub { $self->$connect });
@@ -75,24 +85,115 @@ $connect = sub($self) {
     });
 };
 
+my $logToFile = sub($self, $dir, $file, $msg) {
+    my $logf = Mojo::File->new($self->datadir, $dir, $file);
+    $logf->dirname->make_path;
+
+    # delete 'event' since that information is covered in 'command'
+    delete $msg->{event};
+
+    open my $fh, '>>', $logf
+        or Mojo::Exception->throw("ERROR: cannot open file '$logf': $!\n");
+    say $fh encode_json($msg);
+    close $fh;
+};
+
 my $log = sub($self, $msg) {
-    if ($msg->{command} =~ /^(RPL_)?TOPIC$/) {
-        shift @{$msg->{params}} if $1; # for RPL_TOPIC the first param is the own nick
+    my $time   = gmtime;
+    my $day    = $time->ymd;
+    $msg->{ts} = $time->epoch;
+    my $nick   = $self->utils->from($msg->{prefix});
 
-        my $chan = $msg->{params}->[0];
-        return if !is_valid_chan_name($chan) || !$self->chans->{$chan}->{log};
+    for ($msg->{command}) {
+        /^(RPL_)?TOPIC$/ && do {
+            shift @{$msg->{params}} if $1; # for RPL_TOPIC the first param is the own nick
 
-        my $logf = Mojo::File->new($self->datadir, $chan, '__currtopic');
-        $logf->dirname->make_path;
+            my $chan = $msg->{params}->[0];
 
-        $logf->spurt($msg->{params}->[1]);
+            return if !$self->chans->{$chan}->{log};
 
-        $chan = $stripChanPrefix->($chan);
+            my $logf = Mojo::File->new($self->datadir, $chan, '__currtopic');
+            $logf->dirname->make_path;
 
-        $self->sqlite->db->update('channel', { topic => $msg->{params}->[1] },
-            { channel => $chan });
+            $logf->spurt($msg->{params}->[1]);
 
-        return;
+            $chan = $stripChanPrefix->($chan);
+
+            $self->sqlite->db->update('channel', { topic => $msg->{params}->[1] },
+                { channel => $chan });
+
+            return;
+        };
+        /^RPL_NAMREPLY$/ && do {
+            my $chan = $msg->{params}->[2];
+
+            return if !$self->chans->{$chan}->{log};
+
+            # there can be multiple RPL_NAMREPLY messages;
+            # don't map but add users individually
+            $self->users->{$chan}->{$_} = undef
+                for map { $stripOpPrefix->($_) } split /\s+/, $msg->{params}->[3];
+
+            return;
+        };
+        /^NICK$/ && do {
+            my $nnick = $msg->{params}->[0];
+
+            for my $chan (keys %{$self->users}) {
+                next if !exists $self->users->{$chan}->{$nick};
+
+                delete $self->users->{$chan}->{$nick};
+                $self->users->{$chan}->{$nnick} = undef;
+
+                $self->$logToFile($chan, "$day.json", $msg);
+
+                $chan = $stripChanPrefix->($chan);
+
+                $self->sqlite->db->insert('log', {
+                    channel => $chan,
+                    nick    => $nick,
+                    message => $nnick,
+                    map { $_ => $msg->{$_} } qw(ts command)
+                });
+            }
+
+            return;
+        };
+        /^QUIT$/ && do {
+            for my $chan (keys %{$self->users}) {
+                next if !exists $self->users->{$chan}->{$nick};
+
+                delete $self->users->{$chan}->{$nick};
+
+                $self->$logToFile($chan, "$day.json", $msg);
+
+                $chan = $stripChanPrefix->($chan);
+
+                $self->sqlite->db->insert('log', {
+                    channel => $chan,
+                    nick    => $nick,
+                    map { $_ => $msg->{$_} } qw(ts command)
+                });
+            }
+
+            return;
+        };
+        /^JOIN$/ && do {
+            my $chan = $msg->{params}->[0];
+
+            return if !$self->chans->{$chan}->{log};
+
+            $self->users->{$chan}->{$nick} = undef;
+
+            last;
+        };
+        /^PART$/ && do {
+            my $chan = $msg->{params}->[0];
+
+            delete $self->users->{$chan}->{$nick};
+
+            last;
+        };
     }
 
     my $chan   = $msg->{params}->[0];
@@ -101,23 +202,9 @@ my $log = sub($self, $msg) {
     return if ($ischan && !$self->chans->{$chan}->{log})
         || (!$ischan && $msg->{command} ne 'PRIVMSG');
 
-    my $time   = gmtime;
-    my $day    = $time->ymd;
-    $msg->{ts} = $time->epoch;
-    my $nick   = $self->utils->from($msg->{prefix});
-
-    # delete 'event' since that information is covered in 'command'
-    delete $msg->{event};
-
     my $logdir = eq_irc($chan, $self->nick) ? $nick : $chan;
 
-    my $logf = Mojo::File->new($self->datadir, $logdir, "$day.json");
-    $logf->dirname->make_path;
-
-    open my $fh, '>>', $logf
-        or Mojo::Exception->throw("ERROR: cannot open file '$logf': $!\n");
-    say $fh encode_json($msg);
-    close $fh;
+    $self->$logToFile($logdir, "$day.json", $msg);
 
     # only log channel messages to SQLite
     return if !$ischan;
@@ -316,6 +403,10 @@ BEGIN
 END;
 
 INSERT INTO command(command) VALUES ('PRIVMSG'), ('JOIN'), ('PART');
+
+-- 2 up
+
+INSERT INTO command(command) VALUES ('QUIT'), ('NICK');
 
 __END__
 
