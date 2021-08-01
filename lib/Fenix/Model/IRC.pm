@@ -311,7 +311,7 @@ sub start($self) {
 
     # try to reconnect if the connection has been closed
     $self->on(close => sub($irc) {
-        warn "disconnected, trying to recnnect in 10 seconds\n";
+        warn "disconnected, trying to reconnect in 10 seconds\n";
         Mojo::IOLoop->timer(10 => sub { $self->$connect });
     });
 

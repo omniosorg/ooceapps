@@ -1,10 +1,6 @@
 package OOCEapps::Controller::Log;
 use Mojo::Base 'OOCEapps::Controller::base';
 
-use IRC::Utils qw(parse_user);
-use Mojo::File;
-use Mojo::JSON qw(decode_json);
-
 # private methods
 my $not_found_json = sub {
     return shift->render(json => [], status => 404);

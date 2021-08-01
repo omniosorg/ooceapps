@@ -1,7 +1,6 @@
 package OOCEapps::Model::Log;
 use Mojo::Base 'OOCEapps::Model::base';
 
-use Mojo::File;
 use Mojo::SQLite;
 use Time::Seconds qw(ONE_DAY);
 
