@@ -5,7 +5,6 @@ use Email::Address;
 use Email::Valid;
 use Mojo::Loader qw(find_modules load_class);
 use IRC::Utils qw(parse_user);
-use Time::Piece;
 
 # attributes
 has muteInt    => 120; # default mute interval

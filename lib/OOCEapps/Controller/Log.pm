@@ -6,9 +6,6 @@ my $not_found_json = sub {
     return shift->render(json => [], status => 404);
 };
 
-# attributes
-has emailvalid => sub { Email::Valid->new(-tldcheck => 1) };
-
 # public methods
 sub chanlog {
     my $c = shift;

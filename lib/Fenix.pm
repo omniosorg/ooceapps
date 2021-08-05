@@ -43,7 +43,7 @@ has schema  => sub($self) {
         },
         server  => {
             description => 'irc server:port',
-            example     => 'irc.freenode.net',
+            example     => 'irc.libera.chat',
             validator   => $sv->regexp(qr/^[\w.]+(?::\d+)$/, 'expected host[:port]'),
         },
         tls     => {
