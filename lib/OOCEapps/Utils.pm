@@ -2,7 +2,7 @@ package OOCEapps::Utils;
 use Mojo::Base -base;
 
 use Mojo::JSON qw(encode_json decode_json);
-use Mojo::Util qw(b64_encode b64_decode encode decode);
+use Mojo::Util qw(b64_encode b64_decode);
 use Crypt::Ed25519;
 use File::Spec qw(catdir splitpath);
 use Email::MIME;
@@ -11,7 +11,6 @@ use File::Temp;
 use File::Copy;
 use Time::Piece;
 use Time::Seconds;
-use Data::Dumper; # don't remove, not used for debugging only!
 
 my %DEF_MAILATTR = (
     mail => {
@@ -28,13 +27,6 @@ my %DEF_MAILATTR = (
 );
 
 # private methods
-my $dump = sub {
-    my $dumper = Data::Dumper->new([ shift ]);
-    $dumper->Sortkeys(1);
-
-    return $dumper->Dump;
-};
-
 my $fixMIMEheader = sub {
     my $mimeparts = shift;
     for my $mime (@$mimeparts) {
@@ -70,7 +62,7 @@ sub pack {
 
     # make sure we end up with a regular text string
     # to build the signature on and not something encoded
-    my $content = encode 'UTF-8', $dump->($data);
+    my $content = encode_json($data);
 
     $data->{__signature__} = b64_encode(Crypt::Ed25519::eddsa_sign(
         $content, Crypt::Ed25519::eddsa_public_key($sec_key), $sec_key), q{});
@@ -98,7 +90,7 @@ sub unpack {
 
     # first remove the signature then walk the remaining data
     # to get the basis to check the signature
-    my $content = encode 'UTF-8', $dump->($data);
+    my $content = encode_json($data);
 
     # finally remove the other bits that were added
     # in the pack routine above

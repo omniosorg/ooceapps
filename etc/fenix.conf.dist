@@ -1,6 +1,6 @@
 {
     "nick"      : "fenix",
-    "server"    : "irc.freenode.org:6667",
+    "server"    : "irc.libera.chat:6667",
     "tls"       : "on",
     "user"      : "<user>",
     "pass"      : "<password>",
@@ -9,12 +9,14 @@
         {
             "name"        : "#omnios",
             "log"         : "on",
+            "public"      : "on",
             "interactive" : "on",
             "generic"     : "on"
         },
         {
             "name"        : "#illumos",
             "log"         : "on",
+            "public"      : "on",
             "interactive" : "off"
         }
     ]
