@@ -58,10 +58,10 @@ DISTRIBUTIONS
       Carp 0
       ExtUtils::MakeMaker 0
       perl 5.006
-  Class-Data-Inheritable-0.08
-    pathname: T/TM/TMTM/Class-Data-Inheritable-0.08.tar.gz
+  Class-Data-Inheritable-0.09
+    pathname: R/RS/RSHERER/Class-Data-Inheritable-0.09.tar.gz
     provides:
-      Class::Data::Inheritable 0.08
+      Class::Data::Inheritable 0.09
     requirements:
       ExtUtils::MakeMaker 0
   Class-Inspector-1.36
@@ -127,14 +127,14 @@ DISTRIBUTIONS
     requirements:
       Canary::Stability 0
       ExtUtils::MakeMaker 6.52
-  DBD-SQLite-1.66
-    pathname: I/IS/ISHIGAKI/DBD-SQLite-1.66.tar.gz
+  DBD-SQLite-1.70
+    pathname: I/IS/ISHIGAKI/DBD-SQLite-1.70.tar.gz
     provides:
-      DBD::SQLite 1.66
+      DBD::SQLite 1.70
       DBD::SQLite::Constants undef
       DBD::SQLite::GetInfo undef
-      DBD::SQLite::VirtualTable 1.66
-      DBD::SQLite::VirtualTable::Cursor 1.66
+      DBD::SQLite::VirtualTable 1.70
+      DBD::SQLite::VirtualTable::Cursor 1.70
       DBD::SQLite::VirtualTable::FileContent undef
       DBD::SQLite::VirtualTable::FileContent::Cursor undef
       DBD::SQLite::VirtualTable::PerlData undef
@@ -1703,18 +1703,18 @@ DISTRIBUTIONS
       Mojolicious 7.54
       Parse::IRC 1.20
       Unicode::UTF8 0.59
-  Mojo-SQLite-3.006
-    pathname: D/DB/DBOOK/Mojo-SQLite-3.006.tar.gz
+  Mojo-SQLite-3.007
+    pathname: D/DB/DBOOK/Mojo-SQLite-3.007.tar.gz
     provides:
-      Mojo::SQLite 3.006
-      Mojo::SQLite::Database 3.006
-      Mojo::SQLite::Migrations 3.006
-      Mojo::SQLite::PubSub 3.006
-      Mojo::SQLite::Results 3.006
-      Mojo::SQLite::Transaction 3.006
+      Mojo::SQLite 3.007
+      Mojo::SQLite::Database 3.007
+      Mojo::SQLite::Migrations 3.007
+      Mojo::SQLite::PubSub 3.007
+      Mojo::SQLite::Results 3.007
+      Mojo::SQLite::Transaction 3.007
     requirements:
       Carp 0
-      DBD::SQLite 1.64
+      DBD::SQLite 1.68
       DBI 1.627
       File::Spec::Functions 0
       File::Temp 0
