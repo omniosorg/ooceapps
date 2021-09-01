@@ -27,12 +27,13 @@ sub subscribe {
 
     eval {
         die ['No Shopping without token'] if !$data->{token};
+        die ['Amount is not numeric'] if !$data->{amount} || $data->{amount} !~ /^\d+$/;
 
         my $cust = $c->model->createCustomer($data->{token});
         if ($data->{period} eq 'once'){
             $c->model->createCharge(
                 $cust->{id},
-                int ($data->{amount}),
+                $data->{amount},
                 $data->{currency},
             );
         }
