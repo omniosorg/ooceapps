@@ -1,9 +1,9 @@
 # carton snapshot format: version 1.0
 DISTRIBUTIONS
-  Acme-Cow-0.1
-    pathname: E/EL/ELIZABETH/Acme-Cow-0.1.tar.gz
+  Acme-Cow-0.2
+    pathname: H/HA/HADFL/Acme-Cow-0.2.tar.gz
     provides:
-      Acme::Cow 0.1
+      Acme::Cow 0.2
       Acme::Cow::DragonAndCow undef
       Acme::Cow::Example undef
       Acme::Cow::Frogs undef
@@ -120,10 +120,10 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
-  Crypt-Ed25519-1.04
-    pathname: M/ML/MLEHMANN/Crypt-Ed25519-1.04.tar.gz
+  Crypt-Ed25519-1.05
+    pathname: M/ML/MLEHMANN/Crypt-Ed25519-1.05.tar.gz
     provides:
-      Crypt::Ed25519 1.04
+      Crypt::Ed25519 1.05
     requirements:
       Canary::Stability 0
       ExtUtils::MakeMaker 6.52
@@ -1340,18 +1340,18 @@ DISTRIBUTIONS
       Exporter 5.57
       ExtUtils::MakeMaker 0
       perl 5.008
-  IO-Socket-SSL-2.071
-    pathname: S/SU/SULLR/IO-Socket-SSL-2.071.tar.gz
+  IO-Socket-SSL-2.072
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.072.tar.gz
     provides:
-      IO::Socket::SSL 2.071
+      IO::Socket::SSL 2.072
       IO::Socket::SSL::Intercept 2.056
-      IO::Socket::SSL::OCSP_Cache 2.071
-      IO::Socket::SSL::OCSP_Resolver 2.071
+      IO::Socket::SSL::OCSP_Cache 2.072
+      IO::Socket::SSL::OCSP_Resolver 2.072
       IO::Socket::SSL::PublicSuffix undef
-      IO::Socket::SSL::SSL_Context 2.071
-      IO::Socket::SSL::SSL_HANDLE 2.071
-      IO::Socket::SSL::Session_Cache 2.071
-      IO::Socket::SSL::Utils 2.014
+      IO::Socket::SSL::SSL_Context 2.072
+      IO::Socket::SSL::SSL_HANDLE 2.072
+      IO::Socket::SSL::Session_Cache 2.072
+      IO::Socket::SSL::Utils 2.015
     requirements:
       ExtUtils::MakeMaker 0
       Mozilla::CA 0
@@ -1726,8 +1726,8 @@ DISTRIBUTIONS
       URI::db 0.15
       URI::file 4.21
       perl 5.010001
-  Mojolicious-9.19
-    pathname: S/SR/SRI/Mojolicious-9.19.tar.gz
+  Mojolicious-9.21
+    pathname: S/SR/SRI/Mojolicious-9.21.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -1795,7 +1795,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.19
+      Mojolicious 9.21
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -2143,13 +2143,13 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       SQL::Abstract 2.0
       perl 5.016
-  Scalar-List-Utils-1.56
-    pathname: P/PE/PEVANS/Scalar-List-Utils-1.56.tar.gz
+  Scalar-List-Utils-1.59
+    pathname: P/PE/PEVANS/Scalar-List-Utils-1.59.tar.gz
     provides:
-      List::Util 1.56
-      List::Util::XS 1.56
-      Scalar::Util 1.56
-      Sub::Util 1.56
+      List::Util 1.59
+      List::Util::XS 1.59
+      Scalar::Util 1.59
+      Sub::Util 1.59
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006
@@ -2351,11 +2351,11 @@ DISTRIBUTIONS
       Try::Tiny 0.07
       strict 0
       warnings 0
-  Text-Template-1.59
-    pathname: M/MS/MSCHOUT/Text-Template-1.59.tar.gz
+  Text-Template-1.60
+    pathname: M/MS/MSCHOUT/Text-Template-1.60.tar.gz
     provides:
-      Text::Template 1.59
-      Text::Template::Preprocess 1.59
+      Text::Template 1.60
+      Text::Template::Preprocess 1.60
     requirements:
       Carp 0
       Encode 0
@@ -2652,32 +2652,32 @@ DISTRIBUTIONS
       XSLoader 0
       lib 0
       perl 5.008001
-  libwww-perl-6.55
-    pathname: O/OA/OALDERS/libwww-perl-6.55.tar.gz
+  libwww-perl-6.56
+    pathname: O/OA/OALDERS/libwww-perl-6.56.tar.gz
     provides:
-      LWP 6.55
-      LWP::Authen::Basic 6.55
-      LWP::Authen::Digest 6.55
-      LWP::Authen::Ntlm 6.55
-      LWP::ConnCache 6.55
-      LWP::Debug 6.55
-      LWP::Debug::TraceHTTP 6.55
-      LWP::DebugFile 6.55
-      LWP::MemberMixin 6.55
-      LWP::Protocol 6.55
-      LWP::Protocol::cpan 6.55
-      LWP::Protocol::data 6.55
-      LWP::Protocol::file 6.55
-      LWP::Protocol::ftp 6.55
-      LWP::Protocol::gopher 6.55
-      LWP::Protocol::http 6.55
-      LWP::Protocol::loopback 6.55
-      LWP::Protocol::mailto 6.55
-      LWP::Protocol::nntp 6.55
-      LWP::Protocol::nogo 6.55
-      LWP::RobotUA 6.55
-      LWP::Simple 6.55
-      LWP::UserAgent 6.55
+      LWP 6.56
+      LWP::Authen::Basic 6.56
+      LWP::Authen::Digest 6.56
+      LWP::Authen::Ntlm 6.56
+      LWP::ConnCache 6.56
+      LWP::Debug 6.56
+      LWP::Debug::TraceHTTP 6.56
+      LWP::DebugFile 6.56
+      LWP::MemberMixin 6.56
+      LWP::Protocol 6.56
+      LWP::Protocol::cpan 6.56
+      LWP::Protocol::data 6.56
+      LWP::Protocol::file 6.56
+      LWP::Protocol::ftp 6.56
+      LWP::Protocol::gopher 6.56
+      LWP::Protocol::http 6.56
+      LWP::Protocol::loopback 6.56
+      LWP::Protocol::mailto 6.56
+      LWP::Protocol::nntp 6.56
+      LWP::Protocol::nogo 6.56
+      LWP::RobotUA 6.56
+      LWP::Simple 6.56
+      LWP::UserAgent 6.56
       libwww::perl undef
     requirements:
       CPAN::Meta::Requirements 2.120620
