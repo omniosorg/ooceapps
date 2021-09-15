@@ -157,6 +157,9 @@ my $log = sub($self, $msg) {
                 });
             }
 
+            # update new nick in case its capitalisation changed
+            $self->sqlite->db->update('nick', { nick => $nnick }, { nick => $nnick });
+
             return;
         };
         /^QUIT$/ && do {
@@ -184,6 +187,9 @@ my $log = sub($self, $msg) {
             return if !$self->chans->{$chan}->{log};
 
             $self->users->{$chan}->{$nick} = undef;
+
+            # update nick in case its capitalisation changed
+            $self->sqlite->db->update('nick', { nick => $nick }, { nick => $nick });
 
             last;
         };
