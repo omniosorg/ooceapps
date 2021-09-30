@@ -20,7 +20,8 @@
             }
         },
         "pkgupd" : {
-            "default" : "core",
+            "default"   : "core",
+            "chunksize" : "10",
             "repos" : {
                 "core" : "https://raw.githubusercontent.com/omniosorg/omnios-build/master/doc/packages.md"
             }

@@ -33,6 +33,12 @@ has schema  => sub {
                     : "repo called '$repo' is not configured"
             },
         },
+        chunksize => {
+            description => 'chunk size',
+            example     => '20',
+            default     => 10,
+            validator   => $sv->regexp(qr/^\d+$/, 'expected a number'),
+        },
         token   => {
             optional    => 1,
             description => 'Mattermost token',
