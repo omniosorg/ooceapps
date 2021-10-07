@@ -1,6 +1,7 @@
 package OOCEapps::Controller::PkgUpd;
 use Mojo::Base 'OOCEapps::Controller::base';
 
+use Mojo::IOLoop::Subprocess;
 use Mojo::Promise;
 use Sort::Versions;
 
@@ -12,6 +13,8 @@ my $getPkgAvailVer = sub {
 
     #we can't handle ftp URLs
     my @pkgs = sort grep { $pkgList->{$_}->{url} !~ /^ftp/ } keys %$pkgList;
+    my @chunks;
+    push @chunks, [ splice @pkgs, 0, $self->config->{chunksize} ] while @pkgs;
 
     my @data;
     push @data, "### Available Package Updates for '$repo'";
@@ -20,49 +23,68 @@ my $getPkgAvailVer = sub {
 
     $self->ua->max_redirects(8)->connect_timeout(12)->request_timeout(16);
 
-    Mojo::Promise->all(
-        map { $self->ua->get_p($pkgList->{$_}->{url})->catch(sub { }) } @pkgs
-    )->then(
-        sub {
-            my @tx = @_;
+    Mojo::Promise->map(sub {
+        my $chunk = shift;
 
-            for (my $i = 0; $i <= $#pkgs; $i++) {
-                ($tx[$i]->[0] && $tx[$i]->[0]->result->is_success) || do {
-                    $pkgList->{$pkgs[$i]}->{availVer} = [];
-                    $pkgList->{$pkgs[$i]}->{timeout}  = 1;
+        Mojo::IOLoop::Subprocess->new->run_p(sub {
+            my $pl = {};
+
+            Mojo::Promise->map(sub {
+                $self->ua->get_p($pkgList->{$_}->{url})->catch(sub { })
+            }, @$chunk
+            )->then(sub {
+                my @tx = @_;
+
+                for (my $i = 0; $i <= $#$chunk; $i++) {
+                    ($tx[$i]->[0] && $tx[$i]->[0]->result->is_success) || do {
+                        $pl->{$chunk->[$i]}->{availVer} = [];
+                        $pl->{$chunk->[$i]}->{timeout}  = 1;
+                        next;
+                    };
+
+                    $pl->{$chunk->[$i]}->{availVer} = $self->config->{parser}
+                        ->{exists $self->config->{parser}->{$chunk->[$i]} ? $chunk->[$i] : 'DEFAULT'}
+                        ->getVersions($chunk->[$i], $tx[$i]->[0]->result);
+                }
+            })->wait;
+
+            return $pl;
+        });
+    }, @chunks
+    )->then(sub {
+        my @pls = @_;
+
+        for my $pl (@pls) {
+            for my $pkg (sort keys %{$pl->[0]}) {
+                my $url = $pkgList->{$pkg}->{xurl} ? "[$pkg]($pkgList->{$pkg}->{xurl}) ([data]($pkgList->{$pkg}->{url}))"
+                        :                            "[$pkg]($pkgList->{$pkg}->{url})";
+
+                @{$pl->[0]->{$pkg}->{availVer}} || do {
+                    push @data, [
+                        $url,
+                        "$pkgList->{$pkg}->{version} -> "
+                            . ($pl->[0]->{$pkg}->{timeout} ? 'timeout :face_with_head_bandage:'
+                            :                                'cannot parse versions :panic:'),
+                        $pkgList->{$pkg}->{notes}
+                    ];
+
                     next;
                 };
 
-                $pkgList->{$pkgs[$i]}->{availVer} = $self->config->{parser}
-                    ->{exists $self->config->{parser}->{$pkgs[$i]} ? $pkgs[$i] : 'DEFAULT'}
-                    ->getVersions($pkgs[$i], $tx[$i]->[0]->result);
-            }
-            for my $pkg (@pkgs) {
-                my $url = $pkgList->{$pkg}->{xurl}
-                    ? "[$pkg]($pkgList->{$pkg}->{xurl})"
-                      . " ([data]($pkgList->{$pkg}->{url}))"
-                    : "[$pkg]($pkgList->{$pkg}->{url})";
+                my $latest = (sort { versioncmp($a, $b) } @{$pl->[0]->{$pkg}->{availVer}})[-1];
 
-                @{$pkgList->{$pkg}->{availVer}} || do {
-                    push @data, [ $url, "$pkgList->{$pkg}->{version} -> "
-                        . ($pkgList->{$pkg}->{timeout}
-                           ? 'timeout :face_with_head_bandage:'
-                           : 'cannot parse versions :panic:'),
-                        $pkgList->{$pkg}->{notes} ];
-                    next;
-                };
-                my $latest = (sort { versioncmp($a, $b) } @{$pkgList->{$pkg}->{availVer}})[-1];
-                push @data, [ $url,
+                push @data, [
+                    $url,
                     "$pkgList->{$pkg}->{version} -> $latest",
-                    $pkgList->{$pkg}->{notes} ]
-                    if versioncmp($pkgList->{$pkg}->{version}, $latest); 
+                    $pkgList->{$pkg}->{notes}
+                ] if versioncmp($pkgList->{$pkg}->{version}, $latest);
             }
-
-            # add a dummy entry if the table would be empty; so markdown does not break
-            push @data, [ ' ', ' ', ' ' ] if @data <= 3;
-            $self->render(json => OOCEapps::Mattermost->table(\@data));
         }
-    )->wait;
+
+        # add a dummy entry if the table would be empty; so markdown does not break
+        push @data, [ ' ', ' ', ' ' ] if @data <= 3;
+        $self->render(json => OOCEapps::Mattermost->table(\@data));
+    })->wait;
 };
 
 sub process {
@@ -91,7 +113,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
