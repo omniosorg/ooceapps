@@ -307,7 +307,7 @@ sub start($self) {
         $self->$process($chan, $from, $text, $mention);
 
         # register the user to the mutemap (will be used by generic handlers)
-        $self->utils->muted(\$self->mutemap->{user}, $from);
+        $self->utils->muted(\$self->mutemap->{user}, $from) if $mention;
     });
 
     # error handling
