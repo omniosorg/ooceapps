@@ -14,6 +14,7 @@ my %TRANSFORM = (
     'clang'             => 'llvmorg',
     'compiler-rt'       => 'llvmorg',
     'llvm'              => 'llvmorg',
+    'libcxx'            => 'llvmorg',
 );
 
 # public methods
@@ -38,7 +39,7 @@ sub getVersions {
     ($name, my $ver) = $self->extractNameMajVer($name);
     $name = $TRANSFORM{$name} if exists $TRANSFORM{$name};
 
-    $ver *= 10.0 if $name eq 'llvmorg';
+    $ver *= 10.0 if $name eq 'llvmorg' && $ver =~ /^\d+\.\d+$/;
 
     my @versions = $res->dom->find('a')->each;
     s/_/./g for @versions;
