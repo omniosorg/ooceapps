@@ -23,7 +23,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ /github\.com/;
+    return $url =~ /github\.com/ && $name !~ m|^runtime/java/openjdk|;
 }
 
 sub getVersions {
