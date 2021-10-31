@@ -16,10 +16,10 @@ sub getVersions {
     my $res  = shift;
 
     my ($mVer) = $name =~ /(\d+)$/;
-    $mVer = join '.', split //, $mVer;
+    $mVer = join '.', split //, $mVer, 2;
     $name = $self->extractName($name);
     return [
-        map { /Python\s+($mVer[\d.]+)\W/ }
+        map { /Python\s+(\Q$mVer\E[\d.]+)\W/ }
             $res->dom->find('a')->each
     ];
 }

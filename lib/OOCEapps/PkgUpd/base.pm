@@ -1,6 +1,18 @@
 package OOCEapps::PkgUpd::base;
 use Mojo::Base -base;
 
+my %TRANSFORM = (
+    apache           => 'httpd',
+    'bdw-gc'         => 'gc',
+    fcgid            => 'mod_fcgid',
+    'libdbus-glib'   => 'dbus-glib',
+    pass             => 'password-store',
+    'pipe-viewer'    => 'pv',
+    'urxvt-terminfo' => 'rxvt-unicode',
+    'x11-protocols'  => 'xorgproto',
+    'xcb-protocols'  => 'xcb-proto',
+);
+
 # public methods
 sub canParse {
     my $self = shift;
@@ -38,6 +50,7 @@ sub getVersions {
 
     my $ver;
     ($name, $ver) = $self->extractNameMajVer($name);
+    $name = $TRANSFORM{$name} if exists $TRANSFORM{$name};
 
     return [
         grep { /^$ver/ }
