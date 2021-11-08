@@ -20,7 +20,8 @@
             }
         },
         "pkgupd" : {
-            "default" : "core",
+            "default"   : "core",
+            "chunksize" : "10",
             "repos" : {
                 "core" : "https://raw.githubusercontent.com/omniosorg/omnios-build/master/doc/packages.md"
             }
@@ -33,6 +34,13 @@
             "subCurrencies"  : [ "chf", "usd", "gbp", "eur" ],
             "subIntervals"   : [ "week", "month", "year" ],
             "subDescription" : "OmniOSce Patron"
+        },
+        "man"    : {
+            "mandir" : "/webpage/man"
+        },
+        "log"    : {
+            "logdir"   : "/var/opt/ooce/ooceapps/fenix",
+            "channels" : [ "#omnios", "#illumos" ]
         },
         "pss"    : {
             "timeout" : "60"

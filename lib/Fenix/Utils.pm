@@ -1,12 +1,14 @@
 package Fenix::Utils;
 use Mojo::Base -base, -signatures;
 
+use Email::Address;
+use Email::Valid;
 use Mojo::Loader qw(find_modules load_class);
 use IRC::Utils qw(parse_user);
-use Time::Piece;
 
 # attributes
-has muteInt => 120; # default mute interval
+has muteInt    => 120; # default mute interval
+has emailvalid => sub { Email::Valid->new(-tldcheck => 1) };
 
 # public methods
 sub loadModules($self, $modprefix, %args) {
@@ -31,6 +33,20 @@ sub muted($self, $parentRef, $key) {
     Mojo::IOLoop->timer($self->muteInt => sub { delete $$parentRef->{$key} });
 
     return 0;
+}
+
+sub spoofEmail($self, $msg) {
+    for my $addr (Email::Address->parse($msg)) {
+        my $oaddr = $addr->address;
+
+        next if !$self->emailvalid->address($oaddr);
+
+        my $naddr = $addr->user . '⊙' . join '', map { /^(.)/ } split /\./, $addr->host;
+
+        $msg =~ s/\Q$oaddr\E/$naddr/g;
+    }
+
+    return $msg;
 }
 
 1;

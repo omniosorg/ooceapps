@@ -65,6 +65,7 @@ has schema => sub { { MODULES => { members => {} } } };
 # public methods
 sub startup {
     my $app = shift;
+
     # load models and register
     $app->model->{$_}->register for keys %{$app->model};
 

@@ -16,7 +16,13 @@ my $CONFFILE = $ENV{FENIX_CONF} || Mojo::Home->new->rel_file('../etc/fenix.conf'
 my $DATADIR  = Mojo::Home->new->rel_file('../var')->to_string; # DATADIR
 
 # attributes
-has datadir => $DATADIR . '/' . lc __PACKAGE__;
+has datadir => sub {
+    my $dir = Mojo::File->new($DATADIR, lc __PACKAGE__);
+    # create module datadir if it does not exist
+    -d $dir || $dir->make_path({ mode => 0700 });
+
+    return $dir;
+};
 has sv      => sub { OOCEapps::Utils->new };
 has utils   => sub($self) { Fenix::Utils->new(muteInt => $self->config->{mute}) };
 has schema  => sub($self) {
@@ -33,7 +39,7 @@ has schema  => sub($self) {
             optional    => 1,
             description => 'user',
             example     => 'fenix',
-            validator   => $sv->regexp(qr/^\w+$/, 'expected a string'),
+            validator   => $sv->regexp(qr/^.+$/, 'expected a string'),
         },
         pass    => {
             optional    => 1,
@@ -43,8 +49,8 @@ has schema  => sub($self) {
         },
         server  => {
             description => 'irc server:port',
-            example     => 'irc.freenode.net',
-            validator   => $sv->regexp(qr/^[\w.]+(?::\d+)$/, 'expected host[:port]'),
+            example     => 'irc.libera.chat',
+            validator   => $sv->regexp(qr/^[-\w.]+(?::\d+)?$/, 'expected host[:port]'),
         },
         tls     => {
             description => 'use tls',
@@ -71,6 +77,12 @@ has schema  => sub($self) {
                     optional    => 1,
                     description => 'channel logging',
                     default     => 'on',
+                    validator   => $sv->elemOf(qw(on off)),
+                },
+                public      => {
+                    optional    => 1,
+                    description => 'make channel log public',
+                    default     => 'off',
                     validator   => $sv->elemOf(qw(on off)),
                 },
                 interactive => {

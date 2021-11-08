@@ -40,10 +40,18 @@ sub process {
 
             if (-r $f) {
                 $html->parse($f->slurp);
+                my $sum;
+                if (my $res = $html->at('div.manual-text > section.Sh > div.Nd')) {
+                    $sum = $html->at('div.manual-text > section.Sh')->find('code.Nm')
+                        ->map('text')->join(', ') . ' - ' . $res->text;
+                }
+                else {
+                    $sum = $html->at('div.manual-text > section.Sh')->text;
+                }
                 push @$alt, {
                     sect => $s,
                     vol  => $html->at('table.head > tr > td.head-vol')->text,
-                    sum  => $html->at('div.manual-text > section.Sh')->text,
+                    sum  => $sum,
                 };
 
                 next;

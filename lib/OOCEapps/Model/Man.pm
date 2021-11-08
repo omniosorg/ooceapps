@@ -75,7 +75,6 @@ S<Dominik Hassler E<lt>hadfl@omnios.orgE<gt>>
 
 =head1 HISTORY
 
-2019-01-11 had Migration to GeoIP2
 2017-09-06 had Initial Version
 
 =cut

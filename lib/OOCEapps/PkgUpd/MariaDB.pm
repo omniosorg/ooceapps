@@ -20,7 +20,7 @@ sub getVersions {
     $ver *= 10.0;
 
     return [
-        map { m!$name/($ver\.\d+)! }
+        map { /rel=($ver\.\d+)/ }
             $res->dom->find('a')->each
     ];
 }

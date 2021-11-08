@@ -22,7 +22,6 @@ has datadir    => sub {
     return $dir;
 };
 
-
 has utils => sub { OOCEapps::Utils->new };
 
 has schema  => sub { {} };

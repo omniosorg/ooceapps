@@ -15,7 +15,14 @@ has baseurl  => sub { Mojo::Exception->throw("ERROR: baseurl is a virtual attrib
 has priority => sub { Mojo::Exception->throw("ERROR: priority is a virtual attribute. Needs to be defined in derived class.\n") };
 has utils    => sub { Fenix::Utils->new };
 has mutemap  => sub { {} };
-has ua       => sub { Mojo::UserAgent->new };
+has ua       => sub {
+    my $ua = Mojo::UserAgent->new;
+
+    $ua->max_redirects(8);
+    $ua->transactor->name('fenix (OmniOS)');
+
+    return $ua;
+};
 
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler

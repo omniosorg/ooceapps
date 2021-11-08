@@ -27,12 +27,13 @@ sub subscribe {
 
     eval {
         die ['No Shopping without token'] if !$data->{token};
+        die ['Amount is not numeric'] if !$data->{amount} || $data->{amount} !~ /^\d+$/;
 
         my $cust = $c->model->createCustomer($data->{token});
         if ($data->{period} eq 'once'){
             $c->model->createCharge(
                 $cust->{id},
-                int ($data->{amount}),
+                $data->{amount},
                 $data->{currency},
             );
         }
@@ -68,32 +69,29 @@ sub webhook {
 
         my $data = $c->data;
         $c->log->debug('handle '.$data->{type});
-        if (my $cust_id = ( $c->data->{data}{object}{customer}
-            || $c->data->{data}{object}{source}{customer})){
+        my $cust_id = $c->data->{data}{object}{customer}
+            || $c->data->{data}{object}{source}{customer}
+                or die ['Webhook Unhandled:'.$c->app->dumper($data)];
 
-            $data->{data}{customer}      = $c->model->getCustomer($cust_id);
-            $data->{data}{subscriptions} = $c->model->getSubscriptions($cust_id);
+        $data->{data}{customer}      = $c->model->getCustomer($cust_id);
+        $data->{data}{subscriptions} = $c->model->getSubscriptions($cust_id);
 
-            my $subKey         = $c->model->getSubKey($data->{data}{subscriptions}{data}[0]{id});
-            $data->{cancelUrl} = $c->model->config->{cancelUrl}.'/'.$subKey if $subKey;
+        my $subKey         = $c->model->getSubKey($data->{data}{subscriptions}{data}[0]{id});
+        $data->{cancelUrl} = $c->model->config->{cancelUrl}.'/'.$subKey if $subKey;
 
-            $c->stash(stripeData => $data);
-            my ($mail, $subj) = map {
-                $c->render_to_string(
-                    template => "patron/mail/$_",
-                    format   => 'txt')
-            } ($data->{type}, "$data->{type}.subject");
+        $c->stash(stripeData => $data);
+        my ($mail, $subj) = map {
+            $c->render_to_string(
+                template => "patron/mail/$_",
+                format   => 'txt')
+        } ($data->{type}, "$data->{type}.subject");
 
-            OOCEapps::Utils::sendMail(
-                { to => $data->{data}{customer}{email}, bcc => $c->config->{emailBcc} },
-                $c->config->{emailFrom},
-                encode('UTF-8', $subj),
-                { body => encode('UTF-8', $mail) }
-            ) if $mail && $subj;
-        }
-        else {
-            $c->log->debug('Webhook Unhandled:'.$c->app->dumper($data));
-        }
+        OOCEapps::Utils::sendMail(
+            { to => $data->{data}{customer}{email}, bcc => $c->config->{emailBcc} },
+            $c->config->{emailFrom},
+            encode('UTF-8', $subj),
+            { body => encode('UTF-8', $mail) }
+        ) if $mail && $subj;
     };
     if ($@){
         if (ref $@ eq 'ARRAY'){
