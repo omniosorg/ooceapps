@@ -54,7 +54,7 @@ sub getVersions {
 
     return [
         grep { /^$ver/ }
-        grep { !/alpha|beta|(?:rc|a|b)\w*\d+$/ }
+        grep { !/alpha|beta|(?:rc|a|b)\w*\d+$|bits?$/ }
         map { m!(?:\b|/|lib)$name-((?:\d{8}-)?(?:\d{1,7}\.){1,3}[^-.]+|\d+)(?:-source)?
             \.(?:tar\.(?:gz|xz|bz2|lz)|zip|tgz)!ix
         } $res->dom->find('a')->each

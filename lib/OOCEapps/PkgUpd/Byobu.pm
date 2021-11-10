@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::SG3Utils;
+package OOCEapps::PkgUpd::Byobu;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /sg3_utils$/;
+    return $name =~ m!/byobu$!;
 }
 
 sub getVersions {
@@ -15,9 +15,9 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
+    $name = $self->extractName($name);
     return [
-        grep { !/mgw|exe|r\d+$/ }
-        @{$self->SUPER::getVersions($name, $res)}
+        map { /${name}_([\d.]+)\.orig/ } $res->dom->find('a')->each
     ];
 }
 
@@ -27,7 +27,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
@@ -48,7 +48,7 @@ S<Dominik Hassler E<lt>hadfl@omnios.orgE<gt>>
 
 =head1 HISTORY
 
-2017-09-06 had Initial Version
+2018-05-29 had Initial Version
 
 =cut
 
