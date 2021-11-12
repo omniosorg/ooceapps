@@ -16,7 +16,7 @@ sub getVersions {
     my $res  = shift;
 
     return [
-        grep { !/mgw|exe|r\d+$/ }
+        grep { !/cyg|exe|r\d+$/ }
         @{$self->SUPER::getVersions($name, $res)}
     ];
 }
