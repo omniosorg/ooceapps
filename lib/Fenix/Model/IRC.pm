@@ -6,8 +6,10 @@ use Time::Piece;
 use Mojo::Exception;
 use Mojo::File;
 use Mojo::JSON qw(encode_json);
+use Mojo::Promise;
 use Mojo::SQLite;
 use IRC::Utils qw(eq_irc is_valid_chan_name is_valid_nick_name);
+use Scalar::Util qw(blessed);
 
 use Fenix::Utils;
 
@@ -228,20 +230,28 @@ my $log = sub($self, $msg) {
     });
 };
 
-my $process = sub($self, $chan, $from, $text, $mentioned = 0) {
+my $process_p = sub($self, $chan, $from, $text, $mentioned = 0) {
+    my $p = Mojo::Promise->new;
+
     for my $hd (@{$self->handlers}) {
         next if !eq_irc($chan, $from) && $self->handler->{$hd}->generic
             && !$self->chans->{$chan}->{generic};
 
-        my $reply = $self->handler->{$hd}->process($chan, $from, $text, $mentioned);
+        my $_p = $self->handler->{$hd}->process_p($chan, $from, $text, $mentioned);
 
-        next if !@$reply;
+        next if !blessed $_p;
 
-        $self->sendMsg($self->handler->{$hd}->dm ? $from : $chan, $_)
-            for @$reply;
+        $_p->then(sub($reply) {
+            $self->sendMsg($self->handler->{$hd}->dm ? $from : $chan, $_)
+                for @$reply;
 
-        last;
+            $p->resolve(1);
+        });
+
+        return $p;
     }
+
+    return $p->resolve(0);
 };
 
 # constructor
@@ -295,7 +305,7 @@ sub start($self) {
         return if !is_valid_nick_name($from);
 
         # handle DMs
-        return $self->$process($from, $from, $text, 1) if eq_irc($nick, $chan);
+        return $self->$process_p($from, $from, $text, 1) if eq_irc($nick, $chan);
 
         return if !$self->chans->{$chan}->{interactive};
 
@@ -304,10 +314,10 @@ sub start($self) {
         my $nickRE  = eq_irc($nick, $cfgNick) ? qr/$nick/i : qr/$nick|$cfgNick/i;
         my $mention = $text =~ /(?:^|[^a-z\d_\-\[\]\\^{}|`])$nickRE(?:[^a-z\d_\-\[\]\\^{}|`]|$)/i;
 
-        $self->$process($chan, $from, $text, $mention);
-
-        # register the user to the mutemap (will be used by generic handlers)
-        $self->utils->muted(\$self->mutemap->{user}, $from) if $mention;
+        $self->$process_p($chan, $from, $text, $mention)->then(sub($handled) {
+            # register the user to the mutemap (will be used by generic handlers)
+            $self->utils->muted(\$self->mutemap->{user}, $from) if $mention && $handled;
+        });
     });
 
     # error handling

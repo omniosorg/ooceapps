@@ -1,14 +1,16 @@
 package Fenix::Model::Handler::Help;
 use Mojo::Base 'Fenix::Model::Handler::base', -signatures;
 
+use Mojo::Promise;
+
 has priority => 100;
 has generic  => 0;
 has dm       => 1;
 
-sub process($self, $chan, $from, $msg, $mentioned = 0) {
-    return [] if !$mentioned || $msg !~ /\bhelp\b/i;
+sub process_p($self, $chan, $from, $msg, $mentioned = 0) {
+    return undef if !$mentioned || $msg !~ /\bhelp\b/i;
 
-    return [ split /\n/, <<"END" ];
+    return Mojo::Promise->resolve([ split /\n/, <<"END" ]);
 Hi $from, I am glad you asked!
 To get my attention, just mention my name in a message to the channel.
 I can look up Redmine issues with 'illumos <issue>', 'issue <issue>' or '#<issue>'
