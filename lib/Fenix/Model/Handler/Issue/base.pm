@@ -2,6 +2,7 @@ package Fenix::Model::Handler::Issue::base;
 use Mojo::Base -base, -signatures;
 
 use Mojo::Exception;
+use Mojo::Promise;
 use Mojo::UserAgent;
 use Mojo::URL;
 
@@ -39,26 +40,34 @@ sub processIssue($self, $issue, $res) {
     return {};
 }
 
-sub process($self, $issue, $opts = {}) {
+sub process_p($self, $issue, $opts = {}) {
     my $url = $self->issueURL($issue);
-    my $res = $self->ua->get($url)->result;
 
-    return [ "issue '$issue' is not public." ] if $res->code == 403;
-    return [ "issue '$issue' not found..." ] if !$res->is_success;
+    my $p = Mojo::Promise->new;
 
-    my $data = $self->processIssue($issue, $res);
-    return [ $data ] if !ref $data; # error string returned by the handler
-    return [] if !%$data;
+    $self->ua->get_p($url)->then(sub($get) {
+        my $res = $get->res;
 
-    return [
-        "$data->{id}: $data->{subject} ($data->{status})",
-        '↳ ' . join (' | ', @{$data->{url}}),
-    ] if !$opts->{url};
+        return $p->resolve([ "issue '$issue' is not public." ]) if $res->code == 403;
 
-    return [
-        "→ $data->{id}: $data->{subject} ($data->{status})"
-            . (@{$data->{url}} > 1 ? " | $data->{url}->[1]" : ''),
-    ];
+        my $data = $self->processIssue($issue, $res);
+        return $p->resolve([ $data ]) if !ref $data; # error string returned by the handler
+        return $p->resolve([]) if !%$data;
+
+        return $p->resolve([
+            "$data->{id}: $data->{subject} ($data->{status})",
+            '↳ ' . join (' | ', @{$data->{url}}),
+        ]) if !$opts->{url};
+
+        return $p->resolve([
+            "→ $data->{id}: $data->{subject} ($data->{status})"
+                . (@{$data->{url}} > 1 ? " | $data->{url}->[1]" : ''),
+        ]);
+    })->catch(sub(@) {
+        return $p->resolve([ "issue '$issue' not found..." ]);
+    });
+
+    return $p;
 }
 
 1;

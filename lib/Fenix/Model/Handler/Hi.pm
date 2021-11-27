@@ -1,6 +1,7 @@
 package Fenix::Model::Handler::Hi;
 use Mojo::Base 'Fenix::Model::Handler::base', -signatures;
 
+use Mojo::Promise;
 use Time::Piece;
 
 # default handler, lowest priority.
@@ -8,11 +9,13 @@ use Time::Piece;
 # are at least polite and say 'Hi'.
 has priority => 9999;
 
-sub process($self, $chan, $from, $msg, $mentioned = 0) {
-    return [] if !$mentioned || $self->utils->muted(\$self->mutemap->{user}, $from);
+sub process_p($self, $chan, $from, $msg, $mentioned = 0) {
+    return undef if !$mentioned || $self->utils->muted(\$self->mutemap->{user}, $from);
 
     # little friday is special
-    return [ gmtime->day_of_week == 4 ? "Happy little Friday $from!" : "Hi $from" ];
+    return Mojo::Promise->resolve([
+        gmtime->day_of_week == 4 ? "Happy little Friday $from!" : "Hi $from"
+    ]);
 }
 
 1;

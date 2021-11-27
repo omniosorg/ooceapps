@@ -1,6 +1,8 @@
 package Fenix::Model::Handler::Issue;
 use Mojo::Base 'Fenix::Model::Handler::base', -signatures;
 
+use Mojo::Promise;
+
 # constants
 my $MODPREFIX = __PACKAGE__;
 
@@ -27,20 +29,20 @@ has handlers => sub($self) {
 };
 
 
-sub process($self, $chan, $from, $msg, $mentioned = 0) {
+sub process_p($self, $chan, $from, $msg, $mentioned = 0) {
     for my $hd (@{$self->handlers}) {
         my ($issue, $opts) = $self->handler->{$hd}->issue($msg);
 
-        if ($issue) {
-            $opts //= {};
-            return [] if (!$opts->{url} && !$mentioned)
-                || $self->utils->muted(\$self->mutemap->{issue}->{$chan}, $issue);
+        next if !$issue;
 
-            return $self->handler->{$hd}->process($issue, $opts);
-        }
+        $opts //= {};
+        return Mojo::Promise->resolve([]) if !$opts->{url} && !$mentioned
+            || $self->utils->muted(\$self->mutemap->{issue}->{$chan}, $issue);
+
+        return $self->handler->{$hd}->process_p($issue, $opts);
     }
 
-    return [];
+    return undef;
 }
 
 1;
