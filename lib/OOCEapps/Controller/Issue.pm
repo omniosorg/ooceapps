@@ -1,6 +1,8 @@
 package OOCEapps::Controller::Issue;
 use Mojo::Base 'OOCEapps::Controller::base';
 
+use Scalar::Util qw(blessed);
+
 use OOCEapps::Mattermost;
 
 sub process {
@@ -12,9 +14,20 @@ sub process {
     #default to illumos if just a number is provided
     $p = "illumos $p" if $p =~ /^\d+$/;
 
-    my $issue = $c->model->issue->process(qw(ooceapps ooceapps), $p, 1);
-    $c->render(json => OOCEapps::Mattermost->text(@$issue ? join ("\n", @$issue)
-        : "no issue found using search string '$p'"));
+
+    my $_p = $c->model->issue->process_p(qw(ooceapps ooceapps), $p, 1);
+
+    return $c->render(json => OOCEapps::Mattermost->text("no issue found using search string '$p'"))
+        if !blessed $_p;
+
+    $c->render_later;
+
+    $_p->then(sub {
+        my $issue = shift;
+
+        $c->render(json => OOCEapps::Mattermost->text(@$issue ? join ("\n", @$issue)
+            : "no issue found using search string '$p'"));
+    });
 }
 
 1;
