@@ -39,14 +39,11 @@ sub getVersions {
     for (@vers) {
         my ($upd) = /jdk-$ver\.0\.(\d+)-ga/ or next;
 
-        my $gaver;
         for (@vers) {
             my ($vers) = /jdk-($ver\.0\.$upd\+\d+)/ or next;
 
-            $gaver = $vers if !$gaver || $vers > $gaver;
+            push @gavers, $vers;
         }
-
-        push @gavers, $gaver if $gaver;
     }
 
     return \@gavers;
