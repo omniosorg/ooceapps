@@ -347,19 +347,19 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  DateTime-1.54
-    pathname: D/DR/DROLSKY/DateTime-1.54.tar.gz
+  DateTime-1.55
+    pathname: D/DR/DROLSKY/DateTime-1.55.tar.gz
     provides:
-      DateTime 1.54
-      DateTime::Duration 1.54
-      DateTime::Helpers 1.54
-      DateTime::Infinite 1.54
-      DateTime::Infinite::Future 1.54
-      DateTime::Infinite::Past 1.54
-      DateTime::LeapSecond 1.54
-      DateTime::PP 1.54
-      DateTime::PPExtra 1.54
-      DateTime::Types 1.54
+      DateTime 1.55
+      DateTime::Duration 1.55
+      DateTime::Helpers 1.55
+      DateTime::Infinite 1.55
+      DateTime::Infinite::Future 1.55
+      DateTime::Infinite::Past 1.55
+      DateTime::LeapSecond 1.55
+      DateTime::PP 1.55
+      DateTime::PPExtra 1.55
+      DateTime::Types 1.55
     requirements:
       Carp 0
       DateTime::Locale 1.06
@@ -876,15 +876,15 @@ DISTRIBUTIONS
       Time::Local 0
       strict 0
       warnings 0
-  Email-MIME-1.949
-    pathname: R/RJ/RJBS/Email-MIME-1.949.tar.gz
+  Email-MIME-1.952
+    pathname: R/RJ/RJBS/Email-MIME-1.952.tar.gz
     provides:
-      Email::MIME 1.949
-      Email::MIME::Creator 1.949
-      Email::MIME::Encode 1.949
-      Email::MIME::Header 1.949
-      Email::MIME::Header::AddressList 1.949
-      Email::MIME::Modifier 1.949
+      Email::MIME 1.952
+      Email::MIME::Creator 1.952
+      Email::MIME::Encode 1.952
+      Email::MIME::Header 1.952
+      Email::MIME::Header::AddressList 1.952
+      Email::MIME::Modifier 1.952
     requirements:
       Carp 0
       Email::Address::XS 0
@@ -895,7 +895,7 @@ DISTRIBUTIONS
       Email::Simple::Creator 0
       Email::Simple::Header 0
       Encode 1.9801
-      ExtUtils::MakeMaker 0
+      ExtUtils::MakeMaker 6.78
       MIME::Base64 0
       MIME::Types 1.13
       Module::Runtime 0
@@ -1331,17 +1331,17 @@ DISTRIBUTIONS
       Exporter 5.57
       ExtUtils::MakeMaker 0
       perl 5.008
-  IO-Socket-SSL-2.072
-    pathname: S/SU/SULLR/IO-Socket-SSL-2.072.tar.gz
+  IO-Socket-SSL-2.073
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.073.tar.gz
     provides:
-      IO::Socket::SSL 2.072
+      IO::Socket::SSL 2.073
       IO::Socket::SSL::Intercept 2.056
-      IO::Socket::SSL::OCSP_Cache 2.072
-      IO::Socket::SSL::OCSP_Resolver 2.072
+      IO::Socket::SSL::OCSP_Cache 2.073
+      IO::Socket::SSL::OCSP_Resolver 2.073
       IO::Socket::SSL::PublicSuffix undef
-      IO::Socket::SSL::SSL_Context 2.072
-      IO::Socket::SSL::SSL_HANDLE 2.072
-      IO::Socket::SSL::Session_Cache 2.072
+      IO::Socket::SSL::SSL_Context 2.073
+      IO::Socket::SSL::SSL_HANDLE 2.073
+      IO::Socket::SSL::Session_Cache 2.073
       IO::Socket::SSL::Utils 2.015
     requirements:
       ExtUtils::MakeMaker 0
@@ -1694,15 +1694,15 @@ DISTRIBUTIONS
       Mojolicious 7.54
       Parse::IRC 1.20
       Unicode::UTF8 0.59
-  Mojo-SQLite-3.007
-    pathname: D/DB/DBOOK/Mojo-SQLite-3.007.tar.gz
+  Mojo-SQLite-3.008
+    pathname: D/DB/DBOOK/Mojo-SQLite-3.008.tar.gz
     provides:
-      Mojo::SQLite 3.007
-      Mojo::SQLite::Database 3.007
-      Mojo::SQLite::Migrations 3.007
-      Mojo::SQLite::PubSub 3.007
-      Mojo::SQLite::Results 3.007
-      Mojo::SQLite::Transaction 3.007
+      Mojo::SQLite 3.008
+      Mojo::SQLite::Database 3.008
+      Mojo::SQLite::Migrations 3.008
+      Mojo::SQLite::PubSub 3.008
+      Mojo::SQLite::Results 3.008
+      Mojo::SQLite::Transaction 3.008
     requirements:
       Carp 0
       DBD::SQLite 1.68
@@ -2642,32 +2642,32 @@ DISTRIBUTIONS
       XSLoader 0
       lib 0
       perl 5.008001
-  libwww-perl-6.58
-    pathname: O/OA/OALDERS/libwww-perl-6.58.tar.gz
+  libwww-perl-6.60
+    pathname: O/OA/OALDERS/libwww-perl-6.60.tar.gz
     provides:
-      LWP 6.58
-      LWP::Authen::Basic 6.58
-      LWP::Authen::Digest 6.58
-      LWP::Authen::Ntlm 6.58
-      LWP::ConnCache 6.58
-      LWP::Debug 6.58
-      LWP::Debug::TraceHTTP 6.58
-      LWP::DebugFile 6.58
-      LWP::MemberMixin 6.58
-      LWP::Protocol 6.58
-      LWP::Protocol::cpan 6.58
-      LWP::Protocol::data 6.58
-      LWP::Protocol::file 6.58
-      LWP::Protocol::ftp 6.58
-      LWP::Protocol::gopher 6.58
-      LWP::Protocol::http 6.58
-      LWP::Protocol::loopback 6.58
-      LWP::Protocol::mailto 6.58
-      LWP::Protocol::nntp 6.58
-      LWP::Protocol::nogo 6.58
-      LWP::RobotUA 6.58
-      LWP::Simple 6.58
-      LWP::UserAgent 6.58
+      LWP 6.60
+      LWP::Authen::Basic 6.60
+      LWP::Authen::Digest 6.60
+      LWP::Authen::Ntlm 6.60
+      LWP::ConnCache 6.60
+      LWP::Debug 6.60
+      LWP::Debug::TraceHTTP 6.60
+      LWP::DebugFile 6.60
+      LWP::MemberMixin 6.60
+      LWP::Protocol 6.60
+      LWP::Protocol::cpan 6.60
+      LWP::Protocol::data 6.60
+      LWP::Protocol::file 6.60
+      LWP::Protocol::ftp 6.60
+      LWP::Protocol::gopher 6.60
+      LWP::Protocol::http 6.60
+      LWP::Protocol::loopback 6.60
+      LWP::Protocol::mailto 6.60
+      LWP::Protocol::nntp 6.60
+      LWP::Protocol::nogo 6.60
+      LWP::RobotUA 6.60
+      LWP::Simple 6.60
+      LWP::UserAgent 6.60
       libwww::perl undef
     requirements:
       CPAN::Meta::Requirements 2.120620
@@ -2686,7 +2686,7 @@ DISTRIBUTIONS
       HTTP::Request 6
       HTTP::Request::Common 6
       HTTP::Response 6
-      HTTP::Status 6.18
+      HTTP::Status 6.07
       IO::Select 0
       IO::Socket 0
       LWP::MediaTypes 6
