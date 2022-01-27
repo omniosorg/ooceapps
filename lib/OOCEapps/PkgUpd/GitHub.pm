@@ -52,7 +52,7 @@ sub getVersions {
         grep { /^$ver/ }
         map { m#/releases/tag/(?:v|release[-.]|stable-|R\.|$name-?\.?)?
             (\d{4}(?:-\d{2}){2}T(?:\d{2}-){2}\d{2}Z|[\d.]+(?:op)?\d+)
-            (?!-?(?:\.\d+|\.?(?:rc\d*|dev|a(?:lpha)?|b(?:eta)?|pre)))#ix
+            (?!-?(?:\.\d+|\.?(?:rc\d*|dev|a(?:lpha)?|b(?:eta)?|pre|test)))#ix
         } @versions
     ];
 }
@@ -63,7 +63,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
