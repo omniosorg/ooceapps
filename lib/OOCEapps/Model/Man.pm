@@ -8,10 +8,16 @@ has schema  => sub {
     my $sv = shift->utils;
 
     return {
-        mandir    => {
+        mandir      => {
             description => 'path to man pages',
             example     => '/website/man',
             validator   => $sv->dir('cannot access directory'),
+        },
+        path_prefix => {
+            description => 'URL path prefix',
+            default     => '/man',
+            example     => '/man',
+            validator   => $sv->regexp(qr!^(?:/.+|)$!, 'expected an empty string or a string with a leading slash'),
         },
     }
 };
@@ -54,7 +60,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

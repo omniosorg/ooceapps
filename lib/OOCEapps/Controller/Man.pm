@@ -4,6 +4,14 @@ use Mojo::Base 'OOCEapps::Controller::base';
 use Mojo::DOM;
 use Mojo::File;
 
+# see: https://github.com/illumos/ipd/blob/master/ipd/0004/README.md
+my %secrenmap = (
+    qr/1m$/ => '8',
+    qr/4$/  => '5',
+    qr/5$/  => '7',
+    qr/7/   => '4',
+);
+
 sub process {
     my $c = shift;
 
@@ -16,11 +24,25 @@ sub process {
     ($man, my $sec) = $man =~ /^(.+?)(?:\.(\d[^.]*))?$/
         if !exists $c->model->index->{$man};
 
+    $sec = lc ($sec // '');
     $sect ||= $sec;
 
-    return $c->reply->not_found if !exists $c->model->index->{$man}
-        || ($sec && $sect && $sec ne $sect)
-        || ($sect && !exists $c->model->index->{$man}->{$sect});
+    return $c->reply->not_found
+        if !exists $c->model->index->{$man} || ($sec && $sect && $sec ne $sect);
+
+    # handle manual page section renumbering to avoid breaking existing links
+    # e.g. in release notes or IRC logs
+    # see: https://github.com/illumos/ipd/blob/master/ipd/0004/README.md
+    if ($sect && !exists $c->model->index->{$man}->{$sect}) {
+        $sect =~ s/^$_/$secrenmap{$_}/ and last for keys %secrenmap;
+
+        return $c->reply->not_found if !exists $c->model->index->{$man}->{$sect};
+
+        # moved permanently
+        # $c->res->code(301);
+        return $c->redirect_to($c->model->config->{path_prefix}
+            . ($sec ? "/$man.$sect" : "/$sect/$man"));
+    }
 
     my @sect = sort keys %{$c->model->index->{$man}};
 
@@ -80,7 +102,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
