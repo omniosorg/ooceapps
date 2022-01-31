@@ -267,13 +267,24 @@ sub new($class, %args) {
 
 # public methods
 sub sendMsg($self, $to, $msg) {
-    $self->write(PRIVMSG => $to => ":$msg" => sub($irc, $err) {
+    $self->write(PRIVMSG => $to => ":$msg", sub($irc, $err) {
         return warn $err if $err;
 
         # log own messages
         my $nick = $self->nick;
         $self->$log($self->parser->parse(":$nick PRIVMSG $to :$msg"));
     });
+}
+
+sub irc_nick($self, $message) {
+    $self->SUPER::irc_nick($message);
+
+    Mojo::IOLoop->timer(10 => sub { $self->write(NICK => $self->config->{nick}) })
+        if !eq_irc($self->nick, $self->config->{nick});
+}
+
+sub err_nicknameinuse($self, $message) {
+    $self->write(PRIVMSG => 'NickServ' => ':GHOST ' . $self->config->{nick});
 }
 
 sub start($self) {
