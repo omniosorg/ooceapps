@@ -36,7 +36,8 @@
             "subDescription" : "OmniOSce Patron"
         },
         "man"    : {
-            "mandir" : "/webpage/man"
+            "mandir"      : "/webpage/man",
+            "path_prefix" : ""
         },
         "log"    : {
             "logdir"   : "/var/opt/ooce/ooceapps/fenix",
