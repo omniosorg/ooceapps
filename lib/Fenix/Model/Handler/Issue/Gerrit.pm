@@ -10,13 +10,14 @@ my $ILLUMOSURL = Mojo::URL->new('https://www.illumos.org');
 # attributes
 has priority => 8;
 has baseurl  => sub { Mojo::URL->new('https://code.illumos.org') };
+has issuestr => sub { 'code review' };
 
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler
 # return either a valid issue or undef.
 sub issue($self, $msg) {
     my $baseurl = $self->baseurl->to_string;
-    my $urlre   = qr!\b$baseurl/c/illumos-gate/\+/(\d+)\b!;
+    my $urlre   = qr!\b\Q$baseurl\E/c/illumos-gate/\+/(\d+)\b!;
     for ($msg) {
         /$urlre/ && return ($1, { url => 1 });
         /\bcode\b/i && return ($msg =~ /\b(\d{2,})\b/)[0];
@@ -55,7 +56,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

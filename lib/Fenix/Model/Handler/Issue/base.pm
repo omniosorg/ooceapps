@@ -14,6 +14,7 @@ has datadir  => sub { Mojo::Exception->throw("ERROR: datadir must be specified o
 has chans    => sub { {} };
 has baseurl  => sub { Mojo::Exception->throw("ERROR: baseurl is a virtual attribute. Needs to be defined in derived class.\n") };
 has priority => sub { Mojo::Exception->throw("ERROR: priority is a virtual attribute. Needs to be defined in derived class.\n") };
+has issuestr => sub { 'issue' };
 has utils    => sub { Fenix::Utils->new };
 has mutemap  => sub { {} };
 has ua       => sub {
@@ -48,7 +49,7 @@ sub process_p($self, $issue, $opts = {}) {
     $self->ua->get_p($url)->then(sub($get) {
         my $res = $get->res;
 
-        return $p->resolve([ "issue '$issue' is not public." ]) if $res->code == 403;
+        return $p->resolve([ $self->issuestr . " '$issue' is not public." ]) if $res->code == 403;
 
         my $data = $self->processIssue($issue, $res);
         return $p->resolve([ $data ]) if !ref $data; # error string returned by the handler
@@ -64,7 +65,7 @@ sub process_p($self, $issue, $opts = {}) {
                 . (@{$data->{url}} > 1 ? " | $data->{url}->[1]" : ''),
         ]);
     })->catch(sub(@) {
-        return $p->resolve([ "issue '$issue' not found..." ]);
+        return $p->resolve([ $self->issuestr . " '$issue' not found..." ]);
     });
 
     return $p;

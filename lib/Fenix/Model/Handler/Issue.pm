@@ -33,11 +33,11 @@ sub process_p($self, $chan, $from, $msg, $mentioned = 0) {
     for my $hd (@{$self->handlers}) {
         my ($issue, $opts) = $self->handler->{$hd}->issue($msg);
 
-        next if !$issue;
+        next if !($issue && ($mentioned || $opts->{url}));
 
         $opts //= {};
-        return Mojo::Promise->resolve([]) if !$opts->{url} && !$mentioned
-            || $self->utils->muted(\$self->mutemap->{issue}->{$chan}, $issue);
+        return Mojo::Promise->resolve([])
+            if $self->utils->muted(\$self->mutemap->{issue}->{$chan}, $issue);
 
         return $self->handler->{$hd}->process_p($issue, $opts);
     }
@@ -51,7 +51,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
