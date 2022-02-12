@@ -19,8 +19,8 @@ sub issue($self, $msg) {
     my $urlre   = qr!\b\Q$baseurl\E/issues/(\d+)\b!;
     for ($msg) {
         /$urlre/ && return ($1, { url => 1 });
-        /(?:^|\s)(?:illumos|issue)\b/i && return ($msg =~ /\b(\d{3,})\b/)[0];
-        /(?:^|\s)#(\d+)\b/ && return $1;
+        /\b(?:illumos|issue)\b/i && return ($msg =~ /\b(\d{3,})\b/)[0];
+        /#(\d{3,})\b/ && return $1;
     }
 
     return undef;
