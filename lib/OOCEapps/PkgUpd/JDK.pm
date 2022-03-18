@@ -37,7 +37,7 @@ sub getVersions {
     }
 
     for (@vers) {
-        my ($upd) = /jdk-$ver\.0\.(\d+)-ga/ or next;
+        my ($upd) = /jdk-$ver\.0\.([\d.]+)-ga/ or next;
 
         for (@vers) {
             my ($vers) = /jdk-($ver\.0\.$upd\+\d+)/ or next;
@@ -55,7 +55,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
