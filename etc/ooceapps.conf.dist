@@ -26,6 +26,12 @@
                 "core" : "https://raw.githubusercontent.com/omniosorg/omnios-build/master/doc/packages.md"
             }
         },
+        "pkgdep" : {
+            "repo_url"  : [
+                "https://pkg.omnios.org/bloody/core",
+                "https://pkg.omnios.org/bloody/extra"
+             ]
+        },
         "patron" : {
             "keyPath"        : "./stripe.keys",
             "cancelUrl"      : "https://apps.omniosce.org/patron/cancel",

@@ -38,7 +38,7 @@ sub table {
     my $table = shift;
     my $opts  = shift;
 
-    my $text = join "\n", map { ref $_ eq 'ARRAY'
+    my $text = join "\n", map { ref $_ eq ref []
         ? ('| ' . (join ' | ', @$_) . ' |') : $_ } @$table;
     
     return $prepJSON->($text, $opts);
@@ -50,7 +50,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
