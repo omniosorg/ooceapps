@@ -26,8 +26,7 @@ sub process {
     my $c = shift;
     my $t = $c->param('text');
 
-    $c->checkToken;
-    $c->render(json => $c->$getCow($t));
+    $c->checkToken && $c->render(json => $c->$getCow($t));
 }
 
 1;
@@ -36,7 +35,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

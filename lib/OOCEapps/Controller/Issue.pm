@@ -9,7 +9,7 @@ sub process {
     my $c = shift;
     my $p = $c->param('text');
 
-    $c->checkToken;
+    return if !$c->checkToken;
 
     #default to illumos if just a number is provided
     $p = "illumos $p" if $p =~ /^\d+$/;
@@ -36,7 +36,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

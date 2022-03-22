@@ -5,8 +5,7 @@ sub process {
     my $c = shift;
     my @p = map { $c->param($_) } qw(user_name channel_name text);
 
-    $c->checkToken;
-    $c->render(json => $c->model->play(@p));
+    $c->checkToken && $c->render(json => $c->model->play(@p));
 }
 
 1;
@@ -15,7 +14,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

@@ -46,8 +46,7 @@ sub process {
     my $c = shift;
     my $p = $c->param('text');
 
-    $c->checkToken;
-    $c->render(json => $c->$getPkgDep($p));
+    $c->checkToken && $c->render(json => $c->$getPkgDep($p));
 }
 
 1;

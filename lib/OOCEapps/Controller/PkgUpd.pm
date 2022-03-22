@@ -92,7 +92,7 @@ sub process {
 
     my $repo = $c->param('text');
 
-    $c->checkToken;
+    return if !$c->checkToken;
     # increase inactivity timeout
     $c->inactivity_timeout(28);
     $c->render_later;
@@ -113,7 +113,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
