@@ -19,8 +19,13 @@ sub process {
 sub checkToken {
     my $c = shift;
 
-    $c->config->{token} && $c->config->{token} ne $c->param('token')
-        && $c->render(text => 'Unauthorised', status => 401);
+    if ($c->config->{token} && $c->config->{token} ne $c->param('token')) {
+        $c->render(text => 'Unauthorised', status => 401);
+
+        return 0;
+    }
+
+    return 1;
 }
 
 1;
@@ -29,7 +34,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
