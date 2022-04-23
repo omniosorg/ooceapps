@@ -23,14 +23,15 @@ sub getVersions {
     my @gavers;
 
     if ($ver < 10) {
-        for (my $i = 0; $i < @vers; $i++) {
-            my ($upd) = $vers[$i] =~ /jdk${ver}u(\d+)-ga/
-                or next;
+        for (@vers) {
+            my ($upd) = /jdk${ver}u(\d+)-ga/ or next;
 
-            my ($bld) = $vers[++$i] =~ /jdk${ver}u${upd}-b(\d+)/
-                or next;
+            for (@vers) {
+                my ($bld) = /jdk${ver}u${upd}-b(\d+)/
+                    or next;
 
-            push @gavers, "1.$ver.$upd-$bld";
+                push @gavers, "1.$ver.$upd-$bld";
+            }
         }
 
         return \@gavers;
