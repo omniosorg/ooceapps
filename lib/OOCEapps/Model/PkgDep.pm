@@ -52,9 +52,12 @@ my $getPkgDep = sub {
                 $PKGREPO, qw(contents -m -t depend -s), $repo, "$pkg->{name}\@latest"),
                     or Mojo::Exception->throw("ERROR: executing pkgrepo: $!\n");
 
-            my @deps = map { m!^depend\s+fmri=pkg:/(?:/[^/]+/)?([^@\s]+)! } (<$stdout>);
+            # map to hash table to make entries unique
+            my %deps = map { $_ => undef }
+                map { m!^depend\s+fmri=(?:pkg:/(?:/[^/]+/)?)?([^@\s]+)! } (<$stdout>);
+
             waitpid $pid, 0;
-            $pkgs{$pkg->{name}} = \@deps;
+            $pkgs{$pkg->{name}} = [ keys %deps ];
         }
     }
 
