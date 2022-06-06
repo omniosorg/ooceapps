@@ -5,9 +5,9 @@ ooceapps
 
 [![Unit Tests](https://github.com/omniosorg/ooceapps/workflows/Unit%20Tests/badge.svg?branch=master&event=push)](https://github.com/omniosorg/ooceapps/actions?query=workflow%3A%22Unit+Tests%22)
 
-Version: 0.10.0
+Version: 0.10.1
 
-Date: 2022-03-24
+Date: 2022-06-06
 
 Web integrations for OmniOS Community Edition (OmniOSce) Association.
 
