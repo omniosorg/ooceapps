@@ -1,9 +1,5 @@
-package OOCEapps::PkgUpd::ReleaseLock;
+package OOCEapps::PkgUpd::Zig;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
-
-my %RELLOCKMAP = (
-    'ooce/util/ncdu' => '1.',
-);
 
 # public methods
 sub canParse {
@@ -11,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return exists $RELLOCKMAP{$name};
+    return $name =~ m!developer/zig$!;
 }
 
 sub getVersions {
@@ -19,10 +15,7 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    return [
-        grep { /^\Q$RELLOCKMAP{$name}\E/ }
-        @{$self->SUPER::getVersions($name, $res)}
-    ];
+    return [ grep { /^[\d.]+$/ } keys %{$res->json // {}} ];
 }
 
 1;
@@ -31,7 +24,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
