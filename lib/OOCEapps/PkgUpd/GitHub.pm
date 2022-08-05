@@ -6,6 +6,7 @@ my %TRANSFORM = (
     'azure-agent'       => 'WALinuxAgent',
     'libgd'             => 'gd',
     'fuse'              => 'Version',
+    'intel'             => 'microcode',
     'minio'             => 'RELEASE',
     'minio-mc'          => 'RELEASE',
     'nagios-nrpe'       => 'nrpe',
