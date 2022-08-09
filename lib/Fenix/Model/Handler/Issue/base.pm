@@ -9,6 +9,7 @@ use Mojo::URL;
 use Fenix::Utils;
 
 # attributes
+has name     => sub($self) { lc ((split /::/, ref $self)[-1]) };
 has config   => sub { {} };
 has datadir  => sub { Mojo::Exception->throw("ERROR: datadir must be specified on instantiation.\n") };
 has chans    => sub { {} };
@@ -77,7 +78,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
