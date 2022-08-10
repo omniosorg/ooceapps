@@ -36,8 +36,10 @@ sub process_p($self, $chan, $from, $msg, $mentioned = 0) {
         next if !($issue && ($mentioned || $opts->{url}));
 
         $opts //= {};
+        my $hdn = $self->handler->{$hd}->name;
+
         return Mojo::Promise->resolve([])
-            if $self->utils->muted(\$self->mutemap->{issue}->{$chan}, $issue);
+            if $self->utils->muted(\$self->mutemap->{"issue_$hdn"}->{$chan}, $issue);
 
         return $self->handler->{$hd}->process_p($issue, $opts);
     }
