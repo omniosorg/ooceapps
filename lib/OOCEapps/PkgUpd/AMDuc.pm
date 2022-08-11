@@ -16,8 +16,8 @@ sub getVersions {
     my $res  = shift;
 
     return [
-        map { local $_ = $_; s/-//g; $_ }
-        $res->dom->find('div.content table tr td:first-child span')->map('text')->each
+        map { local $_ = $_; s/-//g; s/\s.*//; $_ }
+        $res->dom->find('div.content table tr td:first-child span')->map(attr => 'title')->each
     ];
 }
 
