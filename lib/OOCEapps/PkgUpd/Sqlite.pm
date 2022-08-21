@@ -16,7 +16,7 @@ sub getVersions {
     my $res  = shift;
 
     # remove -3 suffix
-    $name =~ s/-3$//;	
+    $name =~ s/-3$//;
     $name = $self->extractName($name);
     return [
         map { /$name-autoconf-((?:\d+\.){1,3}[^-.]+|\d+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ }

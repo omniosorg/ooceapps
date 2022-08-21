@@ -16,7 +16,7 @@ sub getVersions {
     my $res  = shift;
 
     return [
-        map { local $_ = $_; s/-//g; s/\s.*//; $_ }
+        map { /^(\d{4})-(\d{2})-(\d{2})/ ? "$1$2$3" : () }
         $res->dom->find('div.content table tr td:first-child span')->map(attr => 'title')->each
     ];
 }

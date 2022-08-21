@@ -40,7 +40,7 @@ sub extractNameMajVer {
         $ver  = join '.', split //, $2, 2;
     };
 
-	return ($name, $ver);
+    return ($name, $ver);
 }
 
 sub getVersions {
