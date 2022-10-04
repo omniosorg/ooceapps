@@ -51,6 +51,7 @@ sub process_p($self, $issue, $opts = {}) {
         my $res = $get->res;
 
         return $p->resolve([ $self->issuestr . " '$issue' is not public." ]) if $res->code == 403;
+        return $p->resolve([ $self->issuestr . " '$issue' not found..." ]) if !$res->is_success;
 
         my $data = $self->processIssue($issue, $res);
         return $p->resolve([ $data ]) if !ref $data; # error string returned by the handler
