@@ -23,8 +23,11 @@ sub chanlog {
         [ qw(nick ts command message message_id) ],
         { 'channel' => $chan, 'ts' => { '-between' => [ $start, $end ] } },
         {
-            order_by => [ qw(ts message_id) ],
-            limit    => $c->model->config->{max_records}
+            order_by => [
+                \[ q{iif(command in ('JOIN', 'PART', 'QUIT'), 1, 0)} ],
+                [ qw(ts message_id) ],
+            ],
+            limit => $c->model->config->{max_records}
         }
     )->then(sub {
         $c->render(json => shift->hashes->to_array);
