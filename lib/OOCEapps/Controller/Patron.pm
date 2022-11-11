@@ -86,12 +86,14 @@ sub webhook {
                 format   => 'txt')
         } ($data->{type}, "$data->{type}.subject");
 
+        return $c->render(json => { status => 'error' }) if !($mail && $subj);
+
         OOCEapps::Utils::sendMail(
             { to => $data->{data}{customer}{email}, bcc => $c->config->{emailBcc} },
             $c->config->{emailFrom},
             encode('UTF-8', $subj),
             { body => encode('UTF-8', $mail) }
-        ) if $mail && $subj;
+        );
     };
     if ($@){
         if (ref $@ eq 'ARRAY'){
