@@ -71,6 +71,7 @@ sub webhook {
         $c->log->debug('handle '.$data->{type});
         my $cust_id = $c->data->{data}{object}{customer}
             || $c->data->{data}{object}{source}{customer}
+            || $c->data->{data}{object}{sources}{data}[0]{customer}
                 or die ['Webhook Unhandled:'.$c->app->dumper($data)];
 
         $data->{data}{customer}      = $c->model->getCustomer($cust_id);
