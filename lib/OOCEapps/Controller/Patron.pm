@@ -71,6 +71,7 @@ sub webhook {
         $c->log->debug('handle '.$data->{type});
         my $cust_id = $c->data->{data}{object}{customer}
             || $c->data->{data}{object}{source}{customer}
+            || $c->data->{data}{object}{sources}{data}[0]{customer}
                 or die ['Webhook Unhandled:'.$c->app->dumper($data)];
 
         $data->{data}{customer}      = $c->model->getCustomer($cust_id);
@@ -86,12 +87,14 @@ sub webhook {
                 format   => 'txt')
         } ($data->{type}, "$data->{type}.subject");
 
+        return $c->render(json => { status => 'error' }) if !($mail && $subj);
+
         OOCEapps::Utils::sendMail(
             { to => $data->{data}{customer}{email}, bcc => $c->config->{emailBcc} },
             $c->config->{emailFrom},
             encode('UTF-8', $subj),
             { body => encode('UTF-8', $mail) }
-        ) if $mail && $subj;
+        );
     };
     if ($@){
         if (ref $@ eq 'ARRAY'){
