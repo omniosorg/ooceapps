@@ -283,6 +283,15 @@ sub irc_nick($self, $message) {
         if !eq_irc($self->nick, $self->config->{nick});
 }
 
+sub irc_notice($self, $message) {
+    $self->SUPER::irc_notice($message);
+
+    my ($from, $to, $text) = $self->utils->getFromToText($message);
+
+    $self->write(NICK => $self->config->{nick})
+        if eq_irc($from, 'NickServ') && $text =~ /has\s+been\s+ghosted/i;
+}
+
 sub err_nicknameinuse($self, $message) {
     $self->write(PRIVMSG => 'NickServ' => ':GHOST ' . $self->config->{nick});
 }
@@ -308,24 +317,22 @@ sub start($self) {
     # interactive
     $self->on(irc_privmsg => sub($irc, $msg) {
         my $nick = $irc->nick;
-        my $chan = $msg->{params}->[0];
-        my $text = $msg->{params}->[1];
-        my $from = $self->utils->from($msg->{prefix});
+        my ($from, $to, $text) = $self->utils->getFromToText($msg);
 
         # don't reply to messages from ZNC et al.
         return if !is_valid_nick_name($from);
 
         # handle DMs
-        return $self->$process_p($from, $from, $text, 1) if eq_irc($nick, $chan);
+        return $self->$process_p($from, $from, $text, 1) if eq_irc($nick, $to);
 
-        return if !$self->chans->{$chan}->{interactive};
+        return if !$self->chans->{$to}->{interactive};
 
         # in case the nick has changed.
         my $cfgNick = $self->config->{nick};
         my $nickRE  = eq_irc($nick, $cfgNick) ? qr/$nick/i : qr/$nick|$cfgNick/i;
         my $mention = $text =~ /(?:^|[^a-z\d_\-\[\]\\^{}|`])$nickRE(?:[^a-z\d_\-\[\]\\^{}|`]|$)/i;
 
-        $self->$process_p($chan, $from, $text, $mention)->then(sub($handled) {
+        $self->$process_p($to, $from, $text, $mention)->then(sub($handled) {
             # register the user to the mutemap (will be used by generic handlers)
             $self->utils->muted(\$self->mutemap->{user}, $from) if $mention && $handled;
         });
@@ -439,7 +446,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

@@ -23,7 +23,15 @@ sub loadModules($self, $modprefix, %args) {
 }
 
 sub from($self, $prefix) {
-    return parse_user($prefix);
+    return scalar parse_user($prefix);
+}
+
+sub getFromToText($self, $msg) {
+    return (
+        $self->from($msg->{prefix}),
+        $msg->{params}->[0],
+        $msg->{params}->[1]
+    );
 }
 
 sub muted($self, $parentRef, $key) {
@@ -55,7 +63,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
