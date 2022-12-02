@@ -340,10 +340,10 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008005
-  Data-Validate-IP-0.30
-    pathname: D/DR/DROLSKY/Data-Validate-IP-0.30.tar.gz
+  Data-Validate-IP-0.31
+    pathname: D/DR/DROLSKY/Data-Validate-IP-0.31.tar.gz
     provides:
-      Data::Validate::IP 0.30
+      Data::Validate::IP 0.31
     requirements:
       Exporter 0
       ExtUtils::MakeMaker 0
@@ -1312,17 +1312,18 @@ DISTRIBUTIONS
       Exporter 5.57
       ExtUtils::MakeMaker 0
       perl 5.008
-  IO-Socket-SSL-2.075
-    pathname: S/SU/SULLR/IO-Socket-SSL-2.075.tar.gz
+  IO-Socket-SSL-2.077
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.077.tar.gz
     provides:
-      IO::Socket::SSL 2.075
+      IO::Socket::SSL 2.077
       IO::Socket::SSL::Intercept 2.056
-      IO::Socket::SSL::OCSP_Cache 2.075
-      IO::Socket::SSL::OCSP_Resolver 2.075
+      IO::Socket::SSL::OCSP_Cache 2.077
+      IO::Socket::SSL::OCSP_Resolver 2.077
       IO::Socket::SSL::PublicSuffix undef
-      IO::Socket::SSL::SSL_Context 2.075
-      IO::Socket::SSL::SSL_HANDLE 2.075
-      IO::Socket::SSL::Session_Cache 2.075
+      IO::Socket::SSL::SSL_Context 2.077
+      IO::Socket::SSL::SSL_HANDLE 2.077
+      IO::Socket::SSL::Session_Cache 2.077
+      IO::Socket::SSL::Trace 2.077
       IO::Socket::SSL::Utils 2.015
     requirements:
       ExtUtils::MakeMaker 0
@@ -1698,8 +1699,8 @@ DISTRIBUTIONS
       URI::db 0.15
       URI::file 4.21
       perl 5.010001
-  Mojolicious-9.29
-    pathname: S/SR/SRI/Mojolicious-9.29.tar.gz
+  Mojolicious-9.30
+    pathname: S/SR/SRI/Mojolicious-9.30.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -1767,7 +1768,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.29
+      Mojolicious 9.30
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -1867,10 +1868,10 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Module::Runtime 0.014
-  Mozilla-CA-20211001
-    pathname: A/AB/ABH/Mozilla-CA-20211001.tar.gz
+  Mozilla-CA-20221114
+    pathname: H/HA/HAARG/Mozilla-CA-20221114.tar.gz
     provides:
-      Mozilla::CA 20211001
+      Mozilla::CA 20221114
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.006
@@ -2665,7 +2666,7 @@ DISTRIBUTIONS
       HTTP::Request 6
       HTTP::Request::Common 6
       HTTP::Response 6
-      HTTP::Status 6.18
+      HTTP::Status 6.07
       IO::Select 0
       IO::Socket 0
       LWP::MediaTypes 6
