@@ -1,4 +1,4 @@
-package Fenix::Model::Handler::Issue::Joyent;
+package Fenix::Model::Handler::Issue::SmartOS;
 use Mojo::Base 'Fenix::Model::Handler::Issue::base', -signatures;
 
 use Mojo::URL;
