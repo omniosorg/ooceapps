@@ -11,7 +11,14 @@ has baseurl  => sub { Mojo::URL->new('https://smartos.org') };
 # It parses the message and checks whether it is the correct handler
 # return either a valid issue or undef.
 sub issue($self, $msg) {
-    return ($msg =~ /\b([A-Z]+-\d+)\b/)[0];
+    my $baseurl = $self->baseurl->to_string;
+    my $urlre   = qr!\b\Q$baseurl\E/bugview/([A-Z]+-\d+)\b!;
+    for ($msg) {
+        /$urlre/ && return ($1, { url => 1 });
+        /\b([A-Z]+-\d+)\b/ && return $1;
+    }
+
+    return undef;
 }
 
 sub issueURL($self, $issue) {
@@ -46,7 +53,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
