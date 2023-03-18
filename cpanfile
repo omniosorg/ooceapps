@@ -16,3 +16,5 @@ requires 'Net::Domain::TLD';
 requires 'Regexp::IPv4';
 requires 'Regexp::IPv6';
 requires 'Sort::Versions';
+requires 'Text::CSV';
+requires 'Text::CSV_XS';

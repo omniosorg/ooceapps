@@ -59,7 +59,7 @@ sub process_p($self, $issue, $opts = {}) {
 
         return $p->resolve([
             "$data->{id}: $data->{subject} ($data->{status})",
-            '↳ ' . join (' | ', @{$data->{url}}),
+            @{$data->{url}} ? '↳ ' . join (' | ', @{$data->{url}}) : (),
         ]) if !$opts->{url};
 
         return $p->resolve([

@@ -16,8 +16,9 @@ To get my attention, just mention my name in a message to the channel.
 I can look up Redmine issues with 'illumos <issue>', 'issue <issue>' or '#<issue>'
 For Joyent/SmartOS issues, use the issue type and number together, e.g. OS-1234.
 I can also find IPDs - 'IPD123', 'IPD-123' or 'IPD 123'
-as well as OpenSolaris issues with a seven digit bug ID.
-Also, if you post a link to a Redmine issue or Gerrit review, I'll fill in some more details.
+as well as OpenSolaris issues with a seven digit bug ID. If you want me to, I can also
+dig very deeply and find stuff in the OpenSolaris ARC Material Archive, just use e.g. FWARC/2004/510.
+Finally, if you post a link to a Redmine issue or Gerrit review, I'll fill in some more details.
 END
 
 }
@@ -28,7 +29,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2023 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

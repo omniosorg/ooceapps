@@ -1791,7 +1791,6 @@ DISTRIBUTIONS
       Mojolicious::Lite undef
       Mojolicious::Plugin undef
       Mojolicious::Plugin::Config undef
-      Mojolicious::Plugin::Config::Sandbox undef
       Mojolicious::Plugin::DefaultHelpers undef
       Mojolicious::Plugin::EPLRenderer undef
       Mojolicious::Plugin::EPRenderer undef
@@ -2317,6 +2316,28 @@ DISTRIBUTIONS
       Try::Tiny 0.07
       strict 0
       warnings 0
+  Text-CSV-2.02
+    pathname: I/IS/ISHIGAKI/Text-CSV-2.02.tar.gz
+    provides:
+      Text::CSV 2.02
+      Text::CSV::ErrorDiag 2.02
+      Text::CSV_PP 2.02
+    requirements:
+      ExtUtils::MakeMaker 0
+      IO::Handle 0
+      Test::Harness 0
+      Test::More 0.71
+      perl 5.006001
+  Text-CSV_XS-1.50
+    pathname: H/HM/HMBRAND/Text-CSV_XS-1.50.tgz
+    provides:
+      Text::CSV_XS 1.50
+    requirements:
+      Config 0
+      ExtUtils::MakeMaker 0
+      IO::Handle 0
+      Test::More 0
+      XSLoader 0
   Text-Template-1.61
     pathname: M/MS/MSCHOUT/Text-Template-1.61.tar.gz
     provides:
@@ -2666,7 +2687,7 @@ DISTRIBUTIONS
       HTTP::Request 6
       HTTP::Request::Common 6
       HTTP::Response 6
-      HTTP::Status 6.18
+      HTTP::Status 6.07
       IO::Select 0
       IO::Socket 0
       LWP::MediaTypes 6
