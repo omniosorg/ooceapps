@@ -74,10 +74,10 @@ DISTRIBUTIONS
       File::Spec 0.80
       base 0
       perl 5.008
-  Class-Method-Modifiers-2.13
-    pathname: E/ET/ETHER/Class-Method-Modifiers-2.13.tar.gz
+  Class-Method-Modifiers-2.15
+    pathname: E/ET/ETHER/Class-Method-Modifiers-2.15.tar.gz
     provides:
-      Class::Method::Modifiers 2.13
+      Class::Method::Modifiers 2.15
     requirements:
       B 0
       Carp 0
@@ -110,10 +110,10 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Storable 0
       perl 5.008001
-  Cpanel-JSON-XS-4.32
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.32.tar.gz
+  Cpanel-JSON-XS-4.36
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.36.tar.gz
     provides:
-      Cpanel::JSON::XS 4.32
+      Cpanel::JSON::XS 4.36
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -275,10 +275,10 @@ DISTRIBUTIONS
       strict 0
       utf8 0
       warnings 0
-  Data-OptList-0.112
-    pathname: R/RJ/RJBS/Data-OptList-0.112.tar.gz
+  Data-OptList-0.113
+    pathname: R/RJ/RJBS/Data-OptList-0.113.tar.gz
     provides:
-      Data::OptList 0.112
+      Data::OptList 0.113
     requirements:
       ExtUtils::MakeMaker 6.78
       List::Util 0
@@ -823,13 +823,14 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Email-Address-1.912
-    pathname: R/RJ/RJBS/Email-Address-1.912.tar.gz
+  Email-Address-1.913
+    pathname: R/RJ/RJBS/Email-Address-1.913.tar.gz
     provides:
-      Email::Address 1.912
+      Email::Address 1.913
     requirements:
-      ExtUtils::MakeMaker 0
+      ExtUtils::MakeMaker 6.78
       overload 0
+      perl 5.012
       strict 0
       warnings 0
   Email-Address-XS-1.05
@@ -846,26 +847,25 @@ DISTRIBUTIONS
       perl 5.006000
       strict 0
       warnings 0
-  Email-Date-Format-1.006
-    pathname: R/RJ/RJBS/Email-Date-Format-1.006.tar.gz
+  Email-Date-Format-1.008
+    pathname: R/RJ/RJBS/Email-Date-Format-1.008.tar.gz
     provides:
-      Email::Date::Format 1.006
+      Email::Date::Format 1.008
     requirements:
       Exporter 5.57
       ExtUtils::MakeMaker 6.78
-      Time::Local 0
+      Time::Local 1.27
       perl 5.012
-      strict 0
       warnings 0
-  Email-MIME-1.952
-    pathname: R/RJ/RJBS/Email-MIME-1.952.tar.gz
+  Email-MIME-1.953
+    pathname: R/RJ/RJBS/Email-MIME-1.953.tar.gz
     provides:
-      Email::MIME 1.952
-      Email::MIME::Creator 1.952
-      Email::MIME::Encode 1.952
-      Email::MIME::Header 1.952
-      Email::MIME::Header::AddressList 1.952
-      Email::MIME::Modifier 1.952
+      Email::MIME 1.953
+      Email::MIME::Creator 1.953
+      Email::MIME::Encode 1.953
+      Email::MIME::Header 1.953
+      Email::MIME::Header::AddressList 1.953
+      Email::MIME::Modifier 1.953
     requirements:
       Carp 0
       Email::Address::XS 0
@@ -882,13 +882,13 @@ DISTRIBUTIONS
       Module::Runtime 0
       Scalar::Util 0
       parent 0
-      perl 5.008001
+      perl 5.012
       strict 0
       warnings 0
-  Email-MIME-ContentType-1.027
-    pathname: R/RJ/RJBS/Email-MIME-ContentType-1.027.tar.gz
+  Email-MIME-ContentType-1.028
+    pathname: R/RJ/RJBS/Email-MIME-ContentType-1.028.tar.gz
     provides:
-      Email::MIME::ContentType 1.027
+      Email::MIME::ContentType 1.028
     requirements:
       Carp 0
       Encode 2.87
@@ -896,12 +896,11 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.78
       Text::Unidecode 0
       perl 5.012
-      strict 0
       warnings 0
-  Email-MIME-Encodings-1.316
-    pathname: R/RJ/RJBS/Email-MIME-Encodings-1.316.tar.gz
+  Email-MIME-Encodings-1.317
+    pathname: R/RJ/RJBS/Email-MIME-Encodings-1.317.tar.gz
     provides:
-      Email::MIME::Encodings 1.316
+      Email::MIME::Encodings 1.317
     requirements:
       Carp 0
       ExtUtils::MakeMaker 6.78
@@ -910,10 +909,10 @@ DISTRIBUTIONS
       perl 5.012
       strict 0
       warnings 0
-  Email-MessageID-1.407
-    pathname: R/RJ/RJBS/Email-MessageID-1.407.tar.gz
+  Email-MessageID-1.408
+    pathname: R/RJ/RJBS/Email-MessageID-1.408.tar.gz
     provides:
-      Email::MessageID 1.407
+      Email::MessageID 1.408
     requirements:
       ExtUtils::MakeMaker 6.78
       Sys::Hostname 0
@@ -977,17 +976,17 @@ DISTRIBUTIONS
       strict 0
       utf8 0
       warnings 0
-  Email-Simple-2.216
-    pathname: R/RJ/RJBS/Email-Simple-2.216.tar.gz
+  Email-Simple-2.218
+    pathname: R/RJ/RJBS/Email-Simple-2.218.tar.gz
     provides:
-      Email::Simple 2.216
-      Email::Simple::Creator 2.216
-      Email::Simple::Header 2.216
+      Email::Simple 2.218
+      Email::Simple::Creator 2.218
+      Email::Simple::Header 2.218
     requirements:
       Carp 0
       Email::Date::Format 0
-      ExtUtils::MakeMaker 0
-      perl 5.008
+      ExtUtils::MakeMaker 6.78
+      perl 5.012
       strict 0
       warnings 0
   Email-Valid-1.203
@@ -1194,16 +1193,16 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  HTML-Parser-3.80
-    pathname: O/OA/OALDERS/HTML-Parser-3.80.tar.gz
+  HTML-Parser-3.81
+    pathname: O/OA/OALDERS/HTML-Parser-3.81.tar.gz
     provides:
-      HTML::Entities 3.80
-      HTML::Filter 3.80
-      HTML::HeadParser 3.80
-      HTML::LinkExtor 3.80
-      HTML::Parser 3.80
-      HTML::PullParser 3.80
-      HTML::TokeParser 3.80
+      HTML::Entities 3.81
+      HTML::Filter 3.81
+      HTML::HeadParser 3.81
+      HTML::LinkExtor 3.81
+      HTML::Parser 3.81
+      HTML::PullParser 3.81
+      HTML::TokeParser 3.81
     requirements:
       Carp 0
       Exporter 0
@@ -1312,18 +1311,18 @@ DISTRIBUTIONS
       Exporter 5.57
       ExtUtils::MakeMaker 0
       perl 5.008
-  IO-Socket-SSL-2.078
-    pathname: S/SU/SULLR/IO-Socket-SSL-2.078.tar.gz
+  IO-Socket-SSL-2.081
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.081.tar.gz
     provides:
-      IO::Socket::SSL 2.078
+      IO::Socket::SSL 2.081
       IO::Socket::SSL::Intercept 2.056
-      IO::Socket::SSL::OCSP_Cache 2.078
-      IO::Socket::SSL::OCSP_Resolver 2.078
+      IO::Socket::SSL::OCSP_Cache 2.081
+      IO::Socket::SSL::OCSP_Resolver 2.081
       IO::Socket::SSL::PublicSuffix undef
-      IO::Socket::SSL::SSL_Context 2.078
-      IO::Socket::SSL::SSL_HANDLE 2.078
-      IO::Socket::SSL::Session_Cache 2.078
-      IO::Socket::SSL::Trace 2.078
+      IO::Socket::SSL::SSL_Context 2.081
+      IO::Socket::SSL::SSL_HANDLE 2.081
+      IO::Socket::SSL::Session_Cache 2.081
+      IO::Socket::SSL::Trace 2.081
       IO::Socket::SSL::Utils 2.015
     requirements:
       ExtUtils::MakeMaker 0
@@ -1433,12 +1432,12 @@ DISTRIBUTIONS
     requirements:
       Exporter 5.57
       Module::Build 0.4004
-  MIME-Types-2.23
-    pathname: M/MA/MARKOV/MIME-Types-2.23.tar.gz
+  MIME-Types-2.24
+    pathname: M/MA/MARKOV/MIME-Types-2.24.tar.gz
     provides:
-      MIME::Type 2.23
-      MIME::Types 2.23
-      MojoX::MIME::Types 2.23
+      MIME::Type 2.24
+      MIME::Types 2.24
+      MojoX::MIME::Types 2.24
     requirements:
       ExtUtils::MakeMaker 0
       File::Basename 0
@@ -1791,6 +1790,7 @@ DISTRIBUTIONS
       Mojolicious::Lite undef
       Mojolicious::Plugin undef
       Mojolicious::Plugin::Config undef
+      Mojolicious::Plugin::Config::Sandbox undef
       Mojolicious::Plugin::DefaultHelpers undef
       Mojolicious::Plugin::EPLRenderer undef
       Mojolicious::Plugin::EPRenderer undef
@@ -1817,20 +1817,20 @@ DISTRIBUTIONS
       IO::Socket::IP 0.37
       Sub::Util 1.41
       perl 5.016
-  Moo-2.005004
-    pathname: H/HA/HAARG/Moo-2.005004.tar.gz
+  Moo-2.005005
+    pathname: H/HA/HAARG/Moo-2.005005.tar.gz
     provides:
       Method::Generate::Accessor undef
       Method::Generate::BuildAll undef
       Method::Generate::Constructor undef
       Method::Generate::DemolishAll undef
-      Moo 2.005004
+      Moo 2.005005
       Moo::HandleMoose undef
       Moo::HandleMoose::FakeConstructor undef
       Moo::HandleMoose::FakeMetaClass undef
       Moo::HandleMoose::_TypeMap undef
       Moo::Object undef
-      Moo::Role 2.005004
+      Moo::Role 2.005005
       Moo::_Utils undef
       Moo::sification undef
       oo undef
@@ -1991,12 +1991,12 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
-  Params-ValidationCompiler-0.30
-    pathname: D/DR/DROLSKY/Params-ValidationCompiler-0.30.tar.gz
+  Params-ValidationCompiler-0.31
+    pathname: D/DR/DROLSKY/Params-ValidationCompiler-0.31.tar.gz
     provides:
-      Params::ValidationCompiler 0.30
-      Params::ValidationCompiler::Compiler 0.30
-      Params::ValidationCompiler::Exceptions 0.30
+      Params::ValidationCompiler 0.31
+      Params::ValidationCompiler::Compiler 0.31
+      Params::ValidationCompiler::Exceptions 0.31
     requirements:
       B 0
       Carp 0
@@ -2198,11 +2198,11 @@ DISTRIBUTIONS
       strict 0
       version 0.83
       warnings 0
-  Sub-Exporter-0.988
-    pathname: R/RJ/RJBS/Sub-Exporter-0.988.tar.gz
+  Sub-Exporter-0.989
+    pathname: R/RJ/RJBS/Sub-Exporter-0.989.tar.gz
     provides:
-      Sub::Exporter 0.988
-      Sub::Exporter::Util 0.988
+      Sub::Exporter 0.989
+      Sub::Exporter::Util 0.989
     requirements:
       Carp 0
       Data::OptList 0.100
@@ -2225,93 +2225,96 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
-  Sub-Install-0.928
-    pathname: R/RJ/RJBS/Sub-Install-0.928.tar.gz
+  Sub-Install-0.929
+    pathname: R/RJ/RJBS/Sub-Install-0.929.tar.gz
     provides:
-      Sub::Install 0.928
+      Sub::Install 0.929
     requirements:
       B 0
       Carp 0
-      ExtUtils::MakeMaker 6.30
+      ExtUtils::MakeMaker 6.78
       Scalar::Util 0
+      perl 5.008000
       strict 0
       warnings 0
-  Sub-Quote-2.006006
-    pathname: H/HA/HAARG/Sub-Quote-2.006006.tar.gz
+  Sub-Quote-2.006008
+    pathname: H/HA/HAARG/Sub-Quote-2.006008.tar.gz
     provides:
-      Sub::Defer 2.006006
-      Sub::Quote 2.006006
+      Sub::Defer 2.006008
+      Sub::Quote 2.006008
     requirements:
       ExtUtils::MakeMaker 0
       Scalar::Util 0
       perl 5.006
-  Test-Deep-1.130
-    pathname: R/RJ/RJBS/Test-Deep-1.130.tar.gz
+  Test-Deep-1.204
+    pathname: R/RJ/RJBS/Test-Deep-1.204.tar.gz
     provides:
-      Test::Deep 1.130
-      Test::Deep::All undef
-      Test::Deep::Any undef
-      Test::Deep::Array undef
-      Test::Deep::ArrayEach undef
-      Test::Deep::ArrayElementsOnly undef
-      Test::Deep::ArrayLength undef
-      Test::Deep::ArrayLengthOnly undef
-      Test::Deep::Blessed undef
-      Test::Deep::Boolean undef
-      Test::Deep::Cache undef
-      Test::Deep::Cache::Simple undef
-      Test::Deep::Class undef
-      Test::Deep::Cmp undef
-      Test::Deep::Code undef
-      Test::Deep::Hash undef
-      Test::Deep::HashEach undef
-      Test::Deep::HashElements undef
-      Test::Deep::HashKeys undef
-      Test::Deep::HashKeysOnly undef
-      Test::Deep::Ignore undef
-      Test::Deep::Isa undef
-      Test::Deep::ListMethods undef
-      Test::Deep::MM undef
-      Test::Deep::Methods undef
-      Test::Deep::NoTest undef
-      Test::Deep::None undef
-      Test::Deep::Number undef
-      Test::Deep::Obj undef
-      Test::Deep::Ref undef
-      Test::Deep::RefType undef
-      Test::Deep::Regexp undef
-      Test::Deep::RegexpMatches undef
-      Test::Deep::RegexpOnly undef
-      Test::Deep::RegexpRef undef
-      Test::Deep::RegexpRefOnly undef
-      Test::Deep::RegexpVersion undef
-      Test::Deep::ScalarRef undef
-      Test::Deep::ScalarRefOnly undef
-      Test::Deep::Set undef
-      Test::Deep::Shallow undef
-      Test::Deep::Stack undef
-      Test::Deep::String undef
-      Test::Deep::SubHash undef
-      Test::Deep::SubHashElements undef
-      Test::Deep::SubHashKeys undef
-      Test::Deep::SubHashKeysOnly undef
-      Test::Deep::SuperHash undef
-      Test::Deep::SuperHashElements undef
-      Test::Deep::SuperHashKeys undef
-      Test::Deep::SuperHashKeysOnly undef
+      Test::Deep 1.204
+      Test::Deep::All 1.204
+      Test::Deep::Any 1.204
+      Test::Deep::Array 1.204
+      Test::Deep::ArrayEach 1.204
+      Test::Deep::ArrayElementsOnly 1.204
+      Test::Deep::ArrayLength 1.204
+      Test::Deep::ArrayLengthOnly 1.204
+      Test::Deep::Blessed 1.204
+      Test::Deep::Boolean 1.204
+      Test::Deep::Cache 1.204
+      Test::Deep::Cache::Simple 1.204
+      Test::Deep::Class 1.204
+      Test::Deep::Cmp 1.204
+      Test::Deep::Code 1.204
+      Test::Deep::Hash 1.204
+      Test::Deep::HashEach 1.204
+      Test::Deep::HashElements 1.204
+      Test::Deep::HashKeys 1.204
+      Test::Deep::HashKeysOnly 1.204
+      Test::Deep::Ignore 1.204
+      Test::Deep::Isa 1.204
+      Test::Deep::ListMethods 1.204
+      Test::Deep::MM 1.204
+      Test::Deep::Methods 1.204
+      Test::Deep::NoTest 1.204
+      Test::Deep::None 1.204
+      Test::Deep::Number 1.204
+      Test::Deep::Obj 1.204
+      Test::Deep::Ref 1.204
+      Test::Deep::RefType 1.204
+      Test::Deep::Regexp 1.204
+      Test::Deep::RegexpMatches 1.204
+      Test::Deep::RegexpOnly 1.204
+      Test::Deep::RegexpRef 1.204
+      Test::Deep::RegexpRefOnly 1.204
+      Test::Deep::RegexpVersion 1.204
+      Test::Deep::ScalarRef 1.204
+      Test::Deep::ScalarRefOnly 1.204
+      Test::Deep::Set 1.204
+      Test::Deep::Shallow 1.204
+      Test::Deep::Stack 1.204
+      Test::Deep::String 1.204
+      Test::Deep::SubHash 1.204
+      Test::Deep::SubHashElements 1.204
+      Test::Deep::SubHashKeys 1.204
+      Test::Deep::SubHashKeysOnly 1.204
+      Test::Deep::SuperHash 1.204
+      Test::Deep::SuperHashElements 1.204
+      Test::Deep::SuperHashKeys 1.204
+      Test::Deep::SuperHashKeysOnly 1.204
     requirements:
-      ExtUtils::MakeMaker 0
+      ExtUtils::MakeMaker 6.78
       List::Util 1.09
       Scalar::Util 1.09
       Test::Builder 0
-  Test-Fatal-0.016
-    pathname: R/RJ/RJBS/Test-Fatal-0.016.tar.gz
+      Test::More 0.96
+      perl 5.012
+  Test-Fatal-0.017
+    pathname: R/RJ/RJBS/Test-Fatal-0.017.tar.gz
     provides:
-      Test::Fatal 0.016
+      Test::Fatal 0.017
     requirements:
       Carp 0
       Exporter 5.57
-      ExtUtils::MakeMaker 0
+      ExtUtils::MakeMaker 6.78
       Test::Builder 0
       Try::Tiny 0.07
       strict 0
@@ -2359,12 +2362,12 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008
-  Throwable-1.000
-    pathname: R/RJ/RJBS/Throwable-1.000.tar.gz
+  Throwable-1.001
+    pathname: R/RJ/RJBS/Throwable-1.001.tar.gz
     provides:
-      StackTrace::Auto 1.000
-      Throwable 1.000
-      Throwable::Error 1.000
+      StackTrace::Auto 1.001
+      Throwable 1.001
+      Throwable::Error 1.001
     requirements:
       Carp 0
       Devel::StackTrace 1.32
@@ -2643,34 +2646,33 @@ DISTRIBUTIONS
       XSLoader 0
       lib 0
       perl 5.008001
-  libwww-perl-6.67
-    pathname: O/OA/OALDERS/libwww-perl-6.67.tar.gz
+  libwww-perl-6.68
+    pathname: O/OA/OALDERS/libwww-perl-6.68.tar.gz
     provides:
-      LWP 6.67
-      LWP::Authen::Basic 6.67
-      LWP::Authen::Digest 6.67
-      LWP::Authen::Ntlm 6.67
-      LWP::ConnCache 6.67
-      LWP::Debug 6.67
-      LWP::Debug::TraceHTTP 6.67
-      LWP::DebugFile 6.67
-      LWP::MemberMixin 6.67
-      LWP::Protocol 6.67
-      LWP::Protocol::cpan 6.67
-      LWP::Protocol::data 6.67
-      LWP::Protocol::file 6.67
-      LWP::Protocol::ftp 6.67
-      LWP::Protocol::gopher 6.67
-      LWP::Protocol::http 6.67
-      LWP::Protocol::loopback 6.67
-      LWP::Protocol::mailto 6.67
-      LWP::Protocol::nntp 6.67
-      LWP::Protocol::nogo 6.67
-      LWP::RobotUA 6.67
-      LWP::Simple 6.67
-      LWP::UserAgent 6.67
+      LWP 6.68
+      LWP::Authen::Basic 6.68
+      LWP::Authen::Digest 6.68
+      LWP::Authen::Ntlm 6.68
+      LWP::ConnCache 6.68
+      LWP::Debug 6.68
+      LWP::Debug::TraceHTTP 6.68
+      LWP::DebugFile 6.68
+      LWP::MemberMixin 6.68
+      LWP::Protocol 6.68
+      LWP::Protocol::cpan 6.68
+      LWP::Protocol::data 6.68
+      LWP::Protocol::file 6.68
+      LWP::Protocol::ftp 6.68
+      LWP::Protocol::gopher 6.68
+      LWP::Protocol::http 6.68
+      LWP::Protocol::loopback 6.68
+      LWP::Protocol::mailto 6.68
+      LWP::Protocol::nntp 6.68
+      LWP::Protocol::nogo 6.68
+      LWP::RobotUA 6.68
+      LWP::Simple 6.68
+      LWP::UserAgent 6.68
     requirements:
-      CPAN::Meta::Requirements 2.120620
       Digest::MD5 0
       Encode 2.12
       Encode::Locale 0
@@ -2680,19 +2682,18 @@ DISTRIBUTIONS
       File::Temp 0
       Getopt::Long 0
       HTML::Entities 0
-      HTML::HeadParser 0
+      HTML::HeadParser 3.71
       HTTP::Cookies 6
       HTTP::Date 6
       HTTP::Negotiate 6
-      HTTP::Request 6
-      HTTP::Request::Common 6
-      HTTP::Response 6
-      HTTP::Status 6.07
+      HTTP::Request 6.18
+      HTTP::Request::Common 6.18
+      HTTP::Response 6.18
+      HTTP::Status 6.18
       IO::Select 0
       IO::Socket 0
       LWP::MediaTypes 6
       MIME::Base64 2.1
-      Module::Metadata 0
       Net::FTP 2.58
       Net::HTTP 6.18
       Scalar::Util 0
