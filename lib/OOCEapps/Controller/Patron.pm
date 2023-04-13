@@ -49,7 +49,7 @@ sub subscribe {
     if ($@){
         if (ref $@ eq 'ARRAY'){
             $c->log->error($@->[0]);
-            $c->render(json => { status => 'error' });
+            return $c->render(json => { status => 'error' });
         }
         else {
             die $@;
@@ -146,7 +146,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2017 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2023 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
