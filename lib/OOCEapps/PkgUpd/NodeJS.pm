@@ -25,8 +25,7 @@ sub getVersions {
     ($name, $ver) = $self->extractNameMajVer($name);
 
     return [
-        map { m!/v($ver\.(?:\d+\.?)*)! }
-            $res->dom->find('a')->each
+        map { m!/v($ver\.(?:\d+\.?)*)! } map { $_->{version} } $res->json
     ];
 }
 
@@ -36,7 +35,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2023 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
