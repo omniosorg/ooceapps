@@ -18,7 +18,7 @@ sub getVersions {
     # get version prefix
     ($name, my $ver) = $self->extractNameMajVer($name);
     # single digit versioned packages (e.g. openssl-3) leave a trailing dot
-    $ver .= '0' if $ver =~ /\.$/;
+    $ver .= '1' if $ver =~ /\.$/;
 
     return [
         map { /$name-($ver\.[^-.]+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ }
