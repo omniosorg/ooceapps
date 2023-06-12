@@ -1,4 +1,4 @@
-package OOCEapps::PkgUpd::OpenSSL;
+package OOCEapps::PkgUpd::Xorriso;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
 # public methods
@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ m!^library/security/openssl!;
+    return $name eq "media/xorriso";
 }
 
 sub getVersions {
@@ -15,16 +15,8 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    # get version prefix
-    ($name, my $ver) = $self->extractNameMajVer($name);
-    # single digit versioned packages (e.g. openssl-3) leave a trailing dot
-    $ver .= '1' if $ver =~ /\.$/;
-
-    return [
-        map { /$name-($ver\.[^-.]+)\.(?:tar\.(?:gz|xz|bz2)|zip|xml)/ }
-            $res->dom->find('a')->each
-    ];
-
+    return [ grep { ! /^\d+\.\d+\.\d*[13579]$/ }
+        @{$self->SUPER::getVersions($name, $res)} ];
 }
 
 1;
@@ -33,7 +25,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2021 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
@@ -50,11 +42,11 @@ this program. If not, see L<http://www.gnu.org/licenses/>.
 
 =head1 AUTHOR
 
-S<Dominik Hassler E<lt>hadfl@omnios.orgE<gt>>
+S<Andy Fiddaman E<lt>andy@omnios.orgE<gt>>
 
 =head1 HISTORY
 
-2017-09-06 had Initial Version
+2018-06-21 had Initial Version
 
 =cut
 
