@@ -25,7 +25,7 @@ sub getVersions {
     ($name, $ver) = $self->extractNameMajVer($name);
 
     return [
-        map { m!/v($ver\.(?:\d+\.?)*)! } map { $_->{version} } $res->json
+        map { m!v($ver\.(?:\d+\.?)*)! } map { $_->{version} } @{$res->json}
     ];
 }
 
@@ -35,7 +35,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2023 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
