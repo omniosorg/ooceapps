@@ -7,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ m!developer/zig$!;
+    return $name =~ m!developer/zig-!;
 }
 
 sub getVersions {
@@ -15,7 +15,9 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    return [ grep { /^[\d.]+$/ } keys %{$res->json // {}} ];
+    ($name, my $ver) = $self->extractNameMajVer($name);
+
+    return [ grep { /^\Q$ver\E[\d.]+$/ } keys %{$res->json // {}} ];
 }
 
 1;
@@ -24,7 +26,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
