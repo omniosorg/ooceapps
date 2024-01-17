@@ -117,7 +117,7 @@ my $log = sub($self, $msg) {
             my $logf = Mojo::File->new($self->datadir, $chan, '__currtopic');
             $logf->dirname->make_path;
 
-            $logf->spurt($msg->{params}->[1]);
+            $logf->spew($msg->{params}->[1]);
 
             $chan = $stripChanPrefix->($chan);
 

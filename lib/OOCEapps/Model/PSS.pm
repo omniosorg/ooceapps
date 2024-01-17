@@ -32,7 +32,7 @@ my $loadGames = sub {
 };
 
 my $saveGames = sub {
-    Mojo::File->new(shift->gamesdb)->spurt(encode_json shift);
+    Mojo::File->new(shift->gamesdb)->spew(encode_json shift);
 };
 
 my $getGame = sub {

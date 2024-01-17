@@ -196,7 +196,7 @@ sub createInvoice {
             my $tmpDir = File::Temp->newdir();
             chdir $tmpDir;
             my $texFile = Mojo::File->new("$type.tex");
-            $texFile->spurt(encode 'UTF-8', $tex);
+            $texFile->spew($tex, 'UTF-8');
 
             open my $latex, '-|', $c->config->{lualatex}, $type;
             my $latexOut = do { local $/; <$latex> };
