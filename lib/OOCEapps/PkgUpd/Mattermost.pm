@@ -1,7 +1,7 @@
-package OOCEapps::PkgUpd::Perl;
+package OOCEapps::PkgUpd::Mattermost;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
-my $PERLVER = '5.38';
+my $LTSVER = '9.5';
 
 # public methods
 sub canParse {
@@ -9,7 +9,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $name =~ /runtime\/perl/;
+    return $name =~ /mattermost$/;
 }
 
 sub getVersions {
@@ -18,8 +18,9 @@ sub getVersions {
     my $res  = shift;
 
     $name = $self->extractName($name);
+
     return [
-        map { /$name-(\Q$PERLVER\E\.\d+)\.(?:tar\.(?:gz|xz|bz2|lz)|zip)/i }
+        map { /$name-team-(\Q$LTSVER\E[.\d]+)-linux-amd64.tar.gz/ }
             $res->dom->find('a')->each
     ];
 }
@@ -30,7 +31,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
@@ -51,7 +52,7 @@ S<Dominik Hassler E<lt>hadfl@omnios.orgE<gt>>
 
 =head1 HISTORY
 
-2017-09-06 had Initial Version
+2014-03-10 had Initial Version
 
 =cut
 
