@@ -13,6 +13,10 @@ my %TRANSFORM = (
     'xcb-protocols'  => 'xcb-proto',
 );
 
+my %VERSIONS = (
+    haproxy => '2.8',
+);
+
 # public methods
 sub canParse {
     my $self = shift;
@@ -51,6 +55,8 @@ sub getVersions {
     my $ver;
     ($name, $ver) = $self->extractNameMajVer($name);
     $name = $TRANSFORM{$name} if exists $TRANSFORM{$name};
+    $ver  = $VERSIONS{$name} if exists $VERSIONS{$name};
+    $ver  = qr/\Q$ver\E/ if $ver ne '.';
 
     return [
         grep { /^$ver/ }
@@ -68,7 +74,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2023 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
