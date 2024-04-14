@@ -1,4 +1,5 @@
 requires 'Acme::Cow';
+requires 'Cpanel::JSON::XS';
 requires 'Crypt::Ed25519';
 requires 'Data::Processor', '>= 1.0.9';
 requires 'Email::Address', '>= 1.910';
