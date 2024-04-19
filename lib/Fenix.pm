@@ -64,6 +64,12 @@ has schema  => sub($self) {
             default     => '120',
             validator   => $sv->regexp(qr/^\d+/, 'expected a positive integer'),
         },
+        maxissue => {
+            description => "how many issues fenix will handle at maximum in one request",
+            example     => '6',
+            default     => '6',
+            validator   => $sv->regexp(qr/^\d+/, 'expected a positive integer'),
+        },
         CHANS   => {
             array       => 1,
             optional    => 1,
