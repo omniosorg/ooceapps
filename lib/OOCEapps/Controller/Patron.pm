@@ -87,7 +87,7 @@ sub webhook {
                 format   => 'txt')
         } ($data->{type}, "$data->{type}.subject");
 
-        return $c->render(json => { status => 'error' }) if !($mail && $subj);
+        die [ "unsupported type for webhook: '$data->{type}'" ] if !($mail && $subj);
 
         OOCEapps::Utils::sendMail(
             { to => $data->{data}{customer}{email}, bcc => $c->config->{emailBcc} },
