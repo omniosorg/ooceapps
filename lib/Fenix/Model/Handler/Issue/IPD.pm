@@ -14,15 +14,15 @@ has issuestr => sub { 'IPD' };
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler
 # return either a valid issue or undef.
-sub issue($self, $msg) {
+sub issues($self, $msg) {
     my $baseurl = $GITHUB->to_string;
     my $urlre   = qr!\b\Q$baseurl\E/illumos/ipd/\S+/ipd/0+(\d+)/README\.md\b!i;
     for ($msg) {
-        /$urlre/ && return ($1, { url => 1 });
-        /\bIPD[-\s]*(\d+)\b/i && return $1;
+        return ([ /$urlre/g ], { url => 1 }) if /$urlre/;
+        return [ /\bIPD[-\s]*(\d+)\b/ig ];
     }
 
-    return undef;
+    return [];
 }
 
 sub issueURL($self, $issue) {
@@ -54,7 +54,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

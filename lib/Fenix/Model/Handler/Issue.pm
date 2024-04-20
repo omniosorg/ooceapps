@@ -31,17 +31,26 @@ has handlers => sub($self) {
 
 sub process_p($self, $chan, $from, $msg, $mentioned = 0) {
     for my $hd (@{$self->handlers}) {
-        my ($issue, $opts) = $self->handler->{$hd}->issue($msg);
-
-        next if !($issue && ($mentioned || $opts->{url}));
-
+        my ($issues, $opts) = $self->handler->{$hd}->issues($msg);
         $opts //= {};
+
+        next if !(@$issues && ($mentioned || $opts->{url}));
+
         my $hdn = $self->handler->{$hd}->name;
 
-        return Mojo::Promise->resolve([])
-            if $self->utils->muted(\$self->mutemap->{"issue_$hdn"}->{$chan}, $issue);
+        my @issues;
+        for my $issue (@$issues) {
+            next if $self->utils->muted(\$self->mutemap->{"issue_$hdn"}->{$chan}, $issue);
 
-        return $self->handler->{$hd}->process_p($issue, $opts);
+            push @issues, $issue;
+        }
+
+        return Mojo::Promise->resolve([]) if !@issues;
+
+        # limit the maximum number of issues fenix handles for one request
+        @issues = splice @issues, 0, $self->config->{maxissue};
+
+        return $self->handler->{$hd}->process_p(\@issues, $opts);
     }
 
     return undef;
@@ -53,7 +62,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

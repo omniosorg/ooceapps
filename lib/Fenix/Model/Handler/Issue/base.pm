@@ -30,8 +30,8 @@ has ua       => sub {
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler
 # return either a valid issue or undef.
-sub issue($self, $msg) {
-    return undef;
+sub issues($self, $msg) {
+    return [];
 }
 
 sub issueURL($self, $issue) {
@@ -42,33 +42,62 @@ sub processIssue($self, $issue, $res) {
     return {};
 }
 
-sub process_p($self, $issue, $opts = {}) {
-    my $url = $self->issueURL($issue);
+sub process_p($self, $issues, $opts = {}) {
+    my @urls = map { $self->issueURL($_) } @$issues;
 
     my $p = Mojo::Promise->new;
 
-    $self->ua->get_p($url)->then(sub($get) {
-        my $res = $get->res;
+    my @reply;
+    Mojo::Promise->all_settled(map { $self->ua->get_p($_) } @urls)
+        ->then(sub(@promises) {
+            for (my $i = 0; $i <= $#promises; $i++) {
+                my $promise = $promises[$i];
+                my $issue   = $issues->[$i];
 
-        return $p->resolve([ $self->issuestr . " '$issue' is not public." ]) if $res->code == 403;
-        return $p->resolve([ $self->issuestr . " '$issue' not found..." ]) if !$res->is_success;
+                if ($promise->{status} ne 'fulfilled') {
+                    push @reply, $self->issuestr . " '$issue' not found...";
 
-        my $data = $self->processIssue($issue, $res);
-        return $p->resolve([ $data ]) if !ref $data; # error string returned by the handler
-        return $p->resolve([]) if !%$data;
+                    next;
+                }
 
-        return $p->resolve([
-            "$data->{id}: $data->{subject} ($data->{status})",
-            @{$data->{url}} ? '↳ ' . join (' | ', @{$data->{url}}) : (),
-        ]) if !$opts->{url};
+                my $res = $promise->{value}->[0]->res;
 
-        return $p->resolve([
-            "→ $data->{id}: $data->{subject} ($data->{status})"
-                . (@{$data->{url}} > 1 ? " | $data->{url}->[1]" : ''),
-        ]);
-    })->catch(sub(@) {
-        return $p->resolve([ $self->issuestr . " '$issue' not found..." ]);
-    });
+                if ($res->code == 403) {
+                    push @reply, $self->issuestr . " '$issue' is not public.";
+
+                    next;
+                }
+
+                if (!$res->is_success) {
+                    push @reply, $self->issuestr . " '$issue' not found...";
+
+                    next;
+                }
+
+                my $data = $self->processIssue($issue, $res);
+
+                # error string returned by the handler
+                if (!ref $data) {
+                    push @reply, $data;
+
+                    next;
+                }
+
+                next if !%$data;
+
+                if (!$opts->{url}) {
+                    push @reply, "$data->{id}: $data->{subject} ($data->{status})",
+                        @{$data->{url}} ? '↳ ' . join (' | ', @{$data->{url}}) : ();
+
+                    next;
+                }
+
+                push @reply, "→ $data->{id}: $data->{subject} ($data->{status})"
+                    . (@{$data->{url}} > 1 ? " | $data->{url}->[1]" : '');
+            }
+
+            $p->resolve(\@reply);
+        });
 
     return $p;
 }
@@ -79,7 +108,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 

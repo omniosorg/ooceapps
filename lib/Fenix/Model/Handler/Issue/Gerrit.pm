@@ -15,15 +15,15 @@ has issuestr => sub { 'code review' };
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler
 # return either a valid issue or undef.
-sub issue($self, $msg) {
+sub issues($self, $msg) {
     my $baseurl = $self->baseurl->to_string;
     my $urlre   = qr!\b\Q$baseurl\E/c/illumos-gate/\+/(\d+)\b!;
     for ($msg) {
-        /$urlre/ && return ($1, { url => 1 });
-        /\bcode\b/i && return ($msg =~ /\b(\d{2,})\b/)[0];
+        return ([ /$urlre/g ], { url => 1 }) if /$urlre/;
+        return [ /\b(\d{2,})\b/g ] if /\bcode\b/i;
     }
 
-    return undef;
+    return [];
 }
 
 sub issueURL($self, $issue) {
@@ -56,7 +56,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
