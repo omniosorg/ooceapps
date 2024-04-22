@@ -48,7 +48,8 @@ sub process_p($self, $chan, $from, $msg, $mentioned = 0) {
         return Mojo::Promise->resolve([]) if !@issues;
 
         # limit the maximum number of issues fenix handles for one request
-        @issues = splice @issues, 0, $self->config->{maxissue};
+        @issues = splice @issues, 0, $self->config->{maxissue}
+            if $self->config->{maxissue};
 
         return $self->handler->{$hd}->process_p(\@issues, $opts);
     }
