@@ -11,13 +11,12 @@ sub process {
 
     return if !$c->checkToken;
 
-    #default to illumos if just a number is provided
-    $p = "illumos $p" if $p =~ /^\d+$/;
-
+    # default to illumos if just numbers and whitespaces are provided
+    $p = "illumos $p" if $p =~ /^[\d\s]+$/;
 
     my $_p = $c->model->issue->process_p(qw(ooceapps ooceapps), $p, 1);
 
-    return $c->render(json => OOCEapps::Mattermost->text("no issue found using search string '$p'"))
+    return $c->render(json => OOCEapps::Mattermost->text("no issues found using search string '$p'"))
         if !blessed $_p;
 
     $c->render_later;
@@ -36,7 +35,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
