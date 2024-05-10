@@ -41,14 +41,19 @@ $updateGeoIP = sub {
     my $self   = shift;
     my $oneoff = shift;
 
-    my $res = $self->ua->get($self->config->{geoip_url})->result;
-    die "ERROR: downloading GeoIP database from '$self->config->{geoip_url}'\n"
-        if !$res->is_success;
-
     my $fh = File::Temp->new(SUFFIX => 'tar.gz');
     close $fh;
     my $filename = $fh->filename;
-    $res->content->asset->move_to($filename);
+
+    # downloads require R2 presigned URLs which Mojo::UserAgent does not support
+    # use curl as a workaround
+    my $url = $self->config->{geoip_url};
+    system (qw(/usr/bin/curl -Ls -o), $filename, $url)
+        and die "ERROR: executing curl: $!\n";
+
+    # sanity check for size
+    (stat $filename)[7] > 1_000_000
+        or die "ERROR: downloading GeoIP database from '$url'\n";
 
     my $tar = Archive::Tar->new;
     $tar->read($filename);
@@ -213,7 +218,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
