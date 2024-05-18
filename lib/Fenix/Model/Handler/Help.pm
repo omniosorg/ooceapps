@@ -3,18 +3,26 @@ use Mojo::Base 'Fenix::Model::Handler::base', -signatures;
 
 use Mojo::Promise;
 
-has priority => 100;
+# default handler, lowest priority.
+# if we get mentioned but don't know what to do we
+# DM the user information about our capabilities
+has priority => 9999;
 has generic  => 0;
 has dm       => 1;
 
 sub process_p($self, $chan, $from, $msg, $mentioned = 0) {
-    return undef if !$mentioned || $msg !~ /\bhelp\b/i;
+    return undef if !$mentioned || $self->utils->muted(\$self->mutemap->{help}, $from);
+
+    my $preface = $msg =~ /\bhelp\b/i
+        ? "Hi $from, I am glad you asked!\n"
+            . 'To get my attention, just mention my name in a message to the channel.'
+        : "Hi $from, it seems that you tried to get my attention.\n"
+            . 'However, I am afraid I did not understand your request.';
 
     return Mojo::Promise->resolve([ split /\n/, <<"END" ]);
-Hi $from, I am glad you asked!
-To get my attention, just mention my name in a message to the channel.
+$preface
 I can look up Redmine issues with 'illumos <issue>', 'issue <issue>' or '#<issue>'
-For Joyent/SmartOS issues, use the issue type and number together, e.g. OS-1234.
+For SmartOS issues, use the issue type and number together, e.g. OS-1234.
 I can also find IPDs - 'IPD123', 'IPD-123' or 'IPD 123'
 as well as OpenSolaris issues with a seven digit bug ID. If you want me to, I can also
 dig very deeply and find stuff in the OpenSolaris ARC Material Archive, just use e.g. FWARC/2004/510.
@@ -29,7 +37,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2023 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
