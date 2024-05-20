@@ -44,6 +44,37 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
+  CPAN-Meta-Requirements-2.143
+    pathname: R/RJ/RJBS/CPAN-Meta-Requirements-2.143.tar.gz
+    provides:
+      CPAN::Meta::Requirements 2.143
+      CPAN::Meta::Requirements::Range 2.143
+    requirements:
+      B 0
+      Carp 0
+      ExtUtils::MakeMaker 6.17
+      perl 5.010000
+      strict 0
+      version 0.88
+      warnings 0
+  CPAN-Requirements-Dynamic-0.001
+    pathname: L/LE/LEONT/CPAN-Requirements-Dynamic-0.001.tar.gz
+    provides:
+      CPAN::Requirements::Dynamic 0.001
+    requirements:
+      CPAN::Meta::Prereqs 0
+      CPAN::Meta::Requirements::Range 0
+      Carp 0
+      ExtUtils::Config 0
+      ExtUtils::HasCompiler 0
+      ExtUtils::MakeMaker 0
+      IPC::Cmd 0
+      Module::Metadata 0
+      Parse::CPAN::Meta 0
+      Perl::OSType 0
+      perl 5.006
+      strict 0
+      warnings 0
   Canary-Stability-2013
     pathname: M/ML/MLEHMANN/Canary-Stability-2013.tar.gz
     provides:
@@ -859,15 +890,15 @@ DISTRIBUTIONS
       Time::Local 1.27
       perl 5.012
       warnings 0
-  Email-MIME-1.953
-    pathname: R/RJ/RJBS/Email-MIME-1.953.tar.gz
+  Email-MIME-1.954
+    pathname: R/RJ/RJBS/Email-MIME-1.954.tar.gz
     provides:
-      Email::MIME 1.953
-      Email::MIME::Creator 1.953
-      Email::MIME::Encode 1.953
-      Email::MIME::Header 1.953
-      Email::MIME::Header::AddressList 1.953
-      Email::MIME::Modifier 1.953
+      Email::MIME 1.954
+      Email::MIME::Creator 1.954
+      Email::MIME::Encode 1.954
+      Email::MIME::Header 1.954
+      Email::MIME::Header::AddressList 1.954
+      Email::MIME::Modifier 1.954
     requirements:
       Carp 0
       Email::Address::XS 0
@@ -1061,6 +1092,23 @@ DISTRIBUTIONS
       File::Spec 0
       IO::File 0
       perl 5.006
+  ExtUtils-HasCompiler-0.025
+    pathname: L/LE/LEONT/ExtUtils-HasCompiler-0.025.tar.gz
+    provides:
+      ExtUtils::HasCompiler 0.025
+    requirements:
+      Carp 0
+      DynaLoader 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      ExtUtils::Mksymlists 0
+      File::Basename 0
+      File::Spec::Functions 0
+      File::Temp 0
+      base 0
+      perl 5.006
+      strict 0
+      warnings 0
   ExtUtils-Helpers-0.026
     pathname: L/LE/LEONT/ExtUtils-Helpers-0.026.tar.gz
     provides:
@@ -1604,12 +1652,13 @@ DISTRIBUTIONS
       Text::ParseWords 0
       perl 5.006001
       version 0.87
-  Module-Build-Tiny-0.047
-    pathname: L/LE/LEONT/Module-Build-Tiny-0.047.tar.gz
+  Module-Build-Tiny-0.048
+    pathname: L/LE/LEONT/Module-Build-Tiny-0.048.tar.gz
     provides:
-      Module::Build::Tiny 0.047
+      Module::Build::Tiny 0.048
     requirements:
       CPAN::Meta 0
+      CPAN::Requirements::Dynamic 0
       DynaLoader 0
       Exporter 5.57
       ExtUtils::CBuilder 0
@@ -1703,14 +1752,15 @@ DISTRIBUTIONS
       URI::db 0.15
       URI::file 4.21
       perl 5.010001
-  Mojolicious-9.36
-    pathname: S/SR/SRI/Mojolicious-9.36.tar.gz
+  Mojolicious-9.37
+    pathname: S/SR/SRI/Mojolicious-9.37.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
       Mojo::Asset::File undef
       Mojo::Asset::Memory undef
       Mojo::Base undef
+      Mojo::BaseUtil undef
       Mojo::ByteStream undef
       Mojo::Cache undef
       Mojo::Collection undef
@@ -1772,7 +1822,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.36
+      Mojolicious 9.37
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
