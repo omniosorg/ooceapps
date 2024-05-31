@@ -20,7 +20,7 @@ sub issues($self, $msg) {
     my $urlre   = qr!\b\Q$baseurl\E/c/illumos-gate/\+/(\d+)\b!;
     for ($msg) {
         return ([ /$urlre/g ], { url => 1 }) if /$urlre/;
-        return [ /\b(\d{2,})\b/g ] if /\bcode\b/i;
+        return [ /\b(\d{2,5})\b/g ] if /\bcode\b/i;
     }
 
     return [];
