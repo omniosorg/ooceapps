@@ -19,8 +19,8 @@ sub issues($self, $msg) {
     my $urlre   = qr!\b\Q$baseurl\E/issues/(\d+)\b!;
     for ($msg) {
         return ([ /$urlre/g ], { url => 1 }) if /$urlre/;
-        return [ /\b(\d{3,})\b/g ] if /\b(?:illumos|issue)\b/i;
-        return [ /#(\d{3,})\b/g ];
+        return [ /\b(\d{3,5})\b/g ] if /\b(?:illumos|issue)\b/i;
+        return [ /#(\d{3,5})\b/g ];
     }
 
     return [];

@@ -15,7 +15,7 @@ sub issues($self, $msg) {
     my $urlre   = qr!\b\Q$baseurl\E/bugview/([A-Z]+-\d+)\b!;
     for ($msg) {
         return ([ /$urlre/g ], { url => 1 }) if /$urlre/;
-        return [ /\b([A-Z]+-\d+)\b/g ];
+        return [ /\b([A-Z]+-\d{1,5})\b/g ];
     }
 
     return [];

@@ -19,7 +19,7 @@ sub issues($self, $msg) {
     my $urlre   = qr!\b\Q$baseurl\E/illumos/ipd/\S+/ipd/0+(\d+)/README\.md\b!i;
     for ($msg) {
         return ([ /$urlre/g ], { url => 1 }) if /$urlre/;
-        return [ /\bIPD[-\s]*(\d+)\b/ig ];
+        return [ /\bIPD[-\s]*(\d{1,3})\b/ig ];
     }
 
     return [];
