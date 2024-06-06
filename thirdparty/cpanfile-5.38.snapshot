@@ -141,10 +141,10 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Storable 0
       perl 5.008001
-  Cpanel-JSON-XS-4.37
-    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.37.tar.gz
+  Cpanel-JSON-XS-4.38
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.38.tar.gz
     provides:
-      Cpanel::JSON::XS 4.37
+      Cpanel::JSON::XS 4.38
       Cpanel::JSON::XS::Type undef
     requirements:
       Carp 0
@@ -1300,19 +1300,19 @@ DISTRIBUTIONS
       Time::Zone 0
       perl 5.006002
       strict 0
-  HTTP-Message-6.45
-    pathname: O/OA/OALDERS/HTTP-Message-6.45.tar.gz
+  HTTP-Message-6.46
+    pathname: O/OA/OALDERS/HTTP-Message-6.46.tar.gz
     provides:
-      HTTP::Config 6.45
-      HTTP::Headers 6.45
-      HTTP::Headers::Auth 6.45
-      HTTP::Headers::ETag 6.45
-      HTTP::Headers::Util 6.45
-      HTTP::Message 6.45
-      HTTP::Request 6.45
-      HTTP::Request::Common 6.45
-      HTTP::Response 6.45
-      HTTP::Status 6.45
+      HTTP::Config 6.46
+      HTTP::Headers 6.46
+      HTTP::Headers::Auth 6.46
+      HTTP::Headers::ETag 6.46
+      HTTP::Headers::Util 6.46
+      HTTP::Message 6.46
+      HTTP::Request 6.46
+      HTTP::Request::Common 6.46
+      HTTP::Response 6.46
+      HTTP::Status 6.46
     requirements:
       Carp 0
       Clone 0.46
