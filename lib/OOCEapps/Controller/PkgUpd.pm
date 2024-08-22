@@ -44,7 +44,7 @@ my $getPkgAvailVer = sub {
 
                     $pl->{$chunk->[$i]}->{availVer} = $self->config->{parser}
                         ->{exists $self->config->{parser}->{$chunk->[$i]} ? $chunk->[$i] : 'DEFAULT'}
-                        ->getVersions($chunk->[$i], $tx[$i]->[0]->result);
+                        ->getVersions($chunk->[$i], $tx[$i]->[0]->result, $tx[$i]->[0]->req->url);
                 }
             })->wait;
 

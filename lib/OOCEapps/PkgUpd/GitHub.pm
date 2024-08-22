@@ -31,6 +31,7 @@ sub getVersions {
     my $self = shift;
     my $name = shift;
     my $res  = shift;
+    my $url  = shift;
 
     $name = $self->extractName($name);
 
@@ -49,9 +50,11 @@ sub getVersions {
         s/(\d+)-/$1./g for @versions;
     }
 
+    my $prog = $url->path->[1];
+
     return [
         grep { /^$ver/ }
-        map { m#/releases/tag/(?:v(?:er\.)?|rel(?:ease)?[-.]|stable-|R\.|$name-?\.?)?
+        map { m#/\Q$prog\E/releases/tag/(?:v(?:er\.)?|rel(?:ease)?[-.]|stable-|R\.|$name-?\.?)?
             (\d{4}(?:-\d{2}){2}T(?:\d{2}-){2}\d{2}Z|[\d.]+(?:op)?\d+)
             (?!-?(?:\.\d+|\.?(?:rc\d*|dev|a(?:lpha)?|b(?:eta)?|pre|test)))#ix
         } @versions
