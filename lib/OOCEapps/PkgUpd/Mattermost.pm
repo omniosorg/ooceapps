@@ -1,7 +1,7 @@
 package OOCEapps::PkgUpd::Mattermost;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
-my $LTSVER = '9.5';
+my $LTSVER = '9.11';
 
 # public methods
 sub canParse {
