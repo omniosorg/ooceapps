@@ -14,7 +14,7 @@ my %TRANSFORM = (
 );
 
 my %VERSIONS = (
-    haproxy => '2.8',
+    haproxy => '3.0',
 );
 
 # public methods
