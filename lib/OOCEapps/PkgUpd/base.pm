@@ -6,6 +6,7 @@ my %TRANSFORM = (
     'bdw-gc'         => 'gc',
     fcgid            => 'mod_fcgid',
     'libdbus-glib'   => 'dbus-glib',
+    liburcu          => 'userspace-rcu',
     pass             => 'password-store',
     'pipe-viewer'    => 'pv',
     'urxvt-terminfo' => 'rxvt-unicode',
@@ -14,7 +15,7 @@ my %TRANSFORM = (
 );
 
 my %VERSIONS = (
-    haproxy => '2.8',
+    haproxy => '3.0',
 );
 
 # public methods
