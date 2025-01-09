@@ -4,7 +4,7 @@ use Mojo::Base -base;
 use Mojo::JSON qw(encode_json decode_json);
 use Mojo::Util qw(b64_encode b64_decode);
 use Crypt::Ed25519;
-use File::Spec qw(catdir splitpath);
+use File::Spec;
 use Email::MIME;
 use Email::Sender::Simple;
 use File::Temp;
@@ -269,7 +269,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2018 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2025 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
