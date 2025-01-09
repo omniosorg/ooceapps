@@ -1,6 +1,5 @@
 package OOCEapps::PkgUpd::PyMod;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
-use Mojo::Util 'trim';
 
 # public methods
 sub canParse {
@@ -8,7 +7,7 @@ sub canParse {
     my $name = shift;
     my $url  = shift;
 
-    return $url =~ m|^https://pypi\.org/project/|;
+    return $url =~ m|^https://pypi\.org/rss/project/|;
 }
 
 sub getVersions {
@@ -16,20 +15,9 @@ sub getVersions {
     my $name = shift;
     my $res  = shift;
 
-    # remove version suffix
-    $name =~ s/-\d{2}$//;
-
-    $name = $self->extractName($name);
-
-    # Version 0.7 is mistakenly shown as 7 on the prettytable project page
-    # we expect at least a version of the pattern x.y
-    my $FILTER = $name eq 'prettytable' ? qr/\d+\./ : qr/./;
-
     return [
-        grep { /^$FILTER/ }
         grep { !/(?:rc|a(?:lpha)?|b(?:eta)?)\d+$/ }
-        map { $_->text ? trim($_->text) : () }
-        $res->dom->find('p.release__version')->each
+        $res->dom->find('rss > channel > item > title')->map('text')->each
     ];
 }
 
@@ -39,7 +27,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2019 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2025 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
