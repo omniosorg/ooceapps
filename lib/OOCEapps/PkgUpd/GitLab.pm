@@ -17,7 +17,9 @@ sub getVersions {
 
     $name = $self->extractName($name);
 
-    return [ map { $_->{name} =~ /^v?([\d.]+)$/ } @{$res->json // []} ];
+    my $attr = $name eq 'libxslt' ? 'tag_name' : 'name';
+
+    return [ map { $_->{$attr} =~ /^v?([\d.]+)$/ } @{$res->json // []} ];
 }
 
 1;
@@ -26,7 +28,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2025 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
