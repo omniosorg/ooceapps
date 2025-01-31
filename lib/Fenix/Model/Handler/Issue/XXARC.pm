@@ -13,7 +13,7 @@ has issuestr => sub { 'OpenSolaris ARC Material Archive' };
 
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler
-# return either a valid issue or undef.
+# return either an array ref of valid URLs or an empty array
 sub issues($self, $msg) {
     my $baseurl = $self->baseurl->to_string;
     my $urlre   = qr§\b\Q$baseurl\E/opensolaris/ARChive/((?:FW|LS|PS|WS)ARC/\d{4}/\d{3})/§;
