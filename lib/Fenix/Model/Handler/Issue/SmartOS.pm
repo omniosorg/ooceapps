@@ -9,7 +9,7 @@ has baseurl  => sub { Mojo::URL->new('https://smartos.org') };
 
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler
-# return either a valid issue or undef.
+# return either an array ref of valid URLs or an empty array
 sub issues($self, $msg) {
     my $baseurl = $self->baseurl->to_string;
     my $urlre   = qr!\b\Q$baseurl\E/bugview/([A-Z]+-\d+)\b!;

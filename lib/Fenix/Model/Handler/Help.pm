@@ -23,6 +23,7 @@ sub process_p($self, $chan, $from, $msg, $mentioned = 0) {
 $preface
 I can look up Redmine issues with 'illumos <issue>', 'issue <issue>' or '#<issue>'
 For SmartOS issues, use the issue type and number together, e.g. OS-1234.
+I will look up GitHub commits if you ask with '<org|user>/<repository>#<commit_hash>'.
 I can also find IPDs - 'IPD123', 'IPD-123' or 'IPD 123'
 as well as OpenSolaris issues with a seven digit bug ID. If you want me to, I can also
 dig very deeply and find stuff in the OpenSolaris ARC Material Archive, just use e.g. FWARC/2004/510.

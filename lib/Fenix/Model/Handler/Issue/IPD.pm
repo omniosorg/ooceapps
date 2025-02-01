@@ -13,7 +13,7 @@ has issuestr => sub { 'IPD' };
 
 # issue should be called first in 'process'.
 # It parses the message and checks whether it is the correct handler
-# return either a valid issue or undef.
+# return either an array ref of valid URLs or an empty array
 sub issues($self, $msg) {
     my $baseurl = $GITHUB->to_string;
     my $urlre   = qr!\b\Q$baseurl\E/illumos/ipd/\S+/ipd/0+(\d+)/README\.md\b!i;
