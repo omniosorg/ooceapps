@@ -2,7 +2,9 @@ package OOCEapps::Mattermost;
 use Mojo::Base -base;
 
 # constants
-my %OPTMAP = map { $_ => undef } qw(response_type goto_location username);
+my %OPTMAP    = map { $_ => undef } qw(response_type goto_location username);
+my $MAXMSGLEN = 16383;
+my $TRUNCMSG  = 'message truncated :pingu:';
 
 my $prepJSON = sub {
     my $text = shift;
@@ -38,8 +40,20 @@ sub table {
     my $table = shift;
     my $opts  = shift;
 
-    my $text = join "\n", map { ref $_ eq ref []
-        ? ('| ' . (join ' | ', @$_) . ' |') : $_ } @$table;
+    my $truncmsglen = length ($TRUNCMSG);
+
+    my $text = '';
+    for my $row (@$table) {
+        my $t = ref $row eq ref [] ? ('| ' . join (' | ', @$row) . ' |') : $row;
+
+        if (length ($text) + length ($t) + $truncmsglen >= $MAXMSGLEN) {
+            $text .= "\n$TRUNCMSG";
+
+            last;
+        }
+
+        $text .= "\n$t";
+    }
     
     return $prepJSON->($text, $opts);
 }
@@ -50,7 +64,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2025 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
