@@ -1,7 +1,7 @@
 package OOCEapps::PkgUpd::Mattermost;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
-my $LTSVER = '9.11';
+my $LTSVER = '10.5';
 
 # public methods
 sub canParse {
@@ -31,7 +31,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2025 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
