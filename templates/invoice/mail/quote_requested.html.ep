@@ -40,7 +40,7 @@ The OmniOSce Team</p>
 
 <address>
 OmniOS Community Edition Association<br/>
-Aarweg 17, 4600 Olten, Switzerland<br/>
+Aarweg 15, 4600 Olten, Switzerland<br/>
 patrons@omnios.org</address>
 <br/>
 <small>*) We add <%= $quote_fee %> <%= $currency %> to the quoted price for PO based purchases as they tend to involve extra paperwork from our side.</small>
