@@ -20,7 +20,7 @@ sub getVersions {
     $name = $self->extractName($name);
 
     return [
-        map { /$name-team-(\Q$LTSVER\E[.\d]+)-linux-amd64.tar.gz/ }
+        map { /$name-(\Q$LTSVER\E[.\d]+)-linux-amd64\.tar\.gz/ }
             $res->dom->find('a')->each
     ];
 }
