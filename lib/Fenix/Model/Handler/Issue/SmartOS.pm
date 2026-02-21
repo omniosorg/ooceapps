@@ -26,7 +26,7 @@ sub issueURL($self, $issue) {
 }
 
 sub processIssue($self, $issue, $res) {
-    my $data = $res->json->{issue};
+    my $data = $res->json;
 
     my $url = [ Mojo::URL->new("/bugview/$issue")->base($self->baseurl)->to_abs ];
     for my $comment (@{$data->{fields}->{comment}->{comments}}) {
@@ -53,7 +53,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2024 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2026 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
