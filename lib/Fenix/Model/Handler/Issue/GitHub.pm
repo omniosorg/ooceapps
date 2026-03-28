@@ -23,29 +23,26 @@ sub issues($self, $msg) {
 }
 
 sub issueURL($self, $issue) {
-    return Mojo::URL->new("/$issue.patch")->base($self->baseurl)->to_abs
+    return Mojo::URL->new("/$issue.json")->base($self->baseurl)->to_abs
         if $issue =~ m!/commit/!;
 
     my ($orgrepo, $hash) = split /#/, $issue, 2;
 
-    return Mojo::URL->new("/$orgrepo/commit/$hash.patch")->base($self->baseurl)->to_abs;
+    return Mojo::URL->new("/$orgrepo/commit/$hash.json")->base($self->baseurl)->to_abs;
 }
 
 sub processIssue($self, $issue, $res) {
     my ($orgrepo) = split /#/, $issue, 2;
 
-    # we are only interested in the first 4 lines (the header), drop everything else
-    my @data = split /\r?\n/, $res->body, 5;
-    pop @data;
+    my $data = $res->json;
 
-    my ($fullhash) = map { /^From\s+([[:xdigit:]]+)/ } @data;
+    my $fullhash = $data->{payload}->{commit}->{oid};
     my $hash = substr $fullhash, 0, 7;
 
-    my ($subject) = map { /^Subject:\s+\[PATCH\]\s+(.+)/ } @data;
-    # strip Reviewed by if it occurs on the first commit message line
-    $subject =~ s/\s+Reviewed.*$//;
+    my $subject = $data->{title};
+    $subject =~ s/\s+\S\s+\S+\@[[:xdigit:]]+$//;
 
-    my ($author) = map { /^From:\s+([^<]+\S)\s+</ } @data;
+    my $author = $data->{payload}->{commit}->{authors}->[0]->{displayName};
 
     return {
         id          => $self->issuestr . " $hash",
@@ -63,7 +60,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2025 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2026 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
