@@ -1,7 +1,7 @@
 package OOCEapps::PkgUpd::Perl;
 use Mojo::Base 'OOCEapps::PkgUpd::base';
 
-my $PERLVER = '5.40';
+my $PERLVER = '5.42';
 
 # public methods
 sub canParse {
@@ -30,7 +30,7 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright 2022 OmniOS Community Edition (OmniOSce) Association.
+Copyright 2026 OmniOS Community Edition (OmniOSce) Association.
 
 =head1 LICENSE
 
