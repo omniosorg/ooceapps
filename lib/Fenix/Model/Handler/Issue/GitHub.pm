@@ -36,13 +36,13 @@ sub processIssue($self, $issue, $res) {
 
     my $data = $res->json;
 
-    my $fullhash = $data->{payload}->{commit}->{oid};
+    my $fullhash = $data->{payload}->{commitRoute}->{commit}->{oid};
     my $hash = substr $fullhash, 0, 7;
 
-    my $subject = $data->{title};
+    my $subject = $data->{meta}->{title};
     $subject =~ s/\s+\S\s+\S+\@[[:xdigit:]]+$//;
 
-    my $author = $data->{payload}->{commit}->{authors}->[0]->{displayName};
+    my $author = $data->{payload}->{commitRoute}->{commit}->{authors}->[0]->{displayName};
 
     return {
         id          => $self->issuestr . " $hash",
